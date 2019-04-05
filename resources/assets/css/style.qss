@@ -1,0 +1,69 @@
+#root {
+    background-color: blue;
+}
+
+QToolBar
+{
+	background-color: #99d8ff;
+	spacing: 15px;
+
+}
+
+QAction{
+   cursor: PointingHand;
+}
+
+QToolButton:hover {
+   background-color: #65c5ff;
+}
+
+QLabel, QWidget {
+
+}
+
+QAction {
+   height: 40px;
+   width: 40px;
+}
+
+QScrollArea { background: transparent; }
+QScrollArea > QWidget > QWidget { background: transparent; }
+QScrollArea > QWidget > QScrollBar { background: palette(base); }
+
+QScrollBar:vertical {
+    border: none;
+    background-color: rgba(255,255,255,0);
+    width: 10px;
+    margin: 0px 0px 0px 2px;
+ }
+
+ QScrollBar:horizontal {
+    border: none;
+    background-color: rgba(255,255,255,0);
+    width: 10px;
+    margin: 2px 2px 2px 0px;
+ }
+
+#table_note {
+   color: red;
+   margin-top:5px;
+   margin-right:150px;
+   padding-right:150px;
+   font-size: 21px;
+}
+
+#login, #main_window, #code_modal, #add_appointment, #change_password, #add_staff_modal, #doctor_schedule, #create_account_modal, #edit_staff_modal, #full_text, #new_password_modal, #staff_details_modal, #edit_patient_modal, #edit_visit_modal, #prescription_print_modal {
+    border-image: url(./resources/assets/images/background-medical.jpg);
+    float: right
+}
+
+#user_name_input, #pwd_input {
+    border-radius: 10px;
+    padding: 7px;
+    width: 230px;
+}
+
+#user_name_label, #pwd_label {
+    font-size: 18px;
+    margin-left: 20px;
+}
