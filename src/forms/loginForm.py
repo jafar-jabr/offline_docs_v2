@@ -29,8 +29,10 @@ class Login(QDialog):
         pass_word_r = remember_me_data['pass_word']
         welcomeLabel = QLabel('أهلاً بكم')
         userNameLabel = QLabel('Email :')
+        # userNameLabel.setFixedWidth(40)
         userNameLabel.setObjectName("user_name_label")
         passWordLabel = QLabel('Password :')
+        # passWordLabel.setFixedWidth(40)
         passWordLabel.setObjectName("pwd_label")
         userNameEdit = QLineEdit()
         userNameEdit.setObjectName("user_name_input")
@@ -49,20 +51,20 @@ class Login(QDialog):
 
         # grid.addWidget(welcomeLabel, 1, 0)
 
-        grid.addWidget(userNameLabel, 2, 1) #( row, column)
-        grid.addWidget(userNameEdit, 2, 0)
+        grid.addWidget(userNameLabel, 1, 0) #( row, column)
+        grid.addWidget(userNameEdit, 1, 1)
 
-        grid.addWidget(passWordLabel, 3, 1)
-        grid.addWidget(passWordEdit, 3, 0)
+        grid.addWidget(passWordLabel, 2, 0)
+        grid.addWidget(passWordEdit, 2, 1)
 
-        # grid.addWidget(buttonLogin, 4, 1)
+        grid.addWidget(buttonLogin, 4, 1)
         self.remember_me = CheckBox("Remember Me !")
         if len(user_name_r) > 2:
             self.remember_me.setChecked(True)
         sign_up_section = QVBoxLayout()
-        sign_up_section.setContentsMargins(0, 0, 30, 0)  # (left, top, right, bottom)
+        sign_up_section.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
         create_acc_label = ClickableLabel('<a href="#" style="color: #ffffff">Create Account</a>')
-        create_acc_label.setFixedWidth(130)
+        create_acc_label.setFixedWidth(160)
         create_acc_label.clicked.connect(self.create_account)
         sign_up_section.addWidget(create_acc_label)
         sign_up_section.addWidget(self.remember_me)

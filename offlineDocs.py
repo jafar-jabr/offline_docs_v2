@@ -58,7 +58,7 @@ class MyProxyStyle(QProxyStyle):
 
 def run_app():
     app = QApplication(sys.argv)
-    app.setLayoutDirection(Qt.RightToLeft)
+    # app.setLayoutDirection(Qt.RightToLeft)
     app.setApplicationName("Offline Docs")
     app.setWindowIcon(QIcon('resources/assets/images/icon.ico'))
     app_font = RegularFont()
