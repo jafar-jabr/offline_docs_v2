@@ -1,5 +1,5 @@
 #root {
-    background-color: blue;
+    background-color: #E6E7EF;
 }
 
 QToolBar
@@ -53,8 +53,7 @@ QScrollBar:vertical {
 }
 
 #login, #main_window, #code_modal, #add_appointment, #change_password, #add_staff_modal, #doctor_schedule, #create_account_modal, #edit_staff_modal, #full_text, #new_password_modal, #staff_details_modal, #edit_patient_modal, #edit_visit_modal, #prescription_print_modal {
-    border-image: url(./resources/assets/images/bg.jpeg);
-    float: right
+
 }
 
 #user_name_input, #pwd_input {
