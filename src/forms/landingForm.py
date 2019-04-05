@@ -42,10 +42,7 @@ class LandingForm(QWidget):
             dd = SharedFunctions.get_main_doctor()
             doctor_name_label = HeadLineLabel('    الدكتور : '+dd)
             clinic_info.addWidget(doctor_name_label)
-
         specializationLabel = HeadLineLabel('    التخصص : '+clinic_specialization_d)
-        sinceLabel = HeadLineLabel('   تأسست في : '+clinic_since_d)
-        # clinic_info.addWidget(sinceLabel)
         clinic_info.addWidget(specializationLabel)
         clinic_info_q.setLayout(clinic_info)
         clinic_info_q.setMaximumHeight(int(self.pc_height * 0.2))
@@ -55,6 +52,6 @@ class LandingForm(QWidget):
             the_table = MainDataTable(self.parent)
         else:
             the_table = MainDataTableMulti(self.parent)
-        # the_table = MainDataTableMulti(self.parent)
         self.landing_layout.addWidget(the_table)
         self.setLayout(self.landing_layout)
+        # self.setS

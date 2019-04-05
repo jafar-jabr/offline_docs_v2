@@ -35,6 +35,8 @@ class Window(QMainWindow):
         self.toolbar = self.addToolBar('&Main')
         self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
         self.setObjectName("main_window")
+        self.setFixedWidth(1200)
+        self.setFixedHeight(800)
 
 
 ############################################################
@@ -84,14 +86,16 @@ def run_app():
     login_result = login.exec_()
     if login_result == QDialog.Accepted and login.status == "Done" and not login.do_order:
         window = Window()
-        window.showMaximized()
+        # window.showMaximized()
+        window.show()
         sys.exit(app.exec_())
     elif login_result == QDialog.Accepted and login.status == "New":
         new_password = NewPasswordModal()
         login_result = login.exec_()
         if login_result == QDialog.Accepted and new_password.status == "Done":
             window = Window()
-            window.showMaximized()
+            # window.showMaximized()
+            window.show()
             sys.exit(app.exec_())
     elif login_result == QDialog.Accepted and login.status == "register":
         registration_modal = CreateAccountModal()
