@@ -30,7 +30,7 @@ class SessionWrapper:
     all_the_jobs_ids = {"طبيب": 1, "صيدلاني": 2, "ممرض": 3, "اداري": 4, "مساعد": 5}
     screen_width = 0
     screen_height = 0
-    font_color = "#fff"
+    font_color = "#000"
     regular_size = 18
     big_size = 21
     app_mode = 0  #0 : multibale, 1: single

@@ -36,6 +36,7 @@ class RegularLabel(QLabel):
                }
                """ % (SessionWrapper.font_color, SessionWrapper.number_to_size[SessionWrapper.regular_size])
         self.setStyleSheet(style)
+        self.setMaximumHeight(45)
 
     def setWidth(self, w):
         self.setGeometry(QRect(self.x(), self.y(), w, self.height()))
@@ -57,6 +58,7 @@ class HeadLineLabel(QLabel):
                }
                """ % (SessionWrapper.font_color, SessionWrapper.number_to_size[SessionWrapper.big_size])
         self.setStyleSheet(style)
+        self.setMaximumHeight(45)
 
 
 class UrlLabel(QLabel):

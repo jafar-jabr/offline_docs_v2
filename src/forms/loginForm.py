@@ -1,7 +1,10 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QLineEdit, QLabel, QGridLayout, QHBoxLayout, QWidget, QCheckBox, QVBoxLayout
-from src.Elements.ClickableLabel import ClickableLabel
+
+from src.Elements.ClickableIcon import ClickableIcon
+from src.Elements.ClickableLabel import ClickableLabel, ForgotPasswordLabel
+from src.Elements.CustomLabel import RegularLabel, HeadLineLabel
 from src.Elements.MyCheckBox import CheckBox
 from src.Elements.RegularButton import RegularButton
 from src.modals.createAccountModal import CreateAccountModal
@@ -27,11 +30,11 @@ class Login(QDialog):
         remember_me_data = Database().get_remember_me()
         user_name_r = remember_me_data['user_name']
         pass_word_r = remember_me_data['pass_word']
-        welcomeLabel = QLabel('أهلاً بكم')
-        userNameLabel = QLabel('Email :')
+        welcomeLabel = HeadLineLabel('                             Welcome !')
+        userNameLabel = RegularLabel('Email :')
         # userNameLabel.setFixedWidth(100)
         userNameLabel.setObjectName("user_name_label")
-        passWordLabel = QLabel('Password :')
+        passWordLabel = RegularLabel('Password :')
         # passWordLabel.setFixedWidth(100)
         passWordLabel.setObjectName("pwd_label")
         userNameEdit = QLineEdit()
@@ -44,8 +47,12 @@ class Login(QDialog):
         passWordEdit.setFixedWidth(250)
         passWordEdit.setEchoMode(QLineEdit.Password)
         passWordEdit.returnPressed.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
-        buttonLogin = RegularButton('Login')
-        buttonLogin.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+
+        self.column = QVBoxLayout()
+
+        self.column.setContentsMargins(220, 10, 0, 0)
+
+        just_widget = QWidget()
 
         grid = QGridLayout()
         grid.setSpacing(5)
@@ -59,25 +66,40 @@ class Login(QDialog):
         grid.addWidget(passWordLabel, 2, 0)
         grid.addWidget(passWordEdit, 2, 1)
 
-        grid.addWidget(buttonLogin, 4, 1)
+        btn_line = QHBoxLayout()
+
+        btn_line.setContentsMargins(120, 20, 280, 20)
+        btn_line.setSpacing(40)
+        self.buttonLogin = ClickableIcon(150, 40, "resources/assets/images/Login/login-button.png")
+        self.buttonLogin.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+
+        self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
+        self.buttonRegister.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+        btn_line.addWidget(self.buttonLogin)
+        btn_line.addWidget(self.buttonRegister)
+
         self.remember_me = CheckBox("Remember Me !")
         if len(user_name_r) > 2:
             self.remember_me.setChecked(True)
-        sign_up_section = QVBoxLayout()
+        sign_up_section = QHBoxLayout()
+        sign_up_section.setSpacing(80)
         sign_up_section.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
-        create_acc_label = ClickableLabel('<a href="#" style="color: #ffffff">Create Account</a>')
-        create_acc_label.setFixedWidth(160)
-        create_acc_label.clicked.connect(self.create_account)
-        sign_up_section.addWidget(create_acc_label)
+        forgot_label = ForgotPasswordLabel('<a href="#" style="color: #000">Forgot Password</a>')
+        forgot_label.clicked.connect(self.create_account)
         sign_up_section.addWidget(self.remember_me)
+        sign_up_section.addWidget(forgot_label)
         sign_up_Q = QWidget()
         sign_up_Q.setFixedHeight(60)
         sign_up_Q.setLayout(sign_up_section)
-        grid.addWidget(sign_up_Q, 5, 1)
+        just_widget.setLayout(grid)
 
-        self.resize(600, 350)
+        self.column.addWidget(welcomeLabel)
+        self.column.addWidget(just_widget)
+        self.column.addWidget(sign_up_Q)
+        self.column.addLayout(btn_line)
+        self.resize(900, 400)
         self.setWindowTitle("Offline Docs / Sign In")
-        self.setLayout(grid)
+        self.setLayout(self.column)
 
     def handleLogin(self, email, password):
         enc_pass = do_encrypt(password)
