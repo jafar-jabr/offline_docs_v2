@@ -1,8 +1,10 @@
 import sys
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt, QEvent, QPoint
+from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QMainWindow, \
-    QStackedWidget, QDialog, QScrollArea
+    QStackedWidget, QDialog, QScrollArea, QAction, QToolBar, QMenu
+
+from src.Elements.MessageBoxes import MessageBoxes
 from src.forms.aboutForm import About
 from src.forms.landingForm import LandingForm
 from src.forms.loginForm import Login
@@ -33,12 +35,47 @@ class Window(QMainWindow):
         scroll.setWidget(self.central_widget)
         self.setCentralWidget(scroll)
         self.toolbar = self.addToolBar('&Main')
+        self.toolbar.setLayoutDirection(Qt.RightToLeft)
+        self.toolbar.toggleViewAction().setEnabled(False)
+        self.setContextMenuPolicy(Qt.PreventContextMenu)
         self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
+        self.statusBar().showMessage("test status bar")
+        self.toolbar.installEventFilter(self)
+        self.installEventFilter(self)
+
+        self.images_menu = QMenu()
+        opt = ['معاينة', 'تحديث', 'حذف']
+        for i in opt:
+            actn = QAction(QIcon('resources/assets/images/drop_down_h.png'), i, self.images_menu)
+            actn.setObjectName(i)
+            actn.triggered.connect(self.menu_clicked)
+            self.images_menu.addAction(actn)
+
         self.setObjectName("main_window")
         self.setFixedWidth(1200)
         self.setFixedHeight(800)
 
+    def closeEvent(self, event):
+        confirm = MessageBoxes.confirm_message("close the app ?")
+        if confirm:
+            event.accept()
+        else:
+            event.ignore()
 
+    def eventFilter(self, object, event):
+        if event.type() == QEvent.MouseButtonPress:
+            if isinstance(object, QToolBar):
+                print("Mouse pressed 1")
+                pos = event.pos()
+                parentPosition = self.mapToGlobal(QPoint(0, 0))
+                menuPosition = parentPosition + pos
+                self.images_menu.move(menuPosition)
+                self.images_menu.show()
+                return True
+        return False
+
+    def menu_clicked(self):
+        print("hooo")
 ############################################################
 # Create a custom "QProxyStyle" to enlarge the QMenu icons #
 ############################################################
