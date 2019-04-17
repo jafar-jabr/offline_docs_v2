@@ -23,7 +23,7 @@ class Login(QDialog):
         window_height = SessionWrapper.get_dimension('login_height')
         app_font = RegularFont()
         self.setFont(app_font)
-        self.setWindowIcon(QIcon('resources/assets/images/icon.ico'))
+        self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
         self.setObjectName("login")
         self.status = "Not Done"
         self.do_order = False
@@ -97,7 +97,7 @@ class Login(QDialog):
         self.column.addWidget(just_widget)
         self.column.addWidget(sign_up_Q)
         self.column.addLayout(btn_line)
-        self.resize(900, 400)
+        self.resize(502, 261)
         self.setWindowTitle("Offline Docs / Sign In")
         self.setLayout(self.column)
 
