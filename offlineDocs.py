@@ -8,7 +8,7 @@ from src.Elements.MessageBoxes import MessageBoxes
 from src.forms.aboutForm import About
 from src.forms.landingForm import LandingForm
 from src.forms.loginForm import Login
-from src.Elements.ToolBar import ToolBar
+from src.Elements.ToolBar import ToolBar, MyQAction
 ############################################################
 # Main App                                                 #
 ############################################################
@@ -64,7 +64,7 @@ class Window(QMainWindow):
 
     def eventFilter(self, object, event):
         if event.type() == QEvent.MouseButtonPress:
-            if isinstance(object, QToolBar):
+            if isinstance(object, MyQAction):
                 print("Mouse pressed 1")
                 pos = event.pos()
                 parentPosition = self.mapToGlobal(QPoint(0, 0))
@@ -72,10 +72,14 @@ class Window(QMainWindow):
                 self.images_menu.move(menuPosition)
                 self.images_menu.show()
                 return True
+            else:
+                print(type(object))
         return False
 
     def menu_clicked(self):
         print("hooo")
+
+
 ############################################################
 # Create a custom "QProxyStyle" to enlarge the QMenu icons #
 ############################################################
