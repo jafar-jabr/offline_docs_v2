@@ -103,7 +103,7 @@ def run_app():
     app = QApplication(sys.argv)
     # app.setLayoutDirection(Qt.RightToLeft)
     app.setApplicationName("Offline Docs")
-    app.setWindowIcon(QIcon('resources/assets/images/icon.ico'))
+    app.setWindowIcon(QIcon('resources/assets/images/logo.png'))
     app_font = RegularFont()
     app.setFont(app_font)
     myStyle = MyProxyStyle('Fusion')
