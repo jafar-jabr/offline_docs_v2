@@ -5,7 +5,7 @@ from src.Elements.CustomLabel import RegularLabel
 from src.Elements.ImageSelector import ImageSelector
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
-from src.Elements.RegularTextBoxAR import RegularTextBoxAR
+from src.Elements.RegularTextBox import RegularTextBoxAR
 from src.dataTables.staffDataTable import StaffDataTable
 from src.modals.addStaffModal import AddStaffModal
 from src.modals.clinicPrintModal import ClinicPrintModal

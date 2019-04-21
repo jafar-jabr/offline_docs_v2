@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QTableWidget, QSizePolicy, QTableWidgetItem, QWidget
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.CustomLabel import CustomLabel, RegularLabel
 from src.Elements.DateFilterWidget import DateFilterWidget
-from src.Elements.FilterTextBoxAR import FilterTextBoxAR
+from src.Elements.FilterTextBox import FilterTextBoxAR
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.filteredCompoBox import FilteredCombo
 from src.Elements.regularCompoBox import RegularCompoBox

@@ -39,7 +39,7 @@ class Window(QMainWindow):
         self.toolbar.toggleViewAction().setEnabled(False)
         self.setContextMenuPolicy(Qt.PreventContextMenu)
         self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
-        self.statusBar().showMessage("test status bar")
+        self.statusBar().showMessage("Offline Documentation is your external memory")
         self.toolbar.installEventFilter(self)
         self.installEventFilter(self)
 
@@ -48,36 +48,33 @@ class Window(QMainWindow):
         for i in opt:
             actn = QAction(QIcon('resources/assets/images/drop_down_h.png'), i, self.images_menu)
             actn.setObjectName(i)
-            actn.triggered.connect(self.menu_clicked)
+            # actn.triggered.connect(self.menu_clicked)
             self.images_menu.addAction(actn)
 
         self.setObjectName("main_window")
         self.setFixedWidth(1200)
         self.setFixedHeight(800)
 
-    def closeEvent(self, event):
-        confirm = MessageBoxes.confirm_message("close the app ?")
-        if confirm:
-            event.accept()
-        else:
-            event.ignore()
+    # def closeEvent(self, event):
+    #     confirm = MessageBoxes.confirm_message("close the app ?")
+    #     if confirm:
+    #         event.accept()
+    #     else:
+    #         event.ignore()
 
-    def eventFilter(self, object, event):
-        if event.type() == QEvent.MouseButtonPress:
-            if isinstance(object, MyQAction):
-                print("Mouse pressed 1")
-                pos = event.pos()
-                parentPosition = self.mapToGlobal(QPoint(0, 0))
-                menuPosition = parentPosition + pos
-                self.images_menu.move(menuPosition)
-                self.images_menu.show()
-                return True
-            else:
-                print(type(object))
-        return False
-
-    def menu_clicked(self):
-        print("hooo")
+    # def eventFilter(self, object, event):
+    #     if event.type() == QEvent.MouseButtonPress:
+    #         if isinstance(object, MyQAction):
+    #             print("Mouse pressed 1")
+    #             pos = event.pos()
+    #             parentPosition = self.mapToGlobal(QPoint(0, 0))
+    #             menuPosition = parentPosition + pos
+    #             self.images_menu.move(menuPosition)
+    #             self.images_menu.show()
+    #             return True
+    #         else:
+    #             print(type(object))
+    #     return False
 
 
 ############################################################

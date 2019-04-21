@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QWidget
 from src.Elements.CustomLabel import RegularLabel
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
-from src.Elements.RegularTextBoxAR import RegularTextBoxAR
+from src.Elements.RegularTextBox import RegularTextBoxAR
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_decrypt, do_encrypt
 from src.models.SharedFunctions import SharedFunctions

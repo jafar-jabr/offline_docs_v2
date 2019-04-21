@@ -7,7 +7,7 @@ from src.Elements.IconTextBoxAR import IconTextBoxAR
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
 from src.Elements.RegularTextArea import RegularTextArea
-from src.Elements.RegularTextBoxAR import RegularTextBoxAR
+from src.Elements.RegularTextBox import RegularTextBoxAR
 from src.Elements.filteredCompoBox import FilteredCombo
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper

@@ -21,7 +21,7 @@ class ClickableLabel(QLabel):
                        """ % (SessionWrapper.font_color, SessionWrapper.number_to_size[SessionWrapper.regular_size])
         self.setStyleSheet(style)
         self.setMaximumHeight(45)
-        self.fixWidth()
+        # self.fixWidth()
 
     def mousePressEvent(self, ev):
         if ev.button() == Qt.LeftButton:

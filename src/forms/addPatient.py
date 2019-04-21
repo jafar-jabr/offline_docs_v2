@@ -9,7 +9,7 @@ from src.Elements.LikeComboBox import LikeComboBox
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
 from src.Elements.RegularTextArea import RegularTextArea
-from src.Elements.RegularTextBoxAR import RegularTextBoxAR
+from src.Elements.RegularTextBox import RegularTextBoxAR
 from src.Elements.TimeWidget import TimeWidget
 from src.Elements.VisitDateWidget import VisitDateWidget
 from src.modals.doctorScheduleModal import DoctorScheduleModal

@@ -6,7 +6,7 @@ from src.Elements.ImageSelector import ImageSelector
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.PwdTextBoxAR import PwdTextBoxAR
 from src.Elements.RegularButton import RegularButton
-from src.Elements.RegularTextBoxAR import RegularTextBoxAR
+from src.Elements.RegularTextBox import RegularTextBoxAR
 from src.modals.changePasswordModal import ChangePasswordModal
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper

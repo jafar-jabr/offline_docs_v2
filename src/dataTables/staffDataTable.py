@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QWidget, QVBoxLayout, QHBoxLayout, QAbstractItemView
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.CustomLabel import CustomLabel, RegularLabel
-from src.Elements.FilterTextBoxAR import FilterTextBoxAR
+from src.Elements.FilterTextBox import FilterTextBoxAR
 from src.Elements.MessageBoxes import MessageBoxes
 from src.modals.editStaffModal import EditStaffModal
 from src.modals.staffDetailModal import StaffDetailModal
