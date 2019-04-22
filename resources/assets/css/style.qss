@@ -4,7 +4,7 @@
 
 QToolBar
 {
-	background-color: #99d8ff;
+	background-color: #445566;
 	spacing: 15px;
 
 }
@@ -44,6 +44,9 @@ QScrollBar:vertical {
     margin: 2px 2px 2px 0px;
  }
 
+QListWidget {
+     background-color: #445559;
+}
 #table_note {
    color: red;
    margin-top:5px;
@@ -54,6 +57,15 @@ QScrollBar:vertical {
 
 #login{
     border-image: url(./resources/assets/images/Login/background.png);
+}
+
+#category_right {
+    border-image: url(./resources/assets/images/Categories/background.png);
+}
+
+#categories_left, #category_page {
+     background-color: #445566;
+     border: none;
 }
 
 #user_name_input, #pwd_input {
