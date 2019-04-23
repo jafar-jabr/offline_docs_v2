@@ -3,7 +3,6 @@ from PyQt5.QtCore import Qt, QEvent, QPoint
 from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QMainWindow, \
     QStackedWidget, QDialog, QScrollArea, QAction, QToolBar, QMenu
-
 from src.Elements.MessageBoxes import MessageBoxes
 from src.forms.aboutForm import About
 from src.forms.landingForm import LandingForm

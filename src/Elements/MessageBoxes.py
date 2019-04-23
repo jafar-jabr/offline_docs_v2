@@ -13,7 +13,7 @@ class MessageBoxes:
         box.setText(body)
         box.setStandardButtons(QMessageBox.Ok)
         buttonOk = box.button(QMessageBox.Ok)
-        buttonOk.setText("لا بأس")
+        buttonOk.setText("Okay")
         box.exec_()
 
     @staticmethod
@@ -24,9 +24,9 @@ class MessageBoxes:
         box.setText(body)
         box.setStandardButtons(QMessageBox.Yes | QMessageBox.Ok)
         buttonGo = box.button(QMessageBox.Yes)
-        buttonGo.setText("عرض التفاصيل")
+        buttonGo.setText("Show Details")
         buttonOk = box.button(QMessageBox.Ok)
-        buttonOk.setText("لا بأس")
+        buttonOk.setText("Okay")
         box.exec_()
         if box.clickedButton() == buttonGo:
             return True
@@ -38,13 +38,13 @@ class MessageBoxes:
     def confirm_message(text):
         box = QMessageBox()
         box.setIcon(QMessageBox.Question)
-        box.setWindowTitle('تأكيد!')
+        box.setWindowTitle('Confirmation!')
         box.setText(text)
         box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         buttonY = box.button(QMessageBox.Yes)
-        buttonY.setText('نعم')
+        buttonY.setText('Yes')
         buttonN = box.button(QMessageBox.No)
-        buttonN.setText('لا')
+        buttonN.setText('Noا')
         box.exec_()
         if box.clickedButton() == buttonY:
             return True
@@ -59,18 +59,18 @@ class MessageBoxes:
         box.setText(body)
         box.setStandardButtons(QMessageBox.Ok)
         buttonOk = box.button(QMessageBox.Ok)
-        buttonOk.setText("حسناً")
+        buttonOk.setText("Okayً")
         box.exec_()
 
     @staticmethod
     def relogin_message():
         box = QMessageBox()
         box.setIcon(QMessageBox.Question)
-        box.setWindowTitle('تأكيد!')
+        box.setWindowTitle('Confirmation!')
         box.setText("تم تحديث البيانات سوف يتم تطبيق التغييرات بعد تسجيل الخروج والدخول مرة اخرى")
         box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         buttonY = box.button(QMessageBox.Yes)
-        buttonY.setText('حسناً')
+        buttonY.setText('Okay')
         buttonN = box.button(QMessageBox.No)
         buttonN.setText('تسجيل الخروج الان')
         box.exec_()

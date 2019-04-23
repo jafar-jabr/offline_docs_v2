@@ -9,7 +9,7 @@ import codecs
 import re
 
 sender_email = "jafar.ylood@gmail.com"
-sender_password = "K1cyclone"
+sender_password = "testpass"
 receiver_email = "medic.book@yahoo.com"
 smtp_server = "smtp.gmail.com"
 port = 587

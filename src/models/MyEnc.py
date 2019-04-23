@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-key = 'mec_enc_key_98601'
+key = 'off_enc_key_777701'
 
 
 def do_encrypt(msg):
@@ -27,8 +27,8 @@ def do_decrypt(encryped):
         return ''
 
 
-# if __name__ == '__main__':
-#     enc = do_encrypt('2019-03-15')
-#     print(enc)
-#     denc = do_decrypt(enc)
-#     print(denc)
+if __name__ == '__main__':
+    enc = do_encrypt('123456')
+    print(enc)
+    denc = do_decrypt(enc)
+    print(denc)
