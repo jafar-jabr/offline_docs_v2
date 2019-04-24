@@ -12,12 +12,12 @@ class Database:
     def __init__(self):
         db_file = 'resources/data/app.db'
         conn = sqlite3.connect(db_file)
-        conn.execute("PRAGMA key='yrewyrbdffkh'")
+        conn.execute("PRAGMA key='yrewyrbydffkh'")
         conn.row_factory = sqlite3.Row
         self.conn = conn
 
     def reset_db_to_distribute(self):
-        ten = do_encrypt('ready to go')
+        ten = do_encrypt('just start')
         self.update_setting_to_start(ten)
         self.update_app_ref()
         self.reset_clinics()
