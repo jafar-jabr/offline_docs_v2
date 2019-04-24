@@ -30,7 +30,8 @@ class Login(QDialog):
         remember_me_data = Database().get_remember_me()
         user_name_r = remember_me_data['user_name']
         pass_word_r = remember_me_data['pass_word']
-        welcomeLabel = HeadLineLabel('                             Welcome !')
+        welcomeLabel = HeadLineLabel('Welcome !')
+        welcomeLabel.setAlignment(Qt.AlignCenter)
         userNameLabel = RegularLabel('Email :')
         # userNameLabel.setFixedWidth(100)
         userNameLabel.setObjectName("user_name_label")
@@ -50,7 +51,7 @@ class Login(QDialog):
 
         self.column = QVBoxLayout()
 
-        self.column.setContentsMargins(220, 10, 0, 0)
+        self.column.setContentsMargins(200, 100, 0, 0)  # (left, top, right, bottom)
 
         just_widget = QWidget()
 
@@ -97,7 +98,8 @@ class Login(QDialog):
         self.column.addWidget(just_widget)
         self.column.addWidget(sign_up_Q)
         self.column.addLayout(btn_line)
-        self.resize(502, 261)
+        # self.resize(502, 261)
+        self.setFixedSize(800, 500)
         self.setWindowTitle("Offline Docs / Sign In")
         self.setLayout(self.column)
 
