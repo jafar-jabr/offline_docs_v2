@@ -1,5 +1,7 @@
 from PyQt5.QtGui import QIcon, QKeySequence, QCursor
 from PyQt5.QtWidgets import QAction, QShortcut, QMenu
+
+
 from src.models.PlayMouth import PlayMouth
 from PyQt5.QtCore import pyqtSlot, QPoint, QEvent
 
@@ -40,7 +42,7 @@ class ToolBar:
         self.parent = parent
         parent.homeAction = MyQAction(QIcon("resources/assets/images/user_image.png"), 'My Account')
         # parent.homeAction.installEventFilter(self.parent)
-        # parent.homeAction.triggered.connect(lambda me: self.menu_action("home"))
+        parent.homeAction.triggered.connect(lambda me: self.menu_action("home"))
 
         self.Buttons = [
             parent.homeAction,
@@ -49,6 +51,10 @@ class ToolBar:
     def menu_clicked(self):
         print("clicked")
 
-    # @pyqtSlot()
-    # def menu_action(self, which):
-    #     PlayMouth(self.parent).go_to(which)
+    @pyqtSlot()
+    def menu_action(self, which):
+        # PlayMouth(self.parent).go_to(which)
+        self.parent.close()
+        from src.forms.landingForm import LandingForm
+        window = LandingForm()
+        window.show()

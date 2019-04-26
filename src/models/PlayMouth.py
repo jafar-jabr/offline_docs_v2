@@ -2,7 +2,7 @@ from src.forms.AccountSettings import AccountSettings
 from src.forms.AppSettings import AppSettings
 from src.forms.GeneralSettings import GeneralSettings
 from src.forms.addPatient import AddPatient
-from src.forms.landingForm import LandingForm
+# from src.forms.landingForm import LandingForm
 from src.forms.loginForm import Login
 from src.forms.patientDetails import PatientDetails
 from src.forms.aboutForm import About
@@ -38,7 +38,6 @@ class PlayMouth:
     @staticmethod
     def all_pages(which):
         pages = {
-            "home": LandingForm,
             "add_patient": AddPatient,
             "clinic_settings": GeneralSettings,
             "app_settings": AppSettings,

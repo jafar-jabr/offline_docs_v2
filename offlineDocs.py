@@ -1,13 +1,8 @@
 import sys
-from PyQt5.QtCore import Qt, QEvent, QPoint
-from PyQt5.QtGui import QIcon, QCursor
-from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QMainWindow, \
-    QStackedWidget, QDialog, QScrollArea, QAction, QToolBar, QMenu
-from src.Elements.MessageBoxes import MessageBoxes
-from src.forms.aboutForm import About
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QDialog
 from src.forms.landingForm import LandingForm
 from src.forms.loginForm import Login
-from src.Elements.ToolBar import ToolBar, MyQAction
 ############################################################
 # Main App                                                 #
 ############################################################
@@ -17,42 +12,7 @@ from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
 
 
-class Window(QMainWindow):
-    def __init__(self, which='landing'):
-        super().__init__()
-        self.setFocusPolicy(Qt.TabFocus)
-        scroll = QScrollArea(self)
-        scroll.setWidgetResizable(True)
-        self.central_widget = QStackedWidget()
-        if which == 'landing':
-            first_widget = LandingForm(self)
-            self.setWindowTitle("Offline Docs / Home Page")
-        else:
-            first_widget = About(self, order=True)
-            self.setWindowTitle("Offline Docs / About")
-        self.central_widget.addWidget(first_widget)
-        scroll.setWidget(self.central_widget)
-        self.setCentralWidget(scroll)
-        self.toolbar = self.addToolBar('&Main')
-        self.toolbar.setLayoutDirection(Qt.RightToLeft)
-        self.toolbar.toggleViewAction().setEnabled(False)
-        self.setContextMenuPolicy(Qt.PreventContextMenu)
-        self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
-        self.statusBar().showMessage("Offline Documentation is your external memory")
-        self.toolbar.installEventFilter(self)
-        self.installEventFilter(self)
 
-        self.images_menu = QMenu()
-        opt = ['معاينة', 'تحديث', 'حذف']
-        for i in opt:
-            actn = QAction(QIcon('resources/assets/images/drop_down_h.png'), i, self.images_menu)
-            actn.setObjectName(i)
-            # actn.triggered.connect(self.menu_clicked)
-            self.images_menu.addAction(actn)
-
-        self.setObjectName("main_window")
-        self.setFixedWidth(1200)
-        self.setFixedHeight(800)
 
     # def closeEvent(self, event):
     #     confirm = MessageBoxes.confirm_message("close the app ?")
@@ -97,7 +57,6 @@ class MyProxyStyle(QProxyStyle):
 
 def run_app():
     app = QApplication(sys.argv)
-    # app.setLayoutDirection(Qt.RightToLeft)
     app.setApplicationName("Offline Docs")
     app.setWindowIcon(QIcon('resources/assets/images/logo.png'))
     app_font = RegularFont()
@@ -106,6 +65,7 @@ def run_app():
     app.setStyle(myStyle)
     screen = app.primaryScreen()
     rect = screen.availableGeometry()
+    screen_center = screen.availableGeometry().center()
     # print('Available: %dx%d' % (rect.width(), rect.height()))
     SessionWrapper.screen_dim = ('%dx%d' % (rect.width(), rect.height()))
     SessionWrapper.screen_width = rect.width()
@@ -122,36 +82,29 @@ def run_app():
     ############################################################
     login_result = login.exec_()
     if login_result == QDialog.Accepted and login.status == "Done" and not login.do_order:
-        window = Window()
-        # window.showMaximized()
+        window = LandingForm()
         window.show()
         sys.exit(app.exec_())
     elif login_result == QDialog.Accepted and login.status == "New":
         new_password = NewPasswordModal()
         login_result = login.exec_()
         if login_result == QDialog.Accepted and new_password.status == "Done":
-            window = Window()
-            # window.showMaximized()
+            window = LandingForm()
             window.show()
-            sys.exit(app.exec_())
     elif login_result == QDialog.Accepted and login.status == "register":
         registration_modal = CreateAccountModal()
-        login_result = login.exec_()
         if login_result == QDialog.Accepted and registration_modal.status == "Done":
-            window = Window()
-            window.showMaximized()
-            sys.exit(app.exec_())
+            window = LandingForm()
+            window.show()
     elif login_result == QDialog.Accepted and login.status == "expired":
         if login.do_order:
-            window = Window('do_order')
-            window.showMaximized()
-            sys.exit(app.exec_())
+            window = LandingForm()
+            window.show()
         else:
             app.quit()
     elif login_result == QDialog.Accepted and login.do_order:
-        window = Window('do_order')
-        window.showMaximized()
-        sys.exit(app.exec_())
+        window = LandingForm()
+        window.show()
 
 
 if __name__ == '__main__':

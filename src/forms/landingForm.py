@@ -1,40 +1,113 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
+from PyQt5.QtWidgets import QHBoxLayout
 
 from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
-from src.Elements.CustomLabel import HeadLineLabel
-from src.Elements.FilterTextBox import FilterTextBox
-from src.Elements.LabeledTextArea import LabeledTextArea
-from src.Elements.LabeledTextBox import LabeledTextBox
-from src.Elements.RegularTextBox import RegularTextBox
-from src.dataTables.mainDataTable import MainDataTable
-from src.dataTables.mainDataTableMulti import MainDataTableMulti
+from src.Elements.MessageBoxes import MessageBoxes
+from src.forms.categoryForm import CategoryForm
 from src.models.DatabaseModel import Database
+import sys
+from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QMainWindow, \
+    QStackedWidget, QDialog, QScrollArea, QAction, QMenu
+from src.forms.aboutForm import About
+from src.Elements.ToolBar import ToolBar
+############################################################
+# Main App                                                 #
+############################################################
+from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
-from src.models.UserBlock import UserBlock
 
 
-class LandingForm(QWidget):
-    def __init__(self, parent, **kwargs):
+class MainWindow(QMainWindow):
+    def __init__(self, which):
         super().__init__()
-        self.setObjectName("category_page")
-        self.parent = parent
-        self.clinic_id = SessionWrapper.clinic_id
-        self.pages_count = 6
-        self.landing_layout = QHBoxLayout()
-        self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
-        self.landing_layout.setSpacing(0)
-        self.pc_width = SessionWrapper.get_dimension('main_window_width')
-        self.pc_height = SessionWrapper.get_dimension('main_window_height')
-        self.initUI()
+        self.setFocusPolicy(Qt.TabFocus)
+        scroll = QScrollArea(self)
+        scroll.setWidgetResizable(True)
 
-    def initUI(self):
-        categories_tab = ActiveLabel("Categories")
-        documents_tab = ClickableLabel("Documents")
-        self.landing_layout.setContentsMargins(0, 0, 0, 0)  # (left, top, right, bottom)
-        self.landing_layout.addWidget(categories_tab)
-        self.landing_layout.addWidget(documents_tab)
-        self.setLayout(self.landing_layout)
-        # self.setS
+        self.central_widget = QStackedWidget()
+        if which == 'landing':
+            first_widget = CategoryForm(self)
+            self.setWindowTitle("Offline Docs / Home Page")
+        else:
+            first_widget = About(self, order=True)
+            self.setWindowTitle("Offline Docs / About")
+        self.central_widget.addWidget(first_widget)
+        scroll.setWidget(self.central_widget)
+        self.setCentralWidget(scroll)
+        self.toolbar = self.addToolBar('&Main')
+        self.toolbar.setLayoutDirection(Qt.RightToLeft)
+        self.toolbar.toggleViewAction().setEnabled(False)
+        self.setContextMenuPolicy(Qt.PreventContextMenu)
+        self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
+        self.statusBar().showMessage("Offline Documentation is your external memory")
+        self.toolbar.installEventFilter(self)
+        self.installEventFilter(self)
+
+        self.images_menu = QMenu()
+        opt = ['معاينة', 'تحديث', 'حذف']
+        for i in opt:
+            actn = QAction(QIcon('resources/assets/images/drop_down_h.png'), i, self.images_menu)
+            actn.setObjectName(i)
+            # actn.triggered.connect(self.menu_clicked)
+            self.images_menu.addAction(actn)
+
+        self.setObjectName("main_window")
+        self.setFixedWidth(1200)
+        self.setFixedHeight(800)
+        # p = self.mapToGlobal(QPoint(0, 0))
+        # print(p)
+        # self.move(p)
+        self.show()
+
+
+class LandingForm(QDialog):
+    def __init__(self):
+        super().__init__()
+        window_width = SessionWrapper.get_dimension('login_width')
+        window_height = SessionWrapper.get_dimension('login_height')
+        app_font = RegularFont()
+        self.setFont(app_font)
+        self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
+        self.setObjectName("login")
+
+        destinations_line = QHBoxLayout()
+        destinations_line.setSpacing(80)
+        destinations_line.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
+
+        offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        offline_docs_btn.clicked.connect(self.go_to_form)
+        destinations_line.addWidget(offline_docs_btn)
+
+        sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        sticky_notes_btn.clicked.connect(self.go_to_form)
+        destinations_line.addWidget(sticky_notes_btn)
+
+        calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        calendar_btn.clicked.connect(self.go_to_form)
+        destinations_line.addWidget(calendar_btn)
+
+        # self.resize(502, 261)
+        self.setFixedSize(800, 500)
+        self.setWindowTitle("Offline Docs / Main Page")
+        self.setLayout(destinations_line)
+
+    def go_to_form(self):
+        self.accept()
+        MainWindow('landing')
+        # sys.exit(self.app.exec_())
+
+    def get_preferences(self, user_id):
+        pref = Database().get_preferences(user_id)
+        SessionWrapper.font_color = pref['font_color']
+        SessionWrapper.regular_size = pref['regular_size']
+        SessionWrapper.big_size = pref['big_size']
+        SessionWrapper.app_mode = pref['app_mode']
+        SessionWrapper.main_doctor_id = pref['main_doctor_id']
+
+    def closeEvent(self, event):
+        sys.exit()
+        # event.accept()
+
+    def show(self):
+        self.exec_()
