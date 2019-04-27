@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QHBoxLayout
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.MessageBoxes import MessageBoxes
 from src.forms.categoryForm import CategoryForm
+from src.forms.myCalendarForm import MyCalendarForm
+from src.forms.stickyNotesForm import StickyNotesForm
 from src.models.DatabaseModel import Database
 import sys
 from PyQt5.QtCore import Qt, QPoint
@@ -29,9 +31,15 @@ class MainWindow(QMainWindow):
         if which == 'landing':
             first_widget = CategoryForm(self)
             self.setWindowTitle("Offline Docs / Home Page")
+        elif which == "sticky_notes":
+            first_widget = StickyNotesForm(self)
+            self.setWindowTitle("Offline Docs / Sticky Notes")
+        elif which == "my_calendar":
+            first_widget = MyCalendarForm(self)
+            self.setWindowTitle("Offline Docs / My Calendar")
         else:
-            first_widget = About(self, order=True)
-            self.setWindowTitle("Offline Docs / About")
+            first_widget = CategoryForm(self)
+            self.setWindowTitle("Offline Docs / Home Page")
         self.central_widget.addWidget(first_widget)
         scroll.setWidget(self.central_widget)
         self.setCentralWidget(scroll)
@@ -76,15 +84,15 @@ class LandingForm(QDialog):
         destinations_line.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
 
         offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
-        offline_docs_btn.clicked.connect(self.go_to_form)
+        offline_docs_btn.clicked.connect(lambda: self.go_to_form('landing'))
         destinations_line.addWidget(offline_docs_btn)
 
         sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
-        sticky_notes_btn.clicked.connect(self.go_to_form)
+        sticky_notes_btn.clicked.connect(lambda: self.go_to_form('sticky_notes'))
         destinations_line.addWidget(sticky_notes_btn)
 
         calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
-        calendar_btn.clicked.connect(self.go_to_form)
+        calendar_btn.clicked.connect(lambda: self.go_to_form('my_calendar'))
         destinations_line.addWidget(calendar_btn)
 
         # self.resize(502, 261)
@@ -92,9 +100,9 @@ class LandingForm(QDialog):
         self.setWindowTitle("Offline Docs / Main Page")
         self.setLayout(destinations_line)
 
-    def go_to_form(self):
+    def go_to_form(self, which):
         self.accept()
-        MainWindow('landing')
+        MainWindow(which)
         # sys.exit(self.app.exec_())
 
     def get_preferences(self, user_id):
