@@ -1,19 +1,10 @@
-from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
-
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
-from src.Elements.CustomLabel import HeadLineLabel
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
-from src.Elements.RegularTextBox import RegularTextBox
-from src.dataTables.mainDataTable import MainDataTable
-from src.dataTables.mainDataTableMulti import MainDataTableMulti
-from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
-from src.models.UserBlock import UserBlock
 
 
 class CategoryForm(QWidget):

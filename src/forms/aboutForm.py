@@ -1,16 +1,12 @@
 from datetime import datetime, timedelta
-
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QDialog
 from PyQt5.QtCore import Qt
-
 from src.Elements.ClickableLabel import ClickableLabel
 from src.Elements.CustomLabel import RegularLabel, HeadLineLabel
 from src.Elements.MessageBoxes import MessageBoxes
-from src.modals.codeModal import CodeModal
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_decrypt
 from src.models.SessionWrapper import SessionWrapper
-from src.models.UserBlock import UserBlock
 
 
 class About(QWidget):
@@ -24,7 +20,6 @@ class About(QWidget):
         self.initUI()
 
     def initUI(self):
-        UserBlock(self)
         about_info = QVBoxLayout()
         about_info.setContentsMargins(0, 60, 60, 0) #(left, top, right, bottom)
         about_first1Label = HeadLineLabel('التطبيق يهدف الى الارتقاء بالخدمات الصحية')
@@ -111,12 +106,7 @@ class About(QWidget):
     def renew(self):
         ask = MessageBoxes.make_subscription('تجديد الاشتراك')
         if ask:
-            try_to_buy = CodeModal('تجديد الاشتراك')
-            run_buy = try_to_buy.exec_()
-            if run_buy == QDialog.Accepted and try_to_buy.is_done:
-                self.do_update_view()
-                days_no = try_to_buy.days_number
-                MessageBoxes.success_message('تم الاشتراك', 'يمكنك الان استخدام التطبيق لمدة (%s يوم)'%days_no)
+            pass
         else:
             from src.models.PlayMouth import PlayMouth
             PlayMouth(self.parent).go_to("contact", order=True)
@@ -124,12 +114,7 @@ class About(QWidget):
     def make_order(self):
         ask = MessageBoxes.make_subscription('طلب الاشتراك', 'اشتراك')
         if ask:
-            try_to_buy = CodeModal('الاشتراك')
-            run_buy = try_to_buy.exec_()
-            if run_buy == QDialog.Accepted and try_to_buy.is_done:
-                self.do_update_view()
-                days_no = try_to_buy.days_number
-                MessageBoxes.success_message('تم الاشتراك', 'يمكنك الان استخدام التطبيق لمدة (%s يوم)' % days_no)
+            pass
         else:
             from src.models.PlayMouth import PlayMouth
             PlayMouth(self.parent).go_to("contact", order=True)

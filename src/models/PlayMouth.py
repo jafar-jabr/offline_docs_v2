@@ -1,12 +1,5 @@
-from src.forms.AccountSettings import AccountSettings
-from src.forms.AppSettings import AppSettings
-from src.forms.GeneralSettings import GeneralSettings
-from src.forms.addPatient import AddPatient
-# from src.forms.landingForm import LandingForm
 from src.forms.loginForm import Login
-from src.forms.patientDetails import PatientDetails
 from src.forms.aboutForm import About
-from src.forms.contactForm import ContactForm
 from src.models.SharedFunctions import SharedFunctions
 
 
@@ -23,7 +16,7 @@ class PlayMouth:
                     new_widget = About(self.app, order=True)
                     which = 'about'
                 else:
-                    new_widget = ContactForm(self.app, order=True)
+                    new_widget = About(self.app, order=True)
                     which = 'contact'
         new_widget.update()
         self.app.central_widget.update()
@@ -38,13 +31,7 @@ class PlayMouth:
     @staticmethod
     def all_pages(which):
         pages = {
-            "add_patient": AddPatient,
-            "clinic_settings": GeneralSettings,
-            "app_settings": AppSettings,
-            "account": AccountSettings,
             "about": About,
-            "contact": ContactForm,
-            "patient_details": PatientDetails,
             "login": Login
         }
         return pages[which]

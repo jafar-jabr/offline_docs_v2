@@ -7,7 +7,6 @@ from src.forms.loginForm import Login
 # Main App                                                 #
 ############################################################
 from src.modals.createAccountModal import CreateAccountModal
-from src.modals.newPasswordModal import NewPasswordModal
 from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
 
@@ -85,26 +84,6 @@ def run_app():
         window = LandingForm()
         window.show()
         sys.exit(app.exec_())
-    elif login_result == QDialog.Accepted and login.status == "New":
-        new_password = NewPasswordModal()
-        login_result = login.exec_()
-        if login_result == QDialog.Accepted and new_password.status == "Done":
-            window = LandingForm()
-            window.show()
-    elif login_result == QDialog.Accepted and login.status == "register":
-        registration_modal = CreateAccountModal()
-        if login_result == QDialog.Accepted and registration_modal.status == "Done":
-            window = LandingForm()
-            window.show()
-    elif login_result == QDialog.Accepted and login.status == "expired":
-        if login.do_order:
-            window = LandingForm()
-            window.show()
-        else:
-            app.quit()
-    elif login_result == QDialog.Accepted and login.do_order:
-        window = LandingForm()
-        window.show()
 
 
 if __name__ == '__main__':
