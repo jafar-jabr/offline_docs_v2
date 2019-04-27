@@ -7,10 +7,10 @@ from src.Elements.LabeledTextBox import LabeledTextBox
 from src.models.SessionWrapper import SessionWrapper
 
 
-class CategoryForm(QWidget):
+class DocumentsForm(QWidget):
     def __init__(self, parent, **kwargs):
         super().__init__()
-        self.setObjectName("category_page")
+        self.setObjectName("documents_page")
         self.parent = parent
         self.clinic_id = SessionWrapper.clinic_id
         self.pages_count = 6
@@ -39,10 +39,10 @@ class CategoryForm(QWidget):
         left_inner_widget.setLayout(left_inner_column)
         tabs_line = QHBoxLayout()
 
-        categories_tab = ActiveLabel("Categories")
+        categories_tab = ClickableLabel("Categories")
         categories_tab.clicked.connect(lambda: self.go_to_page('categories'))
 
-        documents_tab = ClickableLabel("Documents")
+        documents_tab = ActiveLabel("Documents")
         documents_tab.clicked.connect(lambda: self.go_to_page('documents'))
 
         tabs_line.addWidget(categories_tab)
@@ -63,7 +63,7 @@ class CategoryForm(QWidget):
         right_widget.setObjectName("category_right")
         right_widget.setFixedWidth(1000)
         right_content = QVBoxLayout()
-        category_name = LabeledTextBox("Category Name: ", width=500)
+        category_name = LabeledTextBox("Document Name: ", width=500)
         category_desc = LabeledTextArea("Description: ", height=200, space=25, width=500)
         buttons_line = QHBoxLayout()
         buttons_line.setSpacing(10)

@@ -1,3 +1,5 @@
+from src.forms.categoryForm import CategoryForm
+from src.forms.documentsForm import DocumentsForm
 from src.forms.loginForm import Login
 from src.forms.aboutForm import About
 from src.models.SharedFunctions import SharedFunctions
@@ -9,15 +11,6 @@ class PlayMouth:
 
     def go_to(self, which, **kwargs):
         new_widget = self.all_pages(which)(self.app, **kwargs)
-        if which != 'contact' and which != 'about':
-            check_point, do_order = SharedFunctions.check_point('internal')
-            if not check_point:
-                if do_order:
-                    new_widget = About(self.app, order=True)
-                    which = 'about'
-                else:
-                    new_widget = About(self.app, order=True)
-                    which = 'contact'
         new_widget.update()
         self.app.central_widget.update()
         for i in range(self.app.central_widget.count()):
@@ -31,25 +24,15 @@ class PlayMouth:
     @staticmethod
     def all_pages(which):
         pages = {
-            "about": About,
-            "login": Login
+            "categories": CategoryForm,
+            "documents": DocumentsForm
         }
         return pages[which]
 
     @staticmethod
     def page_titles(which):
         titles = {
-            "home": "Offline Docs / الصفحة الرئيسية",
-            "add_staff": "Offline Docs / اضافة منتسب",
-            "add_patient": "Offline Docs / اضافة مراجع",
-            "staff": "Offline Docs / المنتسبون",
-            "clinic_settings": "Offline Docs / اعدادات المؤسسة والكادر",
-            "app_settings": "Offline Docs / اعدادات التطبيق",
-            "account": "Offline Docs / اعدادات الحساب",
-            "about": "Offline Docs / حول",
-            "contact": "Offline Docs / الاتصال بنا",
-            "patient_details": "Offline Docs / تفاصيل المراجع",
-            "edit_patient": "Offline Docs / تعديل بيانات المراجع والزيارة",
-            "login": "Offline Docs / تسجيل الدخول"
+            "categories": "Offline Documentation/ Categories",
+            "documents": "Offline Documentation/ Documents"
         }
         return titles[which]
