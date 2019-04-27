@@ -10,9 +10,6 @@ from src.modals.createAccountModal import CreateAccountModal
 from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
 
-
-
-
     # def closeEvent(self, event):
     #     confirm = MessageBoxes.confirm_message("close the app ?")
     #     if confirm:

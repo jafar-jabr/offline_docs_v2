@@ -63,7 +63,7 @@ QListWidget {
     border-image: url(./resources/assets/images/Categories/background.png);
 }
 
-#categories_left, #category_page, #sticky_notes_page, #my_calendar_page, #documents_page {
+#categories_left, #category_page, #sticky_notes_page, #my_calendar_page, #documents_page, #utility_page {
      background-color: #445566;
      border: none;
 }

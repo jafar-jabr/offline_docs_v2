@@ -5,6 +5,7 @@ from src.Elements.MessageBoxes import MessageBoxes
 from src.forms.categoryForm import CategoryForm
 from src.forms.myCalendarForm import MyCalendarForm
 from src.forms.stickyNotesForm import StickyNotesForm
+from src.forms.utilityForm import UtilityForm
 from src.models.DatabaseModel import Database
 import sys
 from PyQt5.QtCore import Qt, QPoint
@@ -37,6 +38,9 @@ class MainWindow(QMainWindow):
         elif which == "my_calendar":
             first_widget = MyCalendarForm(self)
             self.setWindowTitle("Offline Docs / My Calendar")
+        elif which == "utility":
+            first_widget = UtilityForm(self)
+            self.setWindowTitle("Offline Docs / Utility")
         else:
             first_widget = CategoryForm(self)
             self.setWindowTitle("Offline Docs / Home Page")
@@ -94,6 +98,10 @@ class LandingForm(QDialog):
         calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
         calendar_btn.clicked.connect(lambda: self.go_to_form('my_calendar'))
         destinations_line.addWidget(calendar_btn)
+
+        utility_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        utility_btn.clicked.connect(lambda: self.go_to_form('utility'))
+        destinations_line.addWidget(utility_btn)
 
         # self.resize(502, 261)
         self.setFixedSize(800, 500)
