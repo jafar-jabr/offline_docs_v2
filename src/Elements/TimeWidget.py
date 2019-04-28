@@ -12,7 +12,7 @@ class TimeWidget(QWidget):
     def __init__(self, **kwargs):
         super().__init__()
         main_layout = QHBoxLayout()
-        main_layout.setContentsMargins(50, 0, 20, 0) #(left, top, right, bottom)
+        main_layout.setContentsMargins(0, 0, 20, 0) #(left, top, right, bottom)
         main_layout.setSpacing(0)
         h_options = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
         h_select = QComboBox()
@@ -25,8 +25,8 @@ class TimeWidget(QWidget):
 
         space_item = QSpacerItem(20, 20, QSizePolicy.Expanding)
         am_pm = QComboBox()
-        am_pm.addItem("ص")
-        am_pm.addItem("م")
+        am_pm.addItem("am")
+        am_pm.addItem("pm")
         separator = QLabel(" : ")
 
         if "value" in kwargs:
@@ -67,9 +67,8 @@ class TimeWidget(QWidget):
         main_layout.addWidget(am_pm)
 
         self.setLayout(main_layout)
-        self.setFixedWidth(230)
+        # self.setFixedWidth(230)
         self.setFixedHeight(37)
-        self.setLayoutDirection(Qt.RightToLeft)
 
     @staticmethod
     def value():

@@ -1,10 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout
 from src.Elements.CustomLabel import RegularLabel
-from src.Elements.FilterTextBox import FilterTextBox
-from src.Elements.LabeledTextArea import LabeledTextArea
-from src.Elements.LabeledTextBox import LabeledTextBox
+from datetime import datetime, timedelta
+
+from src.Elements.MessageBoxes import MessageBoxes
+from src.Elements.RegularButton import RegularButton
+from src.Elements.dateTimeWidget import DateTimeWidget
+from src.Elements.secondDateTimeWidget import SecondDateTimeWidget
 from src.models.SessionWrapper import SessionWrapper
 
 
@@ -23,7 +24,44 @@ class UtilityForm(QWidget):
         self.initUI()
 
     def initUI(self):
-        lbl = RegularLabel("This will be UtilityForm page")
-        self.landing_layout.addWidget(lbl)
+        date_time_diff_section = QWidget()
+        date_time_diff_section.setFixedWidth(600)
+        date_time_diff_section.setFixedHeight(300)
+        date_time_diff_label = RegularLabel("DateTime Difference : ")
+        date_time_diff_layout = QVBoxLayout()
+        first_date_time_line = QHBoxLayout()
+        first_date_time_label = RegularLabel("From : ")
+        self.first_date_time = DateTimeWidget(-1000, 600)
+        first_date_time_line.addWidget(first_date_time_label)
+        first_date_time_line.addWidget(self.first_date_time)
+
+        second_date_time_line = QHBoxLayout()
+        second_date_time_label = RegularLabel("To : ")
+        self.second_date_time = SecondDateTimeWidget(-1000, 600)
+        second_date_time_line.addWidget(second_date_time_label)
+        second_date_time_line.addWidget(self.second_date_time)
+
+        date_time_btn_line = QHBoxLayout()
+        date_time_btn_line.setContentsMargins(500, 0, 0, 0)
+        date_time_btn = RegularButton("Calculate")
+        date_time_btn.clicked.connect(self.calculate_date_time_difference)
+        date_time_btn_line.addWidget(date_time_btn)
+
+        date_time_diff_layout.addWidget(date_time_diff_label)
+        date_time_diff_layout.addLayout(first_date_time_line)
+        date_time_diff_layout.addLayout(second_date_time_line)
+        date_time_diff_layout.addLayout(date_time_btn_line)
+
+        date_time_diff_section.setLayout(date_time_diff_layout)
+        self.landing_layout.addWidget(date_time_diff_section)
         self.setLayout(self.landing_layout)
         # self.setS
+
+    def calculate_date_time_difference(self):
+        print('da')
+        first_date_time = self.first_date_time.value()
+        second_date_time = self.second_date_time.value()
+        first_date_time_object = datetime.strptime(first_date_time, "%Y-%m-%d %H:%M:%S")
+        second_date_time_object = datetime.strptime(second_date_time, "%Y-%m-%d %H:%M:%S")
+        diff = second_date_time_object - first_date_time_object
+        MessageBoxes.success_message("Result", "The difference is: "+str(diff.days))
