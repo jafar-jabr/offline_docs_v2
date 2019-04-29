@@ -21,6 +21,96 @@ class SharedFunctions:
         return 'images/icon.png'
 
     @staticmethod
+    def is_leap_year(year):
+        if (year % 4) == 0:
+            if (year % 100) == 0:
+                if (year % 400) == 0:
+                    return True
+                else:
+                    return False
+            else:
+                return True
+        return False
+
+    @staticmethod
+    def date_diff_days(from_date, to_date):
+        diff_dt = to_date - from_date
+        return str(int(diff_dt.days)) + ' Days'
+
+    @staticmethod
+    def date_diff_hours(from_date, to_date):
+        diff_dt = to_date - from_date
+        duration_in_s = diff_dt.total_seconds()
+        hours = divmod(duration_in_s, 3600)[0]
+        return str(int(hours)) + ' Hours'
+
+    @staticmethod
+    def date_diff_minutes(from_date, to_date):
+        diff_dt = to_date - from_date
+        duration_in_s = diff_dt.total_seconds()
+        minutes = divmod(duration_in_s, 60)[0]
+        return str(int(minutes)) + ' Minutes'
+
+    @staticmethod
+    def date_diff_seconds(from_date, to_date):
+        diff_dt = to_date - from_date
+        return str(int(diff_dt.total_seconds())) + ' Seconds'
+
+    @staticmethod
+    def date_diff(from_date, to_date):
+        end_year = int(to_date.year)
+        is_last_year_leap = SharedFunctions.is_leap_year(end_year)
+        if is_last_year_leap:
+            year_days = 366
+            months_limits = {1: 31, 2: 29, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+        else:
+            year_days = 365
+            months_limits = {1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30, 7: 31, 8: 31, 9: 30, 10: 31, 11: 30, 12: 31}
+
+        diff_dt = to_date - from_date
+        duration_in_s = diff_dt.total_seconds()
+
+        days = divmod(duration_in_s, 86400)  # Get days (without [0]!)
+        years = 0
+        months = 0
+        only_days = int(days[0])
+        if only_days > year_days:
+            for y in range(from_date.year, to_date.year):
+                if only_days >= year_days:
+                    years += 1
+                    is_leap = SharedFunctions.is_leap_year(y)
+                    if is_leap:
+                        only_days -= 366
+                    else:
+                        only_days -= 365
+        elif only_days == year_days:
+            years = 1
+            only_days = 0
+
+        if only_days > months_limits[to_date.month]:
+            for m in range(from_date.month, 13):
+                if only_days >= months_limits[m]:
+                    months += 1
+                    only_days -= months_limits[m]
+        elif only_days == months_limits[to_date.month]:
+            months = 1
+            only_days = 0
+
+        if only_days > months_limits[to_date.month]:
+            for m2 in range(1, to_date.month+1):
+                if only_days >= months_limits[m2]:
+                    months += 1
+                    only_days -= months_limits[m2]
+
+        hours = divmod(days[1], 3600)  # Use remainder of days to calc hours
+        minutes = divmod(hours[1], 60)  # Use remainder of hours to calc minutes
+
+        diff_hours = int(hours[0])
+        diff_minutes = int(minutes[0])
+
+        return {'Years': years, 'Months': months, 'Days': only_days, 'Hours': diff_hours, 'Minutes': diff_minutes}
+
+    @staticmethod
     def calculate_age(b):
         try:
             b = datetime.strptime(b, "%d-%m-%Y")
@@ -386,6 +476,13 @@ class SharedFunctions:
         else:
             return os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
 
-# if __name__ == '__main__':
-#     enc = SharedFunctions.prepare_order()
-#     print(enc)
+
+if __name__ == '__main__':
+    first_date_time = '1984-06-19 10:30:00'
+    second_date_time = '2019-04-29 19:40:00'
+    print(first_date_time)
+    print(second_date_time)
+    first_date_time_object = datetime.strptime(first_date_time, "%Y-%m-%d %H:%M:%S")
+    second_date_time_object = datetime.strptime(second_date_time, "%Y-%m-%d %H:%M:%S")
+    other_diff = SharedFunctions.date_diff(first_date_time_object, second_date_time_object)
+    print(other_diff)

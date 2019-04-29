@@ -59,7 +59,7 @@ class MessageBoxes:
         box.setText(body)
         box.setStandardButtons(QMessageBox.Ok)
         buttonOk = box.button(QMessageBox.Ok)
-        buttonOk.setText("Okayً")
+        buttonOk.setText("Okay")
         box.exec_()
 
     @staticmethod

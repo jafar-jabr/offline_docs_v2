@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton
 from src.Elements.CustomLabel import RegularLabel
 from datetime import datetime, timedelta
 
@@ -7,6 +7,7 @@ from src.Elements.RegularButton import RegularButton
 from src.Elements.dateTimeWidget import DateTimeWidget
 from src.Elements.secondDateTimeWidget import SecondDateTimeWidget
 from src.models.SessionWrapper import SessionWrapper
+from src.models.SharedFunctions import SharedFunctions
 
 
 class UtilityForm(QWidget):
@@ -21,11 +22,12 @@ class UtilityForm(QWidget):
         self.landing_layout.setSpacing(0)
         self.pc_width = SessionWrapper.get_dimension('main_window_width')
         self.pc_height = SessionWrapper.get_dimension('main_window_height')
+        self.result_type = "In Details"
         self.initUI()
 
     def initUI(self):
         date_time_diff_section = QWidget()
-        date_time_diff_section.setFixedWidth(600)
+        date_time_diff_section.setFixedWidth(550)
         date_time_diff_section.setFixedHeight(300)
         date_time_diff_label = RegularLabel("DateTime Difference : ")
         date_time_diff_layout = QVBoxLayout()
@@ -41,8 +43,37 @@ class UtilityForm(QWidget):
         second_date_time_line.addWidget(second_date_time_label)
         second_date_time_line.addWidget(self.second_date_time)
 
+        calculation_options_line = QHBoxLayout()
+
+        self.calculation_options_group = QButtonGroup()  # Number group
+
+        r1 = QRadioButton("In Details")
+        r1.setChecked(True)
+        r1.toggled.connect(lambda: self.set_model(r1, "In Details"))
+        r2 = QRadioButton("In Days")
+        r2.toggled.connect(lambda: self.set_model(r2, "In Days"))
+        r3 = QRadioButton("In Hours")
+        r3.toggled.connect(lambda: self.set_model(r3, "In Hours"))
+        r4 = QRadioButton("In Minutes")
+        r4.toggled.connect(lambda: self.set_model(r4, "In Minutes"))
+
+        r5 = QRadioButton("In Seconds")
+        r5.toggled.connect(lambda: self.set_model(r5, "In Seconds"))
+
+        self.calculation_options_group.addButton(r1)
+        self.calculation_options_group.addButton(r2)
+        self.calculation_options_group.addButton(r3)
+        self.calculation_options_group.addButton(r4)
+        self.calculation_options_group.addButton(r5)
+
+        calculation_options_line.addWidget(r1)
+        calculation_options_line.addWidget(r2)
+        calculation_options_line.addWidget(r3)
+        calculation_options_line.addWidget(r4)
+        calculation_options_line.addWidget(r5)
+
         date_time_btn_line = QHBoxLayout()
-        date_time_btn_line.setContentsMargins(500, 0, 0, 0)
+        date_time_btn_line.setContentsMargins(450, 0, 0, 0)
         date_time_btn = RegularButton("Calculate")
         date_time_btn.clicked.connect(self.calculate_date_time_difference)
         date_time_btn_line.addWidget(date_time_btn)
@@ -50,6 +81,7 @@ class UtilityForm(QWidget):
         date_time_diff_layout.addWidget(date_time_diff_label)
         date_time_diff_layout.addLayout(first_date_time_line)
         date_time_diff_layout.addLayout(second_date_time_line)
+        date_time_diff_layout.addLayout(calculation_options_line)
         date_time_diff_layout.addLayout(date_time_btn_line)
 
         date_time_diff_section.setLayout(date_time_diff_layout)
@@ -58,10 +90,31 @@ class UtilityForm(QWidget):
         # self.setS
 
     def calculate_date_time_difference(self):
-        print('da')
         first_date_time = self.first_date_time.value()
         second_date_time = self.second_date_time.value()
-        first_date_time_object = datetime.strptime(first_date_time, "%Y-%m-%d %H:%M:%S")
-        second_date_time_object = datetime.strptime(second_date_time, "%Y-%m-%d %H:%M:%S")
-        diff = second_date_time_object - first_date_time_object
-        MessageBoxes.success_message("Result", "The difference is: "+str(diff.days))
+        try:
+            first_date_time_object = datetime.strptime(first_date_time, "%Y-%m-%d %H:%M:%S")
+            second_date_time_object = datetime.strptime(second_date_time, "%Y-%m-%d %H:%M:%S")
+            if first_date_time_object > second_date_time_object:
+                MessageBoxes.warning_message("Error", "Start Time can not be after End Time !")
+                return
+        except ValueError as e:
+            MessageBoxes.warning_message("Error", "Incorrect Date format !"+ str(e))
+            return
+        if self.result_type == "In Details":
+            other_diff = SharedFunctions.date_diff(first_date_time_object, second_date_time_object)
+        elif self.result_type == "In Days":
+            other_diff = SharedFunctions.date_diff_days(first_date_time_object, second_date_time_object)
+        elif self.result_type == "In Hours":
+            other_diff = SharedFunctions.date_diff_hours(first_date_time_object, second_date_time_object)
+        elif self.result_type == "In Minutes":
+            other_diff = SharedFunctions.date_diff_minutes(first_date_time_object, second_date_time_object)
+        elif self.result_type == "In Seconds":
+            other_diff = SharedFunctions.date_diff_seconds(first_date_time_object, second_date_time_object)
+        else:
+            other_diff = SharedFunctions.date_diff(first_date_time_object, second_date_time_object)
+        MessageBoxes.success_message("Result", "The difference is: "+str(other_diff))
+
+    def set_model(self, instance, result_type):
+        if instance.isChecked():
+            self.result_type = result_type
