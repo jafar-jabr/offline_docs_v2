@@ -102,6 +102,9 @@ class SharedFunctions:
                     months += 1
                     only_days -= months_limits[m2]
 
+        if months == 12:
+            months = 0
+            years += 1
         hours = divmod(days[1], 3600)  # Use remainder of days to calc hours
         minutes = divmod(hours[1], 60)  # Use remainder of hours to calc minutes
 
