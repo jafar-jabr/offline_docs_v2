@@ -81,25 +81,25 @@ class LandingForm(QDialog):
         app_font = RegularFont()
         self.setFont(app_font)
         self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
-        self.setObjectName("login")
+        self.setObjectName("landing_page")
 
         destinations_line = QHBoxLayout()
         destinations_line.setSpacing(80)
         destinations_line.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
 
-        offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/offline-doc.png', tool_tip="Offline documentation")
         offline_docs_btn.clicked.connect(lambda: self.go_to_form('landing'))
         destinations_line.addWidget(offline_docs_btn)
 
-        sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/sticky.png', tool_tip="Sticky notes")
         sticky_notes_btn.clicked.connect(lambda: self.go_to_form('sticky_notes'))
         destinations_line.addWidget(sticky_notes_btn)
 
-        calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/calendar.png', tool_tip="Calendar")
         calendar_btn.clicked.connect(lambda: self.go_to_form('my_calendar'))
         destinations_line.addWidget(calendar_btn)
 
-        utility_btn = ClickableIcon(100, 100, 'resources/assets/images/logo.png')
+        utility_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time.png', tool_tip="Date/time convert")
         utility_btn.clicked.connect(lambda: self.go_to_form('utility'))
         destinations_line.addWidget(utility_btn)
 

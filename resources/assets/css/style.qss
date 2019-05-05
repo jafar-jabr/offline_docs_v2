@@ -59,6 +59,10 @@ QListWidget {
     border-image: url(./resources/assets/images/Login/background.png);
 }
 
+#landing_page{
+    border-image: url(./resources/assets/images/Landing/background-landing.png);
+}
+
 #category_right {
     border-image: url(./resources/assets/images/Categories/background.png);
 }
@@ -77,4 +81,9 @@ QListWidget {
 #user_name_label, #pwd_label {
     font-size: 18px;
     margin-left: 20px;
+}
+
+#welcome_label {
+    font-size: 25px;
+    margin-left: 150px;
 }

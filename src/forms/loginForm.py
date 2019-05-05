@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QLineEdit, QLabel, QGridLayout, QHBoxLayout, QWidget, QCheckBox, QVBoxLayout
 
+from src.Elements.LabeledTextBox import LabeledTextBox
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ForgotPasswordLabel
 from src.Elements.CustomLabel import RegularLabel, HeadLineLabel
@@ -31,7 +32,9 @@ class Login(QDialog):
         user_name_r = remember_me_data['user_name']
         pass_word_r = remember_me_data['pass_word']
         welcomeLabel = HeadLineLabel('Welcome !')
-        welcomeLabel.setAlignment(Qt.AlignCenter)
+        welcomeLabel.setObjectName("welcome_label")
+        welcomeLabel.setStyleSheet('welcome_label')
+        # welcomeLabel.setAlignment(Qt.AlignCenter)
         userNameLabel = RegularLabel('Email :')
         # userNameLabel.setFixedWidth(100)
         userNameLabel.setObjectName("user_name_label")
@@ -51,7 +54,7 @@ class Login(QDialog):
 
         self.column = QVBoxLayout()
 
-        self.column.setContentsMargins(200, 100, 0, 0)  # (left, top, right, bottom)
+        self.column.setContentsMargins(250, 100, 0, 50)  # (left, top, right, bottom)
 
         just_widget = QWidget()
 
@@ -69,13 +72,35 @@ class Login(QDialog):
 
         btn_line = QHBoxLayout()
 
-        btn_line.setContentsMargins(120, 20, 280, 20)
+        btn_line.setContentsMargins(60, 20, 250, 20)
         btn_line.setSpacing(40)
-        self.buttonLogin = ClickableIcon(150, 40, "resources/assets/images/Login/login-button.png")
+        # self.buttonLogin = ClickableIcon(150, 40, "resources/assets/images/Login/login-button.png")
+        self.buttonLogin = ClickableLabel("Login")
+        self.buttonLogin.setObjectName("buttonLogin")
+        self.buttonLogin.setStyleSheet('QLabel#buttonLogin {'
+                                       'background-color: #CC1417; '
+                                       'color: #ffffff;'
+                                       'border-radius: 5px;'
+                                       'font-weight: bold;'
+                                       'margin-right: 20px;'
+                                       'padding: 7px}')
+        self.buttonLogin.setFixedWidth(150)
+        self.buttonLogin.setAlignment(Qt.AlignCenter)
         self.buttonLogin.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
 
-        self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
+        # self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
+        self.buttonRegister = ClickableLabel("Register")
+        self.buttonRegister.setObjectName("buttonRegister")
+        self.buttonRegister.setStyleSheet('QLabel#buttonRegister {'
+                                          'background-color: #CC1417;'
+                                          'color: #ffffff;'
+                                          'border-radius: 5px;'
+                                          'font-weight: bold;'
+                                          'padding: 7px}')
+        self.buttonRegister.setFixedWidth(150)
+        self.buttonRegister.setAlignment(Qt.AlignCenter)
         self.buttonRegister.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+
         btn_line.addWidget(self.buttonLogin)
         btn_line.addWidget(self.buttonRegister)
 
