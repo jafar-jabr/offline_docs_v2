@@ -26,7 +26,7 @@ class CategoryForm(QWidget):
         left_widget.setFixedWidth(300)
         lef_column = QVBoxLayout()
         left_widget.setLayout(lef_column)
-        lef_column.setContentsMargins(20, 20, 20, 50)  # (left, top, right, bottom)
+        lef_column.setContentsMargins(20, 20, 20, 20)  # (left, top, right, bottom)
         search_input = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
         lef_column.addWidget(search_input)
 
