@@ -37,7 +37,11 @@ class LabeledTextBox(QWidget):
         elif 'text' in kwargs and kwargs['text'].strip() > 0:
             self.text_input.setText(kwargs['text'])
             LabeledTextBox.text_value = kwargs['text']
-        self.text_input.setStyleSheet("border-radius: 10px; padding: 7px;")
+        # self.text_input.setStyleSheet("border-radius: 10px; padding: 7px;")
+        self.text_input.setStyleSheet("border: 2px solid #BFBFC6;"
+                                      "border-radius: 5px;"
+                                      # "border-image: url(./resources/assets/images/Categories/textarea-bg.jpg)"
+                                      )
         label = QLabel(label)
         self.the_line.addWidget(label)
         self.the_line.addWidget(self.text_input)

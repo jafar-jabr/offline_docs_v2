@@ -1,7 +1,9 @@
+from src.forms import utilityLandingForm
 from src.forms.categoryForm import CategoryForm
 from src.forms.documentsForm import DocumentsForm
 from src.forms.loginForm import Login
 from src.forms.aboutForm import About
+from src.forms.utilityLandingForm import LandingUtilityForm
 from src.models.SharedFunctions import SharedFunctions
 
 
@@ -25,7 +27,8 @@ class PlayMouth:
     def all_pages(which):
         pages = {
             "categories": CategoryForm,
-            "documents": DocumentsForm
+            "documents": DocumentsForm,
+            "utilities": LandingUtilityForm
         }
         return pages[which]
 
@@ -33,6 +36,7 @@ class PlayMouth:
     def page_titles(which):
         titles = {
             "categories": "Offline Documentation/ Categories",
-            "documents": "Offline Documentation/ Documents"
+            "documents": "Offline Documentation/ Documents",
+            "utilities": "Offline Documentation/ Utilities"
         }
         return titles[which]
