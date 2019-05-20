@@ -6,7 +6,7 @@ from PyQt5.QtCore import pyqtSlot
 class ToolBar:
     def __init__(self, parent):
         self.parent = parent
-        parent.homeAction = QAction(QIcon("resources/assets/images/user_image.png"), 'Home Page')
+        parent.homeAction = QAction(QIcon("resources/assets/images/homepage.png"), 'Home Page')
         parent.homeAction.triggered.connect(lambda me: self.menu_action("home"))
 
         self.Buttons = [

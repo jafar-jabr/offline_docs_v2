@@ -4,8 +4,8 @@
 
 QToolBar
 {
-	background-color: #445566;
-	spacing: 15px;
+	background-color: #333e44;
+	spacing: 30px;
 
 }
 
@@ -14,7 +14,7 @@ QAction{
 }
 
 QToolButton:hover {
-   background-color: #65c5ff;
+   background-color: #4476a8;
 }
 
 QLabel, QWidget {
@@ -45,7 +45,7 @@ QScrollBar:vertical {
  }
 
 QListWidget {
-     background-color: #445559;
+     background-color: #445566;
 }
 #table_note {
    color: red;
@@ -68,7 +68,7 @@ QListWidget {
 }
 
 #categories_left, #category_page, #sticky_notes_page, #my_calendar_page, #documents_page, #utility_page {
-     background-color: #445566;
+     background-color: #333e44;
      border: none;
 }
 

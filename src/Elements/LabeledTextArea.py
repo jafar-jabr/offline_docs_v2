@@ -36,7 +36,10 @@ class LabeledTextArea(QWidget):
         elif 'text' in kwargs and kwargs['text'].strip() > 0:
             self.text_input.setText(kwargs['text'])
             LabeledTextArea.text_value = kwargs['text']
-        self.text_input.setStyleSheet("border-radius: 10px; padding: 7px; background-color: #fff")
+        self.text_input.setStyleSheet("border: 2px solid #BFBFC6;"
+                                      "border-radius: 5px;"
+                                      # "border-image: url(./resources/assets/images/Categories/textarea-bg.jpg)"
+                                      )
         label = QLabel(label)
         if 'height' in kwargs:
             self.text_input.setFixedHeight(kwargs['height'])

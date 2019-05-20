@@ -16,7 +16,7 @@ class ClickableLabel(QLabel):
                            color: #fff;
                            font-size: %s;
                            margin: 0 10px;
-                           background-color: #445566;
+                           background-color: #333e44;
                        }
                        """ % SessionWrapper.number_to_size[SessionWrapper.regular_size]
         self.setStyleSheet(style)
@@ -47,7 +47,7 @@ class ActiveLabel(QLabel):
                            color: #fff;
                            font-size: %s;
                            padding: 10px;
-                           background-color: #445559;
+                           background-color: #445566;
                        }
                        """ % (SessionWrapper.number_to_size[SessionWrapper.regular_size])
         self.setStyleSheet(style)
