@@ -26,6 +26,7 @@ class ClickableIcon(QLabel):
         #        """
         # self.setStyleSheet(style)
         self.setMaximumWidth(w)
+        self.setMaximumHeight(h+2)
 
     def mousePressEvent(self, ev):
         self.clicked.emit()
