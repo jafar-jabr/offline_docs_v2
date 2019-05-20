@@ -1,8 +1,11 @@
 from src.forms import utilityLandingForm, randomGeneratorForm, qrGeneratorForm
 from src.forms.categoryForm import CategoryForm
+from src.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
 from src.forms.documentsForm import DocumentsForm
 from src.forms.loginForm import Login
 from src.forms.aboutForm import About
+from src.forms.qrGeneratorForm import QrCodeGenerator
+from src.forms.randomGeneratorForm import RandomGeneratorForm
 from src.models.SharedFunctions import SharedFunctions
 
 
@@ -27,9 +30,9 @@ class PlayMouth:
         pages = {
             "categories": CategoryForm,
             "documents": DocumentsForm,
-            'date_time_difference': utilityLandingForm,
-            'random_generator': randomGeneratorForm,
-            'qr_generator': qrGeneratorForm,
+            'date_time_difference': DateTimeDifferenceForm,
+            'random_generator': RandomGeneratorForm,
+            'qr_generator': QrCodeGenerator,
         }
         return pages[which]
 
@@ -38,6 +41,9 @@ class PlayMouth:
         titles = {
             "categories": "Offline Documentation/ Categories",
             "documents": "Offline Documentation/ Documents",
-            "utilities": "Offline Documentation/ Utilities"
+            "utilities": "Offline Documentation/ Utilities",
+            "random_generator": "Offline Documentation/ Random Generator",
+            "date_time_difference": "Offline Documentation/ DateTime difference",
+            'qr_generator': "Offline Documentation/ QR Code generator",
         }
         return titles[which]

@@ -23,6 +23,6 @@ class QrCodeGenerator(QWidget):
         self.initUI()
 
     def initUI(self):
-        lbl = RegularLabel("This will be My Calendar page")
+        lbl = RegularLabel("This will be qr code page")
         self.landing_layout.addWidget(lbl)
         self.setLayout(self.landing_layout)

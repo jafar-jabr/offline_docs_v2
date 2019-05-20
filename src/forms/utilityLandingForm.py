@@ -42,6 +42,7 @@ class UtilityLandingForm(QWidget):
 
         offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time-difference.png', tool_tip="Date Time Difference")
         offline_docs_btn.clicked.connect(lambda: self.go_to_page('date_time_difference'))
+        # offline_docs_btn.clicked.connect((lambda: self.go_to_page('categories')))
         destinations_line.addWidget(offline_docs_btn)
 
         sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/random-string-generator.png', tool_tip="Random generator")
@@ -60,7 +61,6 @@ class UtilityLandingForm(QWidget):
         self.setFixedSize(800, 500)
         self.setWindowTitle("Offline Docs / Main Page")
         self.setLayout(destinations_line)
-
 
     def go_to_page(self, which):
         from src.models.PlayMouth import PlayMouth
