@@ -25,61 +25,10 @@ from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
 
 
-class UtilityLandingPage(QMainWindow):
-    def __init__(self, which):
-        super().__init__()
-        self.setFocusPolicy(Qt.TabFocus)
-        scroll = QScrollArea(self)
-        scroll.setWidgetResizable(True)
-
-        self.central_widget = QStackedWidget()
-        if which == 'utilityLanding':
-            first_widget = UtilityLandingPage(self)
-            self.setWindowTitle("Offline Docs / Utility Landing Page")
-        elif which == "date_time_difference":
-            first_widget = DateTimeDifferenceForm(self)
-            self.setWindowTitle("Offline Docs / Date Time Difference")
-        elif which == "random_generator":
-            first_widget = RandomGeneratorForm(self)
-            self.setWindowTitle("Offline Docs / Random Generator")
-        elif which == "qr_generator":
-            first_widget = QrCodeGenerator(self)
-            # first_widget = UtilityForm(self)
-            self.setWindowTitle("Offline Docs / QR Code Generator")
-        else:
-            first_widget = UtilityLandingPage(self)
-            self.setWindowTitle("Offline Docs / Utility Landing Page")
-        self.central_widget.addWidget(first_widget)
-        scroll.setWidget(self.central_widget)
-        self.setCentralWidget(scroll)
-        self.toolbar = self.addToolBar('&Main')
-        self.toolbar.setLayoutDirection(Qt.RightToLeft)
-        self.toolbar.toggleViewAction().setEnabled(False)
-        self.setContextMenuPolicy(Qt.PreventContextMenu)
-        self.toolbar.addActions(btn for btn in ToolBar(self).Buttons)
-        self.statusBar().showMessage("Offline Documentation is your external memory")
-        self.toolbar.installEventFilter(self)
-        self.installEventFilter(self)
-
-        self.images_menu = QMenu()
-        opt = ['معاينة', 'تحديث', 'حذف']
-        for i in opt:
-            actn = QAction(QIcon('resources/assets/images/drop_down_h.png'), i, self.images_menu)
-            actn.setObjectName(i)
-            # actn.triggered.connect(self.menu_clicked)
-            self.images_menu.addAction(actn)
-
-        self.setObjectName("utilities_landing")
-        self.setFixedSize(800, 500)
-        # p = self.mapToGlobal(QPoint(0, 0))
-        # print(p)
-        # self.move(p)
-        self.show()
-
-
 class UtilityLandingForm(QWidget):
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
+        self.parent = parent
         window_width = SessionWrapper.get_dimension('login_width')
         window_height = SessionWrapper.get_dimension('login_height')
         app_font = RegularFont()
@@ -92,15 +41,15 @@ class UtilityLandingForm(QWidget):
         destinations_line.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
 
         offline_docs_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time-difference.png', tool_tip="Date Time Difference")
-        offline_docs_btn.clicked.connect(lambda: self.go_to_form('date_time_difference'))
+        offline_docs_btn.clicked.connect(lambda: self.go_to_page('date_time_difference'))
         destinations_line.addWidget(offline_docs_btn)
 
         sticky_notes_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/random-string-generator.png', tool_tip="Random generator")
-        sticky_notes_btn.clicked.connect(lambda: self.go_to_form('random_generator'))
+        sticky_notes_btn.clicked.connect(lambda: self.go_to_page('random_generator'))
         destinations_line.addWidget(sticky_notes_btn)
 
         calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/qr-code-generator.png', tool_tip="QR Code generator")
-        calendar_btn.clicked.connect(lambda: self.go_to_form('qr_generator'))
+        calendar_btn.clicked.connect(lambda: self.go_to_page('qr_generator'))
         destinations_line.addWidget(calendar_btn)
 
         # utility_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time.png', tool_tip="Date/time convert")
@@ -112,10 +61,10 @@ class UtilityLandingForm(QWidget):
         self.setWindowTitle("Offline Docs / Main Page")
         self.setLayout(destinations_line)
 
-    def go_to_form(self, which):
-        self.accept()
-        UtilityLandingPage(which)
-        # sys.exit(self.app.exec_())
+
+    def go_to_page(self, which):
+        from src.models.PlayMouth import PlayMouth
+        PlayMouth(self.parent).go_to(which)
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)

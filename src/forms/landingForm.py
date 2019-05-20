@@ -6,6 +6,7 @@ from src.forms.categoryForm import CategoryForm
 from src.forms.myCalendarForm import MyCalendarForm
 from src.forms.stickyNotesForm import StickyNotesForm
 from src.forms.utilityForm import UtilityForm
+from src.forms.utilityLandingForm import UtilityLandingForm
 from src.models.DatabaseModel import Database
 import sys
 from PyQt5.QtCore import Qt, QPoint
@@ -38,10 +39,10 @@ class MainWindow(QMainWindow):
         elif which == "my_calendar":
             first_widget = MyCalendarForm(self)
             self.setWindowTitle("Offline Docs / My Calendar")
-        # elif which == "utility":
-        #     first_widget = UtilityLandingForm()
-        #     # first_widget = UtilityForm(self)
-        #     self.setWindowTitle("Offline Docs / Utility")
+        elif which == "utility":
+            first_widget = UtilityLandingForm(self)
+            # first_widget = UtilityForm(self)
+            self.setWindowTitle("Offline Docs / Utility")
         else:
             first_widget = CategoryForm(self)
             self.setWindowTitle("Offline Docs / Home Page")
@@ -75,9 +76,8 @@ class MainWindow(QMainWindow):
 
 
 class LandingForm(QDialog):
-    def __init__(self, parent):
+    def __init__(self):
         super().__init__()
-        self.parent = parent
         window_width = SessionWrapper.get_dimension('login_width')
         window_height = SessionWrapper.get_dimension('login_height')
         app_font = RegularFont()
@@ -102,7 +102,7 @@ class LandingForm(QDialog):
         destinations_line.addWidget(calendar_btn)
 
         utility_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time.png', tool_tip="Date/time convert")
-        utility_btn.clicked.connect(lambda: self.go_to_another_form('utilities'))
+        utility_btn.clicked.connect(lambda: self.go_to_form('utility'))
         destinations_line.addWidget(utility_btn)
 
         # self.resize(502, 261)
@@ -114,10 +114,6 @@ class LandingForm(QDialog):
         self.accept()
         MainWindow(which)
         # sys.exit(self.app.exec_())
-
-    def go_to_another_form(self, which):
-        from src.models.PlayMouth import PlayMouth
-        PlayMouth(self.parent).go_to(which)
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)
