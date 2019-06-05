@@ -408,10 +408,6 @@ class SharedFunctions:
             return
 
     @staticmethod
-    def check_point(sender='first'):
-        return True, False
-
-    @staticmethod
     def prepare_order():
         pc_id = SharedFunctions.get_pc_id()
         c_1 = pc_id[3]
@@ -448,13 +444,6 @@ class SharedFunctions:
         return date_ob.strftime('%Y-%m-%d')
 
     @staticmethod
-    def is_last_visit(patient_id):
-        visits_count = Database().count_patient_visit(patient_id)
-        if int(visits_count) == 1:
-            return True
-        return False
-
-    @staticmethod
     def is_admin():
         try:
             return ctypes.windll.shell32.IsUserAnAdmin()
@@ -468,6 +457,15 @@ class SharedFunctions:
         if id1 == id2:
             return str(id1)
         return False
+
+    @staticmethod
+    def format_categories(categories):
+        formatted_by_id = {}
+        formatted_by_name = {}
+        for cat in categories:
+            formatted_by_id[cat['id']] = {'id': cat['id'], 'name': cat['cat_name'], 'desc': cat['desc']}
+            formatted_by_name[cat['cat_name']] = {'id': cat['id'], 'name': cat['cat_name'], 'desc': cat['desc']}
+        return formatted_by_id, formatted_by_name
 
     @staticmethod
     def get_desktop_path():

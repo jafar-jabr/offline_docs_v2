@@ -8,7 +8,7 @@ from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
 from src.Elements.RegularTextArea import RegularTextArea
 from src.Elements.RegularTextBox import RegularTextBoxAR
-from src.Elements.filteredCompoBox import FilteredCombo
+from src.Elements.filteredCompoBox import FilteredComboBox
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.models.Validator import Validator
@@ -49,7 +49,7 @@ class CreateAccountModal(QDialog):
         job_title_H = QHBoxLayout()
         job_title_Label = RegularLabel('العنوان الوظيفي :')
         job_title_options = ["اختر", "طبيب", "صيدلاني", "ممرض", "اداري", "مساعد"]
-        job_title_select = FilteredCombo(job_title_options)
+        job_title_select = FilteredComboBox(job_title_options)
         job_title_select.activated[str].connect(self.job_title_changed)
         job_title_select.setFixedWidth(260)
         job_title_H.addWidget(job_title_Label)
@@ -74,7 +74,7 @@ class CreateAccountModal(QDialog):
         role_H = QHBoxLayout()
         role_Label = RegularLabel('الصلاحيات :')
         role_options = ["اختر", "مدير", "مستخدم"]
-        role_select = FilteredCombo(role_options)
+        role_select = FilteredComboBox(role_options)
         role_select.setFixedWidth(260)
         role_H.addWidget(role_Label)
         role_H.addWidget(role_select)

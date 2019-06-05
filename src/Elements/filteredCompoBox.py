@@ -3,8 +3,8 @@ from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import QComboBox, QCompleter
 
 
-class FilteredCombo(QComboBox):
-    def __init__(self,  options, **kwargs):
+class FilteredComboBox(QComboBox):
+    def __init__(self, options, **kwargs):
         super().__init__()
         self.setFocusPolicy(Qt.StrongFocus)
         self.setEditable(True)
@@ -15,8 +15,13 @@ class FilteredCombo(QComboBox):
         self.pFilterModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setPopup(self.view())
         self.setCompleter(self.completer)
-        self.lineEdit().setStyleSheet("border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: #f5f5f5;")
-        self.setFixedHeight(37)
+        self.lineEdit().setStyleSheet(
+            "border-top-left-radius: 10px; border-bottom-left-radius: 10px; background-color: #f5f5f5;")
+        if "height" in kwargs:
+            self.setFixedHeight(kwargs["height"])
+        else:
+            self.setFixedHeight(37)
+
         self.lineEdit().textEdited.connect(self.pFilterModel.setFilterFixedString)
         self.completer.activated.connect(self.setTextIfCompleterIsClicked)
         model = QStandardItemModel()
@@ -28,21 +33,21 @@ class FilteredCombo(QComboBox):
         if "width" in kwargs:
             self.setFixedWidth(kwargs["width"])
         else:
-            self.setFixedWidth(237)
+            self.setFixedWidth(260)
 
         style = """
         QComboBox {
           border-radius: 10px;
         }
-        
+
         QComboBox::drop-down:button{
             width: 25px;
             background-color: #f5f5f5;
             border-image: url(./resources/assets/images/drop_down.png);
-            border-bottom-left-radius: 10px;
-            border-top-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
         }
-        
+
         QComboBox::drop-down:button:hover{
             background-color: #f5f5f5;
         }
@@ -50,14 +55,14 @@ class FilteredCombo(QComboBox):
         self.setStyleSheet(style)
 
     def setModel(self, model):
-        super(FilteredCombo, self).setModel(model)
+        super(FilteredComboBox, self).setModel(model)
         self.pFilterModel.setSourceModel(model)
         self.completer.setModel(self.pFilterModel)
 
     def setModelColumn(self, column):
         self.completer.setCompletionColumn(column)
         self.pFilterModel.setFilterKeyColumn(column)
-        super(FilteredCombo, self).setModelColumn(column)
+        super(FilteredComboBox, self).setModelColumn(column)
 
     def view(self):
         return self.completer.popup()

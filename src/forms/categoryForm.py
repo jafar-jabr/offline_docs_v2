@@ -4,7 +4,9 @@ from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
+from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
+from src.models.SharedFunctions import SharedFunctions
 
 
 class CategoryForm(QWidget):
@@ -12,7 +14,8 @@ class CategoryForm(QWidget):
         super().__init__()
         self.setObjectName("category_page")
         self.parent = parent
-        self.clinic_id = SessionWrapper.clinic_id
+        categories = Database().get_all_categories()
+        self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(categories)
         self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
@@ -43,16 +46,28 @@ class CategoryForm(QWidget):
         categories_tab.clicked.connect(lambda: self.go_to_page('categories'))
 
         documents_tab = ClickableLabel("Documents")
-        documents_tab.clicked.connect(lambda: self.go_to_page('documents'))
+        documents_tab.clicked.connect(lambda: self.go_to_page('documents'), {'categories_by_name':1, 'categories_by_id': 2})
 
         tabs_line.addWidget(categories_tab)
         tabs_line.addWidget(documents_tab)
         left_inner_column.addLayout(tabs_line)
 
         categories_list = QListWidget()
+
+        categories_list.setStyleSheet(
+            "QListWidget::item {"
+            "border-style: solid;"
+            "border-width:1px;"
+            "border-color:black;"
+            "color: white;"
+            "font-size: 16px;"
+            "}"
+            "QListWidget::item:selected {"
+            "background-color: red;"
+            "}")
         categories_list.setFixedWidth(260)
         categories_list.installEventFilter(self)
-        for opt in ['a', 'b', 'c', 'd']:
+        for opt in self.categories_by_name:
             item = QListWidgetItem(opt)
             categories_list.addItem(item)
         left_inner_column.addWidget(categories_list)
@@ -84,6 +99,6 @@ class CategoryForm(QWidget):
         self.setLayout(self.landing_layout)
         # self.setS
 
-    def go_to_page(self, which):
+    def go_to_page(self, which, **kwargs):
         from src.models.PlayMouth import PlayMouth
-        PlayMouth(self.parent).go_to(which)
+        PlayMouth(self.parent).go_to(which, **kwargs)

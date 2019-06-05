@@ -43,13 +43,13 @@ class UtilityForm(QWidget):
         date_time_diff_layout = QVBoxLayout()
         first_date_time_line = QHBoxLayout()
         first_date_time_label = RegularLabel("From : ")
-        self.first_date_time = DateTimeWidget(-600, 600)
+        self.first_date_time = DateTimeWidget(-100, 100)
         first_date_time_line.addWidget(first_date_time_label)
         first_date_time_line.addWidget(self.first_date_time)
 
         second_date_time_line = QHBoxLayout()
         second_date_time_label = RegularLabel("To : ")
-        self.second_date_time = SecondDateTimeWidget(-600, 600)
+        self.second_date_time = SecondDateTimeWidget(-100, 100)
         second_date_time_line.addWidget(second_date_time_label)
         second_date_time_line.addWidget(self.second_date_time)
 

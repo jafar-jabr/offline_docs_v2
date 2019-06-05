@@ -4,6 +4,7 @@ from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
+from src.Elements.filteredCompoBox import FilteredComboBox
 from src.models.SessionWrapper import SessionWrapper
 
 
@@ -27,8 +28,10 @@ class DocumentsForm(QWidget):
         lef_column = QVBoxLayout()
         left_widget.setLayout(lef_column)
         lef_column.setContentsMargins(20, 20, 20, 50)  # (left, top, right, bottom)
-        search_input = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
-        lef_column.addWidget(search_input)
+        category_select = FilteredComboBox([])
+        search_input2 = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
+        lef_column.addWidget(category_select)
+        lef_column.addWidget(search_input2)
 
         left_inner_widget = QWidget()
         left_inner_widget.setFixedWidth(260)
@@ -80,7 +83,7 @@ class DocumentsForm(QWidget):
         right_widget.setLayout(right_content)
         right_column.addWidget(right_widget)
         self.landing_layout.setContentsMargins(0, 0, 0, 0)  # (left, top, right, bottom)
-        right_content.setContentsMargins(150, 100, 0, 0)  # (left, top, right, bottom)
+        right_content.setContentsMargins(150, 20, 0, 0)  # (left, top, right, bottom)
         self.landing_layout.addWidget(left_widget)
         self.landing_layout.addLayout(right_column)
         self.setLayout(self.landing_layout)

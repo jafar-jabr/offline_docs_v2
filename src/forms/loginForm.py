@@ -28,9 +28,6 @@ class Login(QDialog):
         self.setObjectName("login")
         self.status = "Not Done"
         self.do_order = False
-        remember_me_data = Database().get_remember_me()
-        user_name_r = remember_me_data['user_name']
-        pass_word_r = remember_me_data['pass_word']
         welcomeLabel = HeadLineLabel('Welcome !')
         welcomeLabel.setObjectName("welcome_label")
         welcomeLabel.setStyleSheet('welcome_label')
@@ -44,10 +41,8 @@ class Login(QDialog):
         userNameEdit = QLineEdit()
         userNameEdit.setObjectName("user_name_input")
         userNameEdit.setFixedWidth(250)
-        userNameEdit.setText(user_name_r)
         passWordEdit = QLineEdit()
         passWordEdit.setObjectName("pwd_input")
-        passWordEdit.setText(pass_word_r)
         passWordEdit.setFixedWidth(250)
         passWordEdit.setEchoMode(QLineEdit.Password)
         passWordEdit.returnPressed.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
@@ -105,7 +100,12 @@ class Login(QDialog):
         btn_line.addWidget(self.buttonRegister)
 
         self.remember_me = CheckBox("Remember Me !")
-        if len(user_name_r) > 2:
+        remember_me_data = Database().get_remember_me()
+        if remember_me_data is not None:
+            user_name_r = remember_me_data['user_name']
+            pass_word_r = remember_me_data['pass_word']
+            passWordEdit.setText(pass_word_r)
+            userNameEdit.setText(user_name_r)
             self.remember_me.setChecked(True)
         sign_up_section = QHBoxLayout()
         sign_up_section.setSpacing(80)
@@ -136,21 +136,14 @@ class Login(QDialog):
             SessionWrapper.user_password = enc_pass
             SessionWrapper.user_id = check["id"]
             SessionWrapper.user_email = check["email"]
-            SessionWrapper.clinic_id = check["clinic_id"]
             SessionWrapper.user_since = check["created_at"]
-            SessionWrapper.user_name = check["user_name"]
-            SessionWrapper.user_job = SessionWrapper.all_the_jobs[check["job"]]
+            SessionWrapper.user_name = check["firstname"]+' '+check["lastname"]
             SessionWrapper.user_phone = check['phone']
-            SessionWrapper.user_role_number = check["role"]
-            SessionWrapper.user_role_name = SessionWrapper.all_the_roles[check["role"]]
             self.get_preferences(check["id"])
             if self.remember_me.checkState() == Qt.Checked:
                 Database().update_remember_me(email, password)
             else:
                 Database().update_remember_me()
-            check_point, self.do_order = SharedFunctions.check_point()
-            if not check_point:
-                self.status = "expired"
             self.accept()
         elif check and not check["password"]:
             SessionWrapper.user_id = check["id"]
@@ -165,8 +158,11 @@ class Login(QDialog):
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)
-        SessionWrapper.font_color = pref['font_color']
-        SessionWrapper.regular_size = pref['regular_size']
-        SessionWrapper.big_size = pref['big_size']
-        SessionWrapper.app_mode = pref['app_mode']
-        SessionWrapper.main_doctor_id = pref['main_doctor_id']
+        try:
+            SessionWrapper.font_color = pref['font_color']
+            SessionWrapper.regular_size = pref['regular_size']
+            SessionWrapper.big_size = pref['big_size']
+            SessionWrapper.app_mode = pref['app_mode']
+            SessionWrapper.main_doctor_id = pref['main_doctor_id']
+        except TypeError:
+            pass

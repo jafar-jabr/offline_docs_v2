@@ -1,8 +1,5 @@
 from src.forms.categoryForm import CategoryForm
 from src.forms.documentsForm import DocumentsForm
-from src.forms.loginForm import Login
-from src.forms.aboutForm import About
-from src.models.SharedFunctions import SharedFunctions
 
 
 class PlayMouth:
