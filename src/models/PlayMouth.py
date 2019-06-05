@@ -1,5 +1,8 @@
 from src.forms.categoryForm import CategoryForm
+from src.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
 from src.forms.documentsForm import DocumentsForm
+from src.forms.qrGeneratorForm import QrCodeGenerator
+from src.forms.randomGeneratorForm import RandomGeneratorForm
 
 
 class PlayMouth:
@@ -22,7 +25,10 @@ class PlayMouth:
     def all_pages(which):
         pages = {
             "categories": CategoryForm,
-            "documents": DocumentsForm
+            "documents": DocumentsForm,
+            'date_time_difference': DateTimeDifferenceForm,
+            'random_generator': RandomGeneratorForm,
+            'qr_generator': QrCodeGenerator,
         }
         return pages[which]
 
@@ -30,6 +36,10 @@ class PlayMouth:
     def page_titles(which):
         titles = {
             "categories": "Offline Documentation/ Categories",
-            "documents": "Offline Documentation/ Documents"
+            "documents": "Offline Documentation/ Documents",
+            "utilities": "Offline Documentation/ Utilities",
+            "random_generator": "Offline Documentation/ Random Generator",
+            "date_time_difference": "Offline Documentation/ DateTime difference",
+            'qr_generator': "Offline Documentation/ QR Code generator",
         }
         return titles[which]

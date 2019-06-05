@@ -6,6 +6,7 @@ from src.forms.categoryForm import CategoryForm
 from src.forms.myCalendarForm import MyCalendarForm
 from src.forms.stickyNotesForm import StickyNotesForm
 from src.forms.utilityForm import UtilityForm
+from src.forms.utilityLandingForm import UtilityLandingForm
 from src.models.DatabaseModel import Database
 import sys
 from PyQt5.QtCore import Qt, QPoint
@@ -39,7 +40,8 @@ class MainWindow(QMainWindow):
             first_widget = MyCalendarForm(self)
             self.setWindowTitle("Offline Docs / My Calendar")
         elif which == "utility":
-            first_widget = UtilityForm(self)
+            first_widget = UtilityLandingForm(self)
+            # first_widget = UtilityForm(self)
             self.setWindowTitle("Offline Docs / Utility")
         else:
             first_widget = CategoryForm(self)
