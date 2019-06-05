@@ -5,7 +5,10 @@ from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
 from src.Elements.filteredCompoBox import FilteredComboBox
+from src.Elements.myListWidget import MyListWidget
+from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
+from src.models.SharedFunctions import SharedFunctions
 
 
 class DocumentsForm(QWidget):
@@ -14,6 +17,10 @@ class DocumentsForm(QWidget):
         self.setObjectName("documents_page")
         self.parent = parent
         self.clinic_id = SessionWrapper.clinic_id
+        self.categories_by_name = kwargs['categories_by_name']
+        self.categories_by_id = kwargs['categories_by_id']
+        self.selected_cat_id = kwargs['selected_cat_id']
+        self.selected_cat_name = kwargs['selected_cat_name']
         self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
@@ -28,7 +35,12 @@ class DocumentsForm(QWidget):
         lef_column = QVBoxLayout()
         left_widget.setLayout(lef_column)
         lef_column.setContentsMargins(20, 20, 20, 50)  # (left, top, right, bottom)
-        category_select = FilteredComboBox([])
+        cat_options = []
+        for cat in self.categories_by_name:
+            cat_options.append(cat)
+        category_select = FilteredComboBox(cat_options)
+        if self.selected_cat_id:
+            category_select.setCurrentText(self.selected_cat_name)
         search_input2 = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
         lef_column.addWidget(category_select)
         lef_column.addWidget(search_input2)
@@ -52,13 +64,13 @@ class DocumentsForm(QWidget):
         tabs_line.addWidget(documents_tab)
         left_inner_column.addLayout(tabs_line)
 
-        categories_list = QListWidget()
-        categories_list.setFixedWidth(260)
-        categories_list.installEventFilter(self)
-        for opt in ['a', 'b', 'c', 'd']:
-            item = QListWidgetItem(opt)
-            categories_list.addItem(item)
-        left_inner_column.addWidget(categories_list)
+        docs = Database().get_docs_for_category(self.selected_cat_id)
+        docs_options = []
+        for opt in docs:
+            docs_options.append(opt['doc_name'])
+        documents_list = MyListWidget(450, 260, options=docs_options)
+        documents_list.clicked[str].connect(self.document_selected)
+        left_inner_column.addWidget(documents_list)
         lef_column.addWidget(left_inner_widget)
         left_widget.setObjectName("categories_left")
         right_column = QVBoxLayout()
@@ -66,24 +78,24 @@ class DocumentsForm(QWidget):
         right_widget.setObjectName("category_right")
         right_widget.setFixedWidth(1000)
         right_content = QVBoxLayout()
-        document_name = LabeledTextBox("Document Name: ", width=500)
-        document_tags = LabeledTextArea("Tags: ", height=100, space=25, width=500)
-        document_desc = LabeledTextArea("Description: ", height=200, space=25, width=500)
+        self.document_name = LabeledTextBox("Name:       ", width=400)
+        self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=700)
+        self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=700)
         buttons_line = QHBoxLayout()
         buttons_line.setSpacing(10)
-        buttons_line.setContentsMargins(370, 20, 330, 280) # (left, top, right, bottom)
+        buttons_line.setContentsMargins(370, 20, 330, 20) # (left, top, right, bottom)
         save_btn = ClickableIcon(50, 50, "./resources/assets/images/Categories/save-button.png", "Update")
         delete_btn = ClickableIcon(50, 50, "./resources/assets/images/Categories/delete-button.png", "Delete")
         buttons_line.addWidget(save_btn)
         buttons_line.addWidget(delete_btn)
-        right_content.addWidget(document_name)
-        right_content.addWidget(document_tags)
-        right_content.addWidget(document_desc)
+        right_content.addWidget(self.document_name)
+        right_content.addWidget(self.document_desc)
+        right_content.addWidget(self.document_tags)
         right_content.addLayout(buttons_line)
         right_widget.setLayout(right_content)
         right_column.addWidget(right_widget)
         self.landing_layout.setContentsMargins(0, 0, 0, 0)  # (left, top, right, bottom)
-        right_content.setContentsMargins(150, 20, 0, 0)  # (left, top, right, bottom)
+        right_content.setContentsMargins(50, 20, 0, 0)  # (left, top, right, bottom)
         self.landing_layout.addWidget(left_widget)
         self.landing_layout.addLayout(right_column)
         self.setLayout(self.landing_layout)
@@ -92,3 +104,12 @@ class DocumentsForm(QWidget):
     def go_to_page(self, which):
         from src.models.PlayMouth import PlayMouth
         PlayMouth(self.parent).go_to(which)
+
+    def document_selected(self, which):
+        doc_details = Database().get_doc_details(self.selected_cat_id, which)
+        doc_id = doc_details['id']
+        doc_tags = Database().get_tags_by_doc(doc_id)
+        tags = SharedFunctions.make_tags_text(doc_tags)
+        self.document_name.setText(doc_details['doc_name'])
+        self.document_desc.setText(doc_details['details'])
+        self.document_tags.setText(tags)

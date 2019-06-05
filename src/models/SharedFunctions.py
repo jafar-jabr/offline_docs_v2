@@ -468,6 +468,13 @@ class SharedFunctions:
         return formatted_by_id, formatted_by_name
 
     @staticmethod
+    def make_tags_text(tags):
+        txt = ''
+        for tag in tags:
+            txt += ", "+tag['tag_name'].strip()
+        return txt[1:]
+
+    @staticmethod
     def get_desktop_path():
         if SharedFunctions.isWindows():
             desk = os.path.join(os.environ["HOMEPATH"], "Desktop")
