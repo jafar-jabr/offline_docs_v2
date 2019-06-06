@@ -57,6 +57,14 @@ class SharedFunctions:
         return str(int(diff_dt.total_seconds())) + ' Seconds'
 
     @staticmethod
+    def split_the_name(name):
+        parts = name.split(" ")
+        second_name = ""
+        if len(parts) > 1:
+            second_name = parts[1]
+        return parts[0], second_name
+
+    @staticmethod
     def date_diff(from_date, to_date):
         end_year = int(to_date.year)
         is_last_year_leap = SharedFunctions.is_leap_year(end_year)

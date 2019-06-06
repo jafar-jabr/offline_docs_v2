@@ -14,7 +14,6 @@ from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt
 from src.models.SessionWrapper import SessionWrapper
 from src.Elements.MessageBoxes import MessageBoxes
-from src.models.SharedFunctions import SharedFunctions
 
 
 class Login(QDialog):
@@ -38,14 +37,14 @@ class Login(QDialog):
         passWordLabel = RegularLabel('Password :')
         # passWordLabel.setFixedWidth(100)
         passWordLabel.setObjectName("pwd_label")
-        userNameEdit = QLineEdit()
-        userNameEdit.setObjectName("user_name_input")
-        userNameEdit.setFixedWidth(250)
-        passWordEdit = QLineEdit()
-        passWordEdit.setObjectName("pwd_input")
-        passWordEdit.setFixedWidth(250)
-        passWordEdit.setEchoMode(QLineEdit.Password)
-        passWordEdit.returnPressed.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+        self.userNameEdit = QLineEdit()
+        self.userNameEdit.setObjectName("user_name_input")
+        self.userNameEdit.setFixedWidth(250)
+        self.passWordEdit = QLineEdit()
+        self.passWordEdit.setObjectName("pwd_input")
+        self.passWordEdit.setFixedWidth(250)
+        self.passWordEdit.setEchoMode(QLineEdit.Password)
+        self.passWordEdit.returnPressed.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
 
         self.column = QVBoxLayout()
 
@@ -60,10 +59,10 @@ class Login(QDialog):
         # grid.addWidget(welcomeLabel, 1, 0)
 
         grid.addWidget(userNameLabel, 1, 0) #( row, column)
-        grid.addWidget(userNameEdit, 1, 1)
+        grid.addWidget(self.userNameEdit, 1, 1)
 
         grid.addWidget(passWordLabel, 2, 0)
-        grid.addWidget(passWordEdit, 2, 1)
+        grid.addWidget(self.passWordEdit, 2, 1)
 
         btn_line = QHBoxLayout()
 
@@ -81,7 +80,7 @@ class Login(QDialog):
                                        'padding: 7px}')
         self.buttonLogin.setFixedWidth(150)
         self.buttonLogin.setAlignment(Qt.AlignCenter)
-        self.buttonLogin.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+        self.buttonLogin.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
 
         # self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
         self.buttonRegister = ClickableLabel("Register")
@@ -94,7 +93,7 @@ class Login(QDialog):
                                           'padding: 7px}')
         self.buttonRegister.setFixedWidth(150)
         self.buttonRegister.setAlignment(Qt.AlignCenter)
-        self.buttonRegister.clicked.connect(lambda: self.handleLogin(userNameEdit.text(), passWordEdit.text()))
+        self.buttonRegister.clicked.connect(self.create_account)
 
         btn_line.addWidget(self.buttonLogin)
         btn_line.addWidget(self.buttonRegister)
@@ -104,8 +103,8 @@ class Login(QDialog):
         if remember_me_data is not None:
             user_name_r = remember_me_data['user_name']
             pass_word_r = remember_me_data['pass_word']
-            passWordEdit.setText(pass_word_r)
-            userNameEdit.setText(user_name_r)
+            self.passWordEdit.setText(pass_word_r)
+            self.userNameEdit.setText(user_name_r)
             self.remember_me.setChecked(True)
         sign_up_section = QHBoxLayout()
         sign_up_section.setSpacing(80)
@@ -154,7 +153,11 @@ class Login(QDialog):
         return
 
     def create_account(self):
-        CreateAccountModal()
+        reg_modal = CreateAccountModal()
+        reg_modal_run = reg_modal.exec_()
+        if reg_modal_run == QDialog.Accepted and reg_modal.result == "Done":
+            self.userNameEdit.setText(reg_modal.registered_email)
+            self.passWordEdit.setText(reg_modal.registered_password)
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)

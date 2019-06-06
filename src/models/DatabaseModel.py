@@ -117,6 +117,20 @@ class Database:
         connection.close()
         return all_rows
 
+    def register_user(self, first_name, last_name, email, password, created_at):
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute(
+                "INSERT INTO users(firstname, lastname, email, password, status, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                (first_name, last_name, email, password, 1, created_at))
+            conn.commit()
+            connection.close()
+            return connection.lastrowid
+        except sqlite3.OperationalError as error:
+            connection.close()
+            return error
+
     def get_doc_for_category_where(self, category, search):
         category = self.clean_category(category, "('", "',)")
         category_id = self.select_where('category', {'cat_name': category})[0][0]

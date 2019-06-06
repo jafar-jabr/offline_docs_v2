@@ -15,12 +15,12 @@ class Validator:
     def validate_name(self, _name):
         _name = _name.replace(" ", "")
         if len(_name) == 0 or len(_name) < 4:
-            return False, "الاسم قصير جداّ"
+            return False, "The name is too short"
         if self.has_numbers(_name):
-            return False, "الاسم لا يمكن ان يحتوي على ارقام"
+            return False, "The name can not contain numbers"
         elif 3 <= len(_name) <= 50:
             return True, "Okay"
-        return False, "صيغة الاسم غير صحيحة"
+        return False, "The name is invalid"
 
     def validate_email(self, _email):
         if not _email:
@@ -28,7 +28,14 @@ class Validator:
         if re.match(self.email_pattern, _email):
             if 5 <= len(_email) <= 60:
                 return True, "Okay"
-        return False, "البريد الالكتروني غير صالح"
+        return False, "The email is not valid"
+
+    def validate_passwords(self, _pass_1, _pass_2):
+        if len(_pass_1) < 6:
+            return False, 'Password can not be less than 6 characters'
+        elif _pass_1 != _pass_2:
+            return False, 'The password and its confirmation does not match'
+        return True, "Okay"
 
     def validate_phone(self, _phone, optional=False):
         _phone = _phone.replace(" ", "")
