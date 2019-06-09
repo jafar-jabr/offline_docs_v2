@@ -16,7 +16,7 @@ class ImageSelector(QWidget):
         self.text = ClickableLineEdit()
         self.text.setFixedHeight(33)
         self.setMaximumWidth(max_w)
-        self.text.setText("اختر الصورة           ")
+        self.text.setText("Choose Database")
         self.text.setReadOnly(True)
         self.text.clicked.connect(self.do_select_image)
         self.text.setAlignment(Qt.AlignRight)

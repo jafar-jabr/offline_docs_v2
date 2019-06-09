@@ -1,23 +1,9 @@
 from PyQt5.QtWidgets import QHBoxLayout, QWidget
 
 from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.MessageBoxes import MessageBoxes
-from src.forms.categoryForm import CategoryForm
-from src.forms.myCalendarForm import MyCalendarForm
-from src.forms.stickyNotesForm import StickyNotesForm
-from src.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
-from src.forms.qrGeneratorForm import QrCodeGenerator
-from src.forms.randomGeneratorForm import RandomGeneratorForm
-# from src.forms.utilityForm import UtilityForm
-# from src.forms.utilityLandingForm import UtilityLandingPage
 from src.models.DatabaseModel import Database
 import sys
-from PyQt5.QtCore import Qt, QPoint
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, \
-    QStackedWidget, QDialog, QScrollArea, QAction, QMenu
-from src.forms.aboutForm import About
-from src.Elements.ToolBar import ToolBar
 ############################################################
 # Main App                                                 #
 ############################################################
@@ -65,18 +51,3 @@ class UtilityLandingForm(QWidget):
     def go_to_page(self, which):
         from src.models.PlayMouth import PlayMouth
         PlayMouth(self.parent).go_to(which)
-
-    def get_preferences(self, user_id):
-        pref = Database().get_preferences(user_id)
-        SessionWrapper.font_color = pref['font_color']
-        SessionWrapper.regular_size = pref['regular_size']
-        SessionWrapper.big_size = pref['big_size']
-        SessionWrapper.app_mode = pref['app_mode']
-        SessionWrapper.main_doctor_id = pref['main_doctor_id']
-
-    def closeEvent(self, event):
-        sys.exit()
-        # event.accept()
-
-    def show(self):
-        self.exec_()

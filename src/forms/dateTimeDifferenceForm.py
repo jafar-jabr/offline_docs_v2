@@ -1,11 +1,6 @@
-import string
-import random
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton, QCheckBox, QComboBox
-
-from src.Elements.ClickableIcon import ClickableIcon
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton
 from src.Elements.CustomLabel import RegularLabel
-from datetime import datetime, timedelta
-from src.Elements.LabeledTextArea import LabeledTextArea
+from datetime import datetime
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
 from src.Elements.dateTimeWidget import DateTimeWidget
@@ -18,6 +13,7 @@ class DateTimeDifferenceForm(QWidget):
     def __init__(self, parent, **kwargs):
         super().__init__()
         self.setObjectName("my_calendar_page")
+        self.result_type = "In Details"
         self.parent = parent
         self.clinic_id = SessionWrapper.clinic_id
         self.pages_count = 6

@@ -1,10 +1,8 @@
 import string
 import random
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton, QCheckBox, QComboBox
-
-from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.CustomLabel import RegularLabel
-from datetime import datetime, timedelta
+from datetime import datetime
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton

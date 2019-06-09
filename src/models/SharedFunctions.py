@@ -326,16 +326,6 @@ class SharedFunctions:
         return month
 
     @staticmethod
-    def get_main_doctor():
-        main_doctor_id = SessionWrapper.main_doctor_id
-        if main_doctor_id:
-            doctor = Database().get_user_name_by_id(main_doctor_id)
-            if doctor:
-                return doctor
-        clinic_id = SessionWrapper.clinic_id
-        return Database().get_default_doctor(clinic_id)
-
-    @staticmethod
     def image_viewer(file_full_name):
         if SharedFunctions.isWindows():
             SharedFunctions.windows_show_image(file_full_name)
@@ -491,6 +481,22 @@ class SharedFunctions:
             return desk
         else:
             return os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+
+    @staticmethod
+    def merge_import_docs(local_docs, remote_docs):
+        local_docs_by_name = {}
+        for l_doc in local_docs:
+            name = l_doc['doc_name']
+            local_docs_by_name[name] = l_doc
+        for r_doc in remote_docs:
+            name = r_doc['doc_name']
+            if name in local_docs_by_name:
+                doc_id = local_docs_by_name[name]['id']
+                doc_details = local_docs_by_name[name]['details']+"   "+r_doc['details']
+                Database().update_doc_for_import(doc_id, doc_details)
+            else:
+                Database().insert_doc_for_import(r_doc['category_id'], name, r_doc['details'], "Normal")
+        return 'Okay'
 
 
 if __name__ == '__main__':

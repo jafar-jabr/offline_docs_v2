@@ -87,3 +87,12 @@ QListWidget {
     font-size: 25px;
     margin-left: 150px;
 }
+
+#buttonImport {
+  background-color: #CC1417;
+  color: #ffffff;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 7px;
+  margin-left: 200px;
+  }

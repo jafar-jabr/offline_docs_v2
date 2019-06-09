@@ -68,8 +68,7 @@ class MyListWidget(QListWidget):
         self.scrollToItem(items[0], QtWidgets.QAbstractItemView.PositionAtTop)
 
     def only_update_options(self, options):
-        for opt in options:
-            self.remove_option(opt)
+        self.clear()
         for opt in options:
             self.addItem(opt)
             self.repaint()

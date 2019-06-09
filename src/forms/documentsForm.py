@@ -5,7 +5,9 @@ from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
 from src.Elements.filteredCompoBox import FilteredComboBox
+from src.Elements.iconedClicklableLabel import IconedClickableLabel
 from src.Elements.myListWidget import MyListWidget
+from src.modals.docImportModal import DocumentImportModal
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.models.SharedFunctions import SharedFunctions
@@ -16,7 +18,6 @@ class DocumentsForm(QWidget):
         super().__init__()
         self.setObjectName("documents_page")
         self.parent = parent
-        self.clinic_id = SessionWrapper.clinic_id
         self.categories_by_name = kwargs['categories_by_name']
         self.categories_by_id = kwargs['categories_by_id']
         self.selected_cat_id = kwargs['selected_cat_id']
@@ -39,6 +40,7 @@ class DocumentsForm(QWidget):
         for cat in self.categories_by_name:
             cat_options.append(cat)
         category_select = FilteredComboBox(cat_options)
+        category_select.activated[str].connect(self.category_changed)
         if self.selected_cat_id:
             category_select.setCurrentText(self.selected_cat_name)
         search_input2 = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
@@ -68,10 +70,15 @@ class DocumentsForm(QWidget):
         docs_options = []
         for opt in docs:
             docs_options.append(opt['doc_name'])
-        documents_list = MyListWidget(450, 260, options=docs_options)
-        documents_list.clicked[str].connect(self.document_selected)
-        left_inner_column.addWidget(documents_list)
+        self.documents_list = MyListWidget(450, 260, options=docs_options)
+        self.documents_list.clicked[str].connect(self.document_selected)
+        left_inner_column.addWidget(self.documents_list)
         lef_column.addWidget(left_inner_widget)
+
+        import_label = IconedClickableLabel("Import Documents", 260)
+        import_label.clicked.connect(self.start_import)
+        lef_column.addWidget(import_label)
+
         left_widget.setObjectName("categories_left")
         right_column = QVBoxLayout()
         right_widget = QWidget()
@@ -113,3 +120,16 @@ class DocumentsForm(QWidget):
         self.document_name.setText(doc_details['doc_name'])
         self.document_desc.setText(doc_details['details'])
         self.document_tags.setText(tags)
+
+    def category_changed(self, cat):
+        cat_id = self.categories_by_name[cat]['id']
+        docs = Database().get_docs_for_category(cat_id)
+        docs_options = []
+        for opt in docs:
+            docs_options.append(opt['doc_name'])
+        self.documents_list.only_update_options(docs_options)
+        self.selected_cat_id = cat_id
+        self.selected_cat_name = cat
+
+    def start_import(self):
+        DocumentImportModal(self.selected_cat_name, self.selected_cat_id)

@@ -28,6 +28,7 @@ class SessionWrapper:
     all_the_roles_ids = {"مالك التطبيق": 1, "مدير": 2, "مستخدم": 3}
     all_the_jobs = {1: "طبيب", 2: "صيدلاني", 3: "ممرض", 4: "اداري", 5: "مساعد"}
     all_the_jobs_ids = {"طبيب": 1, "صيدلاني": 2, "ممرض": 3, "اداري": 4, "مساعد": 5}
+    documents_types = ["Normal", "Image", "Confidential"]
     screen_width = 0
     screen_height = 0
     font_color = "#000"

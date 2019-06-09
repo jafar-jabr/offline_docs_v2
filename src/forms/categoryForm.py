@@ -15,10 +15,12 @@ class CategoryForm(QWidget):
         super().__init__()
         self.setObjectName("category_page")
         self.parent = parent
-        categories = Database().get_all_categories()
+        user_id = SessionWrapper.user_id
+        categories = Database().get_all_categories(user_id)
+        default_cat = Database().get_default_cat(user_id)
         self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(categories)
-        self.selected_cat_id = 1
-        self.selected_cat_name = ""
+        self.selected_cat_id = default_cat['id']
+        self.selected_cat_name = default_cat['cat_name']
         self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
