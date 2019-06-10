@@ -188,13 +188,13 @@ class Database:
             doc_id = cr.lastrowid
         except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
             return error, 'Red'
-        return 'Doc saved successfully', 'Green'
+        return doc_id
 
     def get_doc_for_category_where(self, category, search):
         category = self.clean_category(category, "('", "',)")
         category_id = self.select_where('category', {'cat_name': category})[0][0]
         search = "%"+search+"%"
-        conn = self.connect_to_db()
+        conn = self.conn
         cursor = conn.cursor()
         try:
             cursor.execute("SELECT Distinct doc_name FROM docs LEFT JOIN tags ON tags.doc_id = docs.id WHERE (docs.category_id= ? AND docs.doc_name LIKE ?) OR (docs.category_id= ? AND tags.tag_name LIKE ?)", (category_id, search, category_id, search,))
@@ -205,7 +205,7 @@ class Database:
         return all_rows
 
     def delete_doc_details(self, doc_id):
-        conn = self.connect_to_db()
+        conn = self.conn
         connection = conn.cursor()
         try:
             self.delete_tags(doc_id)
@@ -217,7 +217,7 @@ class Database:
         return 'Green', 'Document Deleted successfully'
 
     def delete_tags(self, doc_id):
-        conn = self.connect_to_db()
+        conn = self.conn
         connection = conn.cursor()
         try:
             connection.execute("DELETE FROM tags WHERE doc_id= ? ", (doc_id,))
@@ -227,7 +227,7 @@ class Database:
 
     def insert_doc(self, category, doc_name, details, tags):
         category = self.clean_category(category, "('", "',)")
-        connection = self.connect_to_db()
+        connection = self.conn
         category_id = self.select_where('category', {'cat_name': category})[0][0]
         cur_date = datetime.datetime.now()
         cr = connection.cursor()
@@ -240,24 +240,54 @@ class Database:
             return error, 'Red'
         return 'Doc saved successfully', 'Green'
 
-    def insert_tags(self, tags_raw, doc_id):
-        connection = self.connect_to_db()
+    def overwrite_tags(self, tags_raw, doc_id):
+        self.delete_tags(doc_id)
+        already_saved = {}
+        connection = self.conn
         cr = connection.cursor()
         tags = tags_raw.strip()
         the_tags = tags.split(',')
         for tag in the_tags:
-            try:
-                cr.execute("INSERT INTO tags (tag_name, doc_id) VALUES (?, ?)", (tag, doc_id))
-                connection.commit()
-            except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
-                return error, 'Red'
+            tag = tag.strip()
+            if len(tag) >= 1 and tag not in already_saved:
+                try:
+                    cr.execute("INSERT INTO tags (tag_name, doc_id) VALUES (?, ?)", (tag, doc_id))
+                    connection.commit()
+                    already_saved[tag] = True
+                except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
+                    return error, 'Red'
 
-    def insert_cat(self, cat_name, desc):
-        connection = self.connect_to_db()
+    def insert_tags(self, tags_raw, doc_id):
+        connection = self.conn
+        cr = connection.cursor()
+        tags = tags_raw.strip()
+        the_tags = tags.split(',')
+        for tag in the_tags:
+            tag = tag.strip()
+            if len(tag) >= 1:
+                try:
+                    cr.execute("INSERT INTO tags (tag_name, doc_id) VALUES (?, ?)", (tag, doc_id))
+                    connection.commit()
+                except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
+                    return error, 'Red'
+
+    def insert_cat(self, cat_name, desc, user_id):
+        connection = self.conn
         cr = connection.cursor()
         try:
-            cr.execute("INSERT INTO category (cat_name, desc) VALUES (?, ?)", (cat_name, desc))
+            cr.execute("INSERT INTO category (cat_name, desc, user_id) VALUES (?, ?, ?)", (cat_name, desc, user_id))
             connection.commit()
         except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
             return error, 'Red'
         return 'Category saved successfully', 'Green'
+
+    def get_all_tags(self):
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute("SELECT * FROM tags")
+            all_rows = connection.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        connection.close()
+        return all_rows

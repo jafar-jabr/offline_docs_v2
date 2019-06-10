@@ -82,17 +82,19 @@ class DocumentImportModal(QDialog):
         import_type = self.import_type
         db_path = self.db_select.value()
         db_extension = db_path.split(".")[-1]
-        if db_extension != "db":
-            MessageBoxes.warning_message("Not Database", "Please choose target database file.")
-            return
         if version == "V2":
             MessageBoxes.warning_message("Not Available", "importing from version 2 is not available yet.")
             return
+        if db_extension != "db":
+            MessageBoxes.warning_message("Not Database", "Please choose target database file.")
+            return
         db = RemoteDatabase(db_path)
         remote_docs = db.get_docs_for_category(cat_name)
+        remote_tags = db.get_all_tags()
         local_docs = Database().get_detailed_docs_for_category(cat_id)
+        local_tags = Database().get_all_tags()
         if import_type == "merge":
-            SharedFunctions.merge_import_docs(local_docs, remote_docs)
+            SharedFunctions.merge_import_docs(local_docs, remote_docs, local_tags, remote_tags)
             MessageBoxes.success_message("Imported", "Import documents Done")
             self.accept()
         print(remote_docs)

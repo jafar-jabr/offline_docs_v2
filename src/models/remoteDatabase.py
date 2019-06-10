@@ -47,3 +47,14 @@ class RemoteDatabase:
             return error
         connection.close()
         return all_rows
+
+    def get_all_tags(self):
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute("SELECT * FROM tags")
+            all_rows = connection.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        connection.close()
+        return all_rows
