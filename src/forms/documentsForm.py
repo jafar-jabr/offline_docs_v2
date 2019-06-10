@@ -43,9 +43,11 @@ class DocumentsForm(QWidget):
         category_select.activated[str].connect(self.category_changed)
         if self.selected_cat_id:
             category_select.setCurrentText(self.selected_cat_name)
-        search_input2 = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
+        search_input = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
+        search_input.textChanged[str].connect(lambda: self.do_search(search_input.text_value))
+        search_input.iconClicked.connect(lambda: self.do_search(search_input.text_value))
         lef_column.addWidget(category_select)
-        lef_column.addWidget(search_input2)
+        lef_column.addWidget(search_input)
 
         left_inner_widget = QWidget()
         left_inner_widget.setFixedWidth(260)
@@ -133,3 +135,10 @@ class DocumentsForm(QWidget):
 
     def start_import(self):
         DocumentImportModal(self.selected_cat_name, self.selected_cat_id)
+
+    def do_search(self, search):
+        docs = Database().get_doc_for_category_where(self.selected_cat_id, search)
+        docs_options = []
+        for opt in docs:
+            docs_options.append(opt['doc_name'])
+        self.documents_list.only_update_options(docs_options)

@@ -483,16 +483,38 @@ class SharedFunctions:
             return os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
 
     @staticmethod
+    def import_cats(local_cats, remote_cats, user_id):
+        local_cats_by_name = {}
+        for l_cat in local_cats:
+            cat_name = l_cat['cat_name']
+            local_cats_by_name[cat_name] = l_cat
+
+        for r_cat in remote_cats:
+            cat_name = r_cat['cat_name']
+            if cat_name not in local_cats_by_name:
+                desc = r_cat['desc']
+                Database().insert_cat(cat_name, desc, user_id)
+
+    @staticmethod
     def merge_import_docs(local_docs, remote_docs, local_tags, remote_tags):
         local_tags_by_doc_id = {}
         for l_tag in local_tags:
             doc_id = l_tag['doc_id']
-            local_tags_by_doc_id[doc_id] = l_tag
+            local_tags_by_doc_id[doc_id] = []
 
         remote_tags_by_doc_id = {}
         for r_tag in remote_tags:
             doc_id = r_tag['doc_id']
-            remote_tags_by_doc_id[doc_id] = r_tag
+            remote_tags_by_doc_id[doc_id] = []
+
+        for l_tag in local_tags:
+            doc_id = l_tag['doc_id']
+            local_tags_by_doc_id[doc_id].append(l_tag)
+
+        for r_tag in remote_tags:
+            doc_id = r_tag['doc_id']
+            remote_tags_by_doc_id[doc_id].append(r_tag)
+
         local_docs_by_name = {}
         for l_doc in local_docs:
             name = l_doc['doc_name']
@@ -502,10 +524,10 @@ class SharedFunctions:
             remote_doc_id = r_doc['id']
             if name in local_docs_by_name:
                 local_doc_id = local_docs_by_name[name]['id']
-                doc_remote_tags = ''
+                doc_remote_tags = []
                 if remote_doc_id in remote_tags_by_doc_id:
                     doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
-                doc_local_tags = ''
+                doc_local_tags = []
                 if local_doc_id in local_tags_by_doc_id:
                     doc_local_tags = local_tags_by_doc_id[local_doc_id]
 
@@ -515,7 +537,7 @@ class SharedFunctions:
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags, doc_local_tags)
                 Database().overwrite_tags(doc_tags, local_doc_id)
             else:
-                local_doc_id = Database().insert_doc_for_import(r_doc['category_id'], name, r_doc['details'], "Normal")
+                local_doc_id = Database().insert_doc_for_import(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
                 doc_remote_tags = ''
                 if remote_doc_id in remote_tags_by_doc_id:
                     doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
@@ -527,10 +549,12 @@ class SharedFunctions:
     def decompile_tags(tags1, tags2 = None):
         tags_string = ''
         for tag in tags1:
-            tags_string += ', '+tag
+            if isinstance(tag['tag_name'], str):
+                tags_string += ', '+tag['tag_name']
         if tags2 is not None:
             for tag in tags2:
-                tags_string += ', ' + tag
+                if isinstance(tag['tag_name'], str):
+                    tags_string += ', ' + tag['tag_name']
         return tags_string
 
 

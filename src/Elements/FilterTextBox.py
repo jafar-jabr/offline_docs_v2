@@ -7,6 +7,7 @@ from src.Elements.ClickableLineEdit import ClickableLineEdit
 class FilterTextBox(QWidget):
     text_value = ""
     iconClicked = pyqtSignal()
+    textChanged = pyqtSignal(str)
 
     def __init__(self, max_width=260, is_read_only=False, icon="resources/assets/images/search.png", place_holder=None):
         super().__init__()
@@ -56,7 +57,7 @@ class FilterTextBox(QWidget):
     def update_value(self, txt):
         FilterTextBoxAR.text_value = txt
         if txt.strip() == "":
-            self.iconClicked.emit()
+            self.textChanged.emit(txt)
 
     def event_emittor(self):
         self.iconClicked.emit()

@@ -15,6 +15,17 @@ class RemoteDatabase:
         conn.row_factory = sqlite3.Row
         self.conn = conn
 
+    def get_all_categories(self):
+        conn = self.conn
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT * FROM category")
+            all_rows = cursor.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        cursor.close()
+        return all_rows
+
     def get_docs_for_category(self, category_name):
         conn = self.conn
         cursor = conn.cursor()

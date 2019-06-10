@@ -8,17 +8,20 @@ class ClickableLabel(QLabel):
     clicked = pyqtSignal()
     rightClicked = pyqtSignal()
 
-    def __init__(self, *args):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
+        bg_color = "#333e44"
+        if 'bg_color' in kwargs:
+            bg_color = kwargs['bg_color']
         style = """
                        QLabel{
                            color: #fff;
                            font-size: %s;
                            margin: 0 10px;
-                           background-color: #333e44;
+                           background-color: %s;
                        }
-                       """ % SessionWrapper.number_to_size[SessionWrapper.regular_size]
+                       """ % (SessionWrapper.number_to_size[SessionWrapper.regular_size], bg_color)
         self.setStyleSheet(style)
         self.setMaximumHeight(45)
         # self.fixWidth()

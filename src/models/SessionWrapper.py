@@ -34,7 +34,8 @@ class SessionWrapper:
     font_color = "#000"
     regular_size = 18
     big_size = 21
-    app_mode = 0  #0 : multibale, 1: single
+    current_version = ""
+    release_date = ""
     main_doctor_id = 0
     color_to_code = {"الابيض": "#ffffff", "الاسود": "#000000", "الاحمر": "#ff0000", "الازرق": "#0000FF"}
     size_to_number = {"16px": 16, "18px": 18, "20px": 20, "21px": 21, "22px": 22, "23px": 23, "24px": 24}

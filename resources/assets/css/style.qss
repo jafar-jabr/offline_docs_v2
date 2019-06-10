@@ -96,3 +96,20 @@ QListWidget {
   padding: 7px;
   margin-left: 200px;
   }
+
+#buttonRegister {
+  background-color: #CC1417;
+  color: #ffffff;
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 7px
+}
+
+#buttonLogin {
+   background-color: #CC1417;
+   color: #ffffff;
+   border-radius: 5px;
+   font-weight: bold;
+   margin-right: 20px;
+   padding: 7px
+   }

@@ -4,7 +4,9 @@ from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
+from src.Elements.iconedClicklableLabel import IconedClickableLabel
 from src.Elements.myListWidget import MyListWidget
+from src.modals.catImportModal import CategoryImportModal
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.models.SharedFunctions import SharedFunctions
@@ -19,8 +21,12 @@ class CategoryForm(QWidget):
         categories = Database().get_all_categories(user_id)
         default_cat = Database().get_default_cat(user_id)
         self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(categories)
-        self.selected_cat_id = default_cat['id']
-        self.selected_cat_name = default_cat['cat_name']
+        if default_cat is not None:
+            self.selected_cat_id = default_cat['id']
+            self.selected_cat_name = default_cat['cat_name']
+        else:
+            self.selected_cat_id = 0
+            self.selected_cat_name = ""
         self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
@@ -64,6 +70,10 @@ class CategoryForm(QWidget):
         categories_list.clicked[str].connect(self.category_selected)
         left_inner_column.addWidget(categories_list)
         lef_column.addWidget(left_inner_widget)
+
+        import_label = IconedClickableLabel("Import Categories", 260)
+        import_label.clicked.connect(self.start_import)
+        lef_column.addWidget(import_label)
         left_widget.setObjectName("categories_left")
         right_column = QVBoxLayout()
         right_widget = QWidget()
@@ -101,3 +111,6 @@ class CategoryForm(QWidget):
         desc = self.categories_by_name[which]['desc']
         self.category_name.setText(which)
         self.category_desc.setText(desc)
+
+    def start_import(self):
+        CategoryImportModal()

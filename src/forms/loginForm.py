@@ -69,28 +69,16 @@ class Login(QDialog):
         btn_line.setContentsMargins(60, 20, 250, 20)
         btn_line.setSpacing(40)
         # self.buttonLogin = ClickableIcon(150, 40, "resources/assets/images/Login/login-button.png")
-        self.buttonLogin = ClickableLabel("Login")
+        self.buttonLogin = ClickableLabel("Login", bg_color="#CC1417")
         self.buttonLogin.setObjectName("buttonLogin")
-        self.buttonLogin.setStyleSheet('QLabel#buttonLogin {'
-                                       'background-color: #CC1417; '
-                                       'color: #ffffff;'
-                                       'border-radius: 5px;'
-                                       'font-weight: bold;'
-                                       'margin-right: 20px;'
-                                       'padding: 7px}')
         self.buttonLogin.setFixedWidth(150)
         self.buttonLogin.setAlignment(Qt.AlignCenter)
         self.buttonLogin.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
 
         # self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
-        self.buttonRegister = ClickableLabel("Register")
+        self.buttonRegister = ClickableLabel("Register", bg_color="#CC1417")
+
         self.buttonRegister.setObjectName("buttonRegister")
-        self.buttonRegister.setStyleSheet('QLabel#buttonRegister {'
-                                          'background-color: #CC1417;'
-                                          'color: #ffffff;'
-                                          'border-radius: 5px;'
-                                          'font-weight: bold;'
-                                          'padding: 7px}')
         self.buttonRegister.setFixedWidth(150)
         self.buttonRegister.setAlignment(Qt.AlignCenter)
         self.buttonRegister.clicked.connect(self.create_account)
@@ -165,7 +153,7 @@ class Login(QDialog):
             SessionWrapper.font_color = pref['font_color']
             SessionWrapper.regular_size = pref['regular_size']
             SessionWrapper.big_size = pref['big_size']
-            SessionWrapper.app_mode = pref['app_mode']
-            SessionWrapper.main_doctor_id = pref['main_doctor_id']
+            SessionWrapper.current_version = pref['current_version']
+            SessionWrapper.release_date = pref['release_date']
         except TypeError:
             pass

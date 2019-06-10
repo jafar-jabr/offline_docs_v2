@@ -50,7 +50,6 @@ class MyProxyStyle(QProxyStyle):
 ############################################################
 
 ### pyinstaller :: pyinstaller --onefile --windowed --icon=resources\assets\images\icon.ico medicBook.py
-
 def run_app():
     app = QApplication(sys.argv)
     app.setApplicationName("Offline Docs")

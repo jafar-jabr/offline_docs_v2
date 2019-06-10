@@ -190,9 +190,7 @@ class Database:
             return error, 'Red'
         return doc_id
 
-    def get_doc_for_category_where(self, category, search):
-        category = self.clean_category(category, "('", "',)")
-        category_id = self.select_where('category', {'cat_name': category})[0][0]
+    def get_doc_for_category_where(self, category_id, search):
         search = "%"+search+"%"
         conn = self.conn
         cursor = conn.cursor()
