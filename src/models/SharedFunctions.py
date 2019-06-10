@@ -501,20 +501,16 @@ class SharedFunctions:
         for l_tag in local_tags:
             doc_id = l_tag['doc_id']
             local_tags_by_doc_id[doc_id] = []
-
         remote_tags_by_doc_id = {}
         for r_tag in remote_tags:
             doc_id = r_tag['doc_id']
             remote_tags_by_doc_id[doc_id] = []
-
         for l_tag in local_tags:
             doc_id = l_tag['doc_id']
             local_tags_by_doc_id[doc_id].append(l_tag)
-
         for r_tag in remote_tags:
             doc_id = r_tag['doc_id']
             remote_tags_by_doc_id[doc_id].append(r_tag)
-
         local_docs_by_name = {}
         for l_doc in local_docs:
             name = l_doc['doc_name']
@@ -522,25 +518,20 @@ class SharedFunctions:
         for r_doc in remote_docs:
             name = r_doc['doc_name']
             remote_doc_id = r_doc['id']
+            doc_remote_tags = []
+            if remote_doc_id in remote_tags_by_doc_id:
+                doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
             if name in local_docs_by_name:
                 local_doc_id = local_docs_by_name[name]['id']
-                doc_remote_tags = []
-                if remote_doc_id in remote_tags_by_doc_id:
-                    doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
                 doc_local_tags = []
                 if local_doc_id in local_tags_by_doc_id:
                     doc_local_tags = local_tags_by_doc_id[local_doc_id]
-
                 doc_details = local_docs_by_name[name]['details']+"   "+r_doc['details']
                 Database().update_doc_for_import(local_doc_id, doc_details)
-
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags, doc_local_tags)
                 Database().overwrite_tags(doc_tags, local_doc_id)
             else:
                 local_doc_id = Database().insert_doc_for_import(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
-                doc_remote_tags = ''
-                if remote_doc_id in remote_tags_by_doc_id:
-                    doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags)
                 Database().insert_tags(doc_tags, local_doc_id)
         return 'Okay'
