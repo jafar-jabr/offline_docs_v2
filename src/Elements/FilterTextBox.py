@@ -48,16 +48,15 @@ class FilterTextBox(QWidget):
 
     def setText(self, txt):
         self.text_input.setText(txt)
-        FilterTextBoxAR.text_value = txt
+        FilterTextBox.text_value = txt
 
     @staticmethod
     def text():
-        return FilterTextBoxAR.text_value
+        return FilterTextBox.text_value
 
     def update_value(self, txt):
-        FilterTextBoxAR.text_value = txt
-        if txt.strip() == "":
-            self.textChanged.emit(txt)
+        FilterTextBox.text_value = txt
+        self.textChanged.emit(txt)
 
     def event_emittor(self):
         self.iconClicked.emit()
