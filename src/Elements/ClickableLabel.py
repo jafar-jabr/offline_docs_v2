@@ -12,16 +12,19 @@ class ClickableLabel(QLabel):
         super().__init__(*args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
         bg_color = "#333e44"
+        txt_color = "#fff"
         if 'bg_color' in kwargs:
             bg_color = kwargs['bg_color']
+        if 'txt_color' in kwargs:
+            txt_color = kwargs['txt_color']
         style = """
                        QLabel{
-                           color: #fff;
+                           color: %s;
                            font-size: %s;
                            margin: 0 10px;
                            background-color: %s;
                        }
-                       """ % (SessionWrapper.number_to_size[SessionWrapper.regular_size], bg_color)
+                       """ % (txt_color, SessionWrapper.number_to_size[SessionWrapper.regular_size], bg_color)
         self.setStyleSheet(style)
         self.setMaximumHeight(45)
         # self.fixWidth()

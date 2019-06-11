@@ -19,8 +19,7 @@ class CategoryImportModal(QDialog):
         self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
         self.setObjectName("create_account_modal")
         self.line_width = 480
-        self.cat_id = ''
-        self.cat_name = ''
+        self.result = "Not Done"
         self.layout = QVBoxLayout()
         self.layout.setSpacing(15)
         self.layout.setContentsMargins(0, 30, 80, 50)  # (left, top, right, bottom)
@@ -51,7 +50,6 @@ class CategoryImportModal(QDialog):
         self.setWindowTitle("Import Categories")
         self.resize(600, 270)
         self.setLayout(self.layout)
-        self.exec_()
 
     def do_import(self):
         version = self.version_select.currentText()
@@ -69,4 +67,5 @@ class CategoryImportModal(QDialog):
         local_cat = Database().get_all_categories(user_id)
         SharedFunctions.import_cats(local_cat, remote_cat, user_id)
         MessageBoxes.success_message("Imported", "Import categories Done")
+        self.result = "Done"
         self.accept()

@@ -66,13 +66,11 @@ class LabeledTextArea(QWidget):
         self.text_input.setText(txt)
         LabeledTextArea.text_value = txt
 
-    @staticmethod
-    def text():
-        return LabeledTextArea.text_value
+    def text(self):
+        return self.text_input.toPlainText()
 
-    @staticmethod
-    def toPlainText():
-        return LabeledTextArea.text_value
+    def toPlainText(self):
+        return self.text_input.toPlainText()
 
     def update_value(self, txt):
         LabeledTextArea.text_value = txt

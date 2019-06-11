@@ -473,6 +473,14 @@ class SharedFunctions:
         return txt[1:]
 
     @staticmethod
+    def delete_cat(cat_id):
+        docs = Database().get_docs_ids_for_category(cat_id)
+        for opt in docs:
+            doc_id = opt['id']
+            Database().delete_doc(doc_id)
+        Database().delete_cat(cat_id)
+
+    @staticmethod
     def get_desktop_path():
         if SharedFunctions.isWindows():
             desk = os.path.join(os.environ["HOMEPATH"], "Desktop")
@@ -484,6 +492,7 @@ class SharedFunctions:
 
     @staticmethod
     def import_cats(local_cats, remote_cats, user_id):
+        current_dat = SharedFunctions.get_current_date_str()
         local_cats_by_name = {}
         for l_cat in local_cats:
             cat_name = l_cat['cat_name']
@@ -493,7 +502,7 @@ class SharedFunctions:
             cat_name = r_cat['cat_name']
             if cat_name not in local_cats_by_name:
                 desc = r_cat['desc']
-                Database().insert_cat(cat_name, desc, user_id)
+                Database().insert_cat(cat_name, desc, user_id, current_dat)
 
     @staticmethod
     def merge_import_docs(local_docs, remote_docs, local_tags, remote_tags):
@@ -531,7 +540,7 @@ class SharedFunctions:
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags, doc_local_tags)
                 Database().overwrite_tags(doc_tags, local_doc_id)
             else:
-                local_doc_id = Database().insert_doc_for_import(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
+                local_doc_id = Database().insert_doc(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags)
                 Database().insert_tags(doc_tags, local_doc_id)
         return 'Okay'

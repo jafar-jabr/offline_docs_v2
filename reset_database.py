@@ -67,6 +67,8 @@ class Database:
 	`cat_name`	TEXT NOT NULL,
 	`desc`	TEXT,
 	`user_id`	INTEGER NOT NULL,
+	`created_at`	TEXT,
+	`updated_at`	TEXT,
 	PRIMARY KEY(`id`)
 );
         """

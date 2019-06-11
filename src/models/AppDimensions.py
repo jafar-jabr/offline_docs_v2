@@ -8,6 +8,7 @@ class AppDimension:
         dimensions = {
             'main_table_w': self.w-10,
             'all_visits_table_w': self.w-10,
+            'main_inner_w': min(1000, self.w-10),
             'staff_table_w': int(self.w*0.78),
             'login_width': 500,
             'login_height': 370,

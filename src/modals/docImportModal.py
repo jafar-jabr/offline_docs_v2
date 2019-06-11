@@ -19,6 +19,7 @@ class DocumentImportModal(QDialog):
         self.setObjectName("create_account_modal")
         self.line_width = 480
         self.import_type = "merge" # skip, overwrite
+        self.result = "Not Done"
         self.cat_id = cat_id
         self.cat_name = cat_name
         self.layout = QVBoxLayout()
@@ -70,7 +71,6 @@ class DocumentImportModal(QDialog):
         self.setWindowTitle("Import Document")
         self.resize(600, 270)
         self.setLayout(self.layout)
-        self.exec_()
 
     def do_import(self):
         version = self.version_select.currentText()
@@ -93,6 +93,7 @@ class DocumentImportModal(QDialog):
         if import_type == "merge":
             SharedFunctions.merge_import_docs(local_docs, remote_docs, local_tags, remote_tags)
             MessageBoxes.success_message("Imported", "Import documents Done")
+            self.result = "Done"
             self.accept()
 
     def set_result_type(self, instance, import_type):

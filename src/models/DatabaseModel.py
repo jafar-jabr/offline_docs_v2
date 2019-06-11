@@ -96,11 +96,35 @@ class Database:
         connection.close()
         return the_categories
 
+    def get_categories_where(self, user_id, search):
+        search = "%" + search + "%"
+        query = "select * from category WHERE user_id = %s AND cat_name LIKE '%s'" % (user_id, search)
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute(query)
+            the_categories = connection.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        connection.close()
+        return the_categories
+
     def get_docs_for_category(self, category_id):
         conn = self.conn
         cursor = conn.cursor()
         try:
             cursor.execute("SELECT doc_name FROM docs WHERE category_id= ?", (category_id,))
+            all_rows = cursor.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        cursor.close()
+        return all_rows
+
+    def get_docs_ids_for_category(self, category_id):
+        conn = self.conn
+        cursor = conn.cursor()
+        try:
+            cursor.execute("SELECT id FROM docs WHERE category_id= ?", (category_id,))
             all_rows = cursor.fetchall()
         except sqlite3.OperationalError as error:
             return error
@@ -154,12 +178,12 @@ class Database:
             connection.close()
             return error
 
-    def update_doc_details(self, doc_id, details, tags_raw):
+    def update_doc(self, doc_id, doc_name, details, tags_raw):
         conn = self.conn
         connection = conn.cursor()
         try:
             self.delete_tags(doc_id)
-            connection.execute("UPDATE docs SET details = ? WHERE id= ? ",  (details, doc_id))
+            connection.execute("UPDATE docs SET doc_name = ?, details = ? WHERE id= ? ",  (doc_name, details, doc_id))
             conn.commit()
             self.insert_tags(tags_raw, doc_id)
         except sqlite3.OperationalError as error:
@@ -178,7 +202,7 @@ class Database:
         connection.close()
         return 'Green', 'Document Updated successfully'
 
-    def insert_doc_for_import(self, category_id, doc_name, details, doc_type):
+    def insert_doc(self, category_id, doc_name, details, doc_type):
         connection = self.conn
         cur_date = datetime.datetime.now()
         cr = connection.cursor()
@@ -202,7 +226,7 @@ class Database:
         cursor.close()
         return all_rows
 
-    def delete_doc_details(self, doc_id):
+    def delete_doc(self, doc_id):
         conn = self.conn
         connection = conn.cursor()
         try:
@@ -214,6 +238,17 @@ class Database:
         connection.close()
         return 'Green', 'Document Deleted successfully'
 
+    def delete_cat(self, cat_id):
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute("DELETE FROM category WHERE id= ? ", (cat_id,))
+            conn.commit()
+        except sqlite3.OperationalError as error:
+            return 'Red', error
+        connection.close()
+        return 'Green', 'Category Deleted successfully'
+
     def delete_tags(self, doc_id):
         conn = self.conn
         connection = conn.cursor()
@@ -222,21 +257,6 @@ class Database:
             conn.commit()
         except sqlite3.OperationalError as error:
             return 'Red', error
-
-    def insert_doc(self, category, doc_name, details, tags):
-        category = self.clean_category(category, "('", "',)")
-        connection = self.conn
-        category_id = self.select_where('category', {'cat_name': category})[0][0]
-        cur_date = datetime.datetime.now()
-        cr = connection.cursor()
-        try:
-            cr.execute("INSERT INTO docs (doc_name, details, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?)", (doc_name, details, category_id, cur_date, cur_date))
-            connection.commit()
-            doc_id = cr.lastrowid
-            self.insert_tags(tags, doc_id)
-        except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
-            return error, 'Red'
-        return 'Doc saved successfully', 'Green'
 
     def overwrite_tags(self, tags_raw, doc_id):
         self.delete_tags(doc_id)
@@ -269,15 +289,26 @@ class Database:
                 except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
                     return error, 'Red'
 
-    def insert_cat(self, cat_name, desc, user_id):
+    def insert_cat(self, cat_name, desc, user_id, current_dat):
         connection = self.conn
         cr = connection.cursor()
         try:
-            cr.execute("INSERT INTO category (cat_name, desc, user_id) VALUES (?, ?, ?)", (cat_name, desc, user_id))
+            cr.execute("INSERT INTO category (cat_name, desc, user_id, updated_at, created_at) VALUES (?, ?, ?, ?, ?)", (cat_name, desc, user_id, current_dat, current_dat))
+            connection.commit()
+            cat_id = cr.lastrowid
+        except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
+            return error, 'Red'
+        return cat_id
+
+    def update_cat(self, cat_id, cat_name, desc, current_dat):
+        connection = self.conn
+        cr = connection.cursor()
+        try:
+            cr.execute("UPDATE category set cat_name = ?, desc = ?, updated_at = ? WHERE id = ?", (cat_name, desc, current_dat, cat_id))
             connection.commit()
         except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
             return error, 'Red'
-        return 'Category saved successfully', 'Green'
+        return "Done"
 
     def get_all_tags(self):
         conn = self.conn

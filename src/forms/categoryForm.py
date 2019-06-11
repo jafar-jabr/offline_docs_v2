@@ -1,10 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame, QDialog
 from PyQt5.QtCore import Qt
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
+from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.iconedClicklableLabel import IconedClickableLabel
 from src.Elements.myListWidget import MyListWidget
 from src.modals.catImportModal import CategoryImportModal
@@ -20,14 +21,9 @@ class CategoryForm(QWidget):
         self.parent = parent
         user_id = SessionWrapper.user_id
         categories = Database().get_all_categories(user_id)
-        default_cat = Database().get_default_cat(user_id)
         self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(categories)
-        if default_cat is not None:
-            self.selected_cat_id = default_cat['id']
-            self.selected_cat_name = default_cat['cat_name']
-        else:
-            self.selected_cat_id = 0
-            self.selected_cat_name = ""
+        self.selected_cat_id = 0
+        self.selected_cat_name = ""
         self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
@@ -42,8 +38,10 @@ class CategoryForm(QWidget):
         lef_column = QVBoxLayout()
         left_widget.setLayout(lef_column)
         lef_column.setContentsMargins(20, 20, 20, 20)  # (left, top, right, bottom)
-        search_input = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
-        lef_column.addWidget(search_input)
+        self.search_input = FilterTextBox(260, False, "resources/assets/images/search.png", "Search")
+        self.search_input.textChanged.connect(self.do_search)
+        self.search_input.iconClicked.connect(self.do_search)
+        lef_column.addWidget(self.search_input)
 
         left_inner_widget = QWidget()
         left_inner_widget.setFixedWidth(260)
@@ -58,7 +56,7 @@ class CategoryForm(QWidget):
         categories_tab.clicked.connect(lambda: self.go_to_page('categories'))
 
         documents_tab = ClickableLabel("Documents")
-        documents_tab.clicked.connect(lambda: self.go_to_page('documents', categories_by_name=self.categories_by_name, categories_by_id = self.categories_by_id, selected_cat_id = self.selected_cat_id, selected_cat_name = self.selected_cat_name))
+        documents_tab.clicked.connect(lambda: self.go_to_page('documents', selected_cat_id = self.selected_cat_id, selected_cat_name = self.selected_cat_name))
 
         tabs_line.addWidget(categories_tab)
         tabs_line.addWidget(documents_tab)
@@ -66,10 +64,10 @@ class CategoryForm(QWidget):
         categories_options = []
         for opt in self.categories_by_name:
             categories_options.append(opt)
-
-        categories_list = MyListWidget(400, 260, options=categories_options)
-        categories_list.clicked[str].connect(self.category_selected)
-        left_inner_column.addWidget(categories_list)
+        self.categories_list = MyListWidget(400, 260, options=categories_options)
+        self.categories_list.listRightClicked.connect(self.delete_cat)
+        self.categories_list.clicked[str].connect(self.category_selected)
+        left_inner_column.addWidget(self.categories_list)
         lef_column.addWidget(left_inner_widget)
 
         btn_line = QHBoxLayout()
@@ -81,7 +79,6 @@ class CategoryForm(QWidget):
         self.buttonInfo.setFixedWidth(125)
         self.buttonInfo.setAlignment(Qt.AlignCenter)
         # self.buttonInfo.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
-
         self.buttonSettings = ClickableLabel("Settings", bg_color="#445566")
 
         self.buttonSettings.setObjectName("buttonSettings")
@@ -109,6 +106,7 @@ class CategoryForm(QWidget):
         add_line.setContentsMargins(0, 20, 50, 0)
         add_line.setSpacing(40)
         self.buttonAddCat = ClickableLabel("Add category", bg_color="#445566")
+        self.buttonAddCat.clicked.connect(self.reset_inputs)
         self.buttonAddCat.setObjectName("buttonAddCat")
         self.buttonAddCat.setFixedWidth(125)
         self.buttonAddCat.setAlignment(Qt.AlignCenter)
@@ -120,11 +118,10 @@ class CategoryForm(QWidget):
         self.category_desc = LabeledTextArea("Description: ", height=150, space=25, width=500)
         buttons_line = QHBoxLayout()
         buttons_line.setSpacing(10)
-        buttons_line.setContentsMargins(370, 20, 330, 280) # (left, top, right, bottom)
-        save_btn = ClickableIcon(50, 40, "./resources/assets/images/Categories/save-button.png", "Update")
-        delete_btn = ClickableIcon(40, 40, "./resources/assets/images/Categories/delete-button.png", "Delete")
-        buttons_line.addWidget(save_btn)
-        buttons_line.addWidget(delete_btn)
+        buttons_line.setContentsMargins(400, 20, 330, 280) # (left, top, right, bottom)
+        update_btn = ClickableIcon(50, 40, "./resources/assets/images/Categories/save-button.png", "Update")
+        update_btn.clicked.connect(self.update_or_add_cat)
+        buttons_line.addWidget(update_btn)
         right_content.addWidget(self.category_name)
         right_content.addWidget(self.category_desc)
         right_content.addLayout(buttons_line)
@@ -149,4 +146,54 @@ class CategoryForm(QWidget):
         self.category_desc.setText(desc)
 
     def start_import(self):
-        CategoryImportModal()
+        imp = CategoryImportModal()
+        imp_ex = imp.exec_()
+        if imp_ex == QDialog.Accepted and imp.result == "Done":
+            self.refresh_data()
+
+    def do_search(self):
+        user_id = SessionWrapper.user_id
+        search = self.search_input.text()
+        cats = Database().get_categories_where(user_id, search)
+        self.refresh_data(cats)
+
+    def update_or_add_cat(self):
+        cat_id = self.selected_cat_id
+        cat_name = self.category_name.text()
+        cat_desc = self.category_desc.text()
+        user_id = SessionWrapper.user_id
+        current_dat = SharedFunctions.get_current_date_str()
+        if cat_id:
+            Database().update_cat(cat_id, cat_name, cat_desc, current_dat)
+            MessageBoxes.success_message("Done", "Category Updated")
+            self.refresh_data()
+        else:
+            cat_id = Database().insert_cat(cat_name, cat_desc, user_id, current_dat)
+            MessageBoxes.success_message("Done", "Category saved")
+            self.selected_cat_id = cat_id
+            self.selected_cat_name = cat_name
+            self.refresh_data()
+
+    def delete_cat(self, cat_name):
+        ask = MessageBoxes.confirm_message("Are you sure to delete this category and all the documents under it ?")
+        if ask:
+            cat_id = self.categories_by_name[cat_name]['id']
+            SharedFunctions.delete_cat(cat_id)
+            self.refresh_data()
+
+    def reset_inputs(self):
+        self.selected_cat_id = 0
+        self.selected_cat_name = ""
+        self.category_name.setText("")
+        self.category_desc.setText("")
+
+    def refresh_data(self, data=None):
+        if data is None:
+            user_id = SessionWrapper.user_id
+            data = Database().get_all_categories(user_id)
+        self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(data)
+        categories_options = []
+        for opt in self.categories_by_name:
+            categories_options.append(opt)
+        self.categories_list.only_update_options(categories_options)
+        self.reset_inputs()
