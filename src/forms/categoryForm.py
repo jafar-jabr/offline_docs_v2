@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
+from PyQt5.QtCore import Qt
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
@@ -66,10 +67,32 @@ class CategoryForm(QWidget):
         for opt in self.categories_by_name:
             categories_options.append(opt)
 
-        categories_list = MyListWidget(500, 260, options=categories_options)
+        categories_list = MyListWidget(400, 260, options=categories_options)
         categories_list.clicked[str].connect(self.category_selected)
         left_inner_column.addWidget(categories_list)
         lef_column.addWidget(left_inner_widget)
+
+        btn_line = QHBoxLayout()
+
+        btn_line.setContentsMargins(0, 20, 50, 0)
+        btn_line.setSpacing(40)
+        self.buttonInfo = ClickableLabel("Info", bg_color="#445566")
+        self.buttonInfo.setObjectName("buttonInfo")
+        self.buttonInfo.setFixedWidth(125)
+        self.buttonInfo.setAlignment(Qt.AlignCenter)
+        # self.buttonInfo.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
+
+        self.buttonSettings = ClickableLabel("Settings", bg_color="#445566")
+
+        self.buttonSettings.setObjectName("buttonSettings")
+        self.buttonSettings.setFixedWidth(125)
+        self.buttonSettings.setAlignment(Qt.AlignCenter)
+        # self.buttonSettings.clicked.connect(self.create_account)
+
+        btn_line.addWidget(self.buttonInfo)
+        btn_line.addWidget(self.buttonSettings)
+
+        lef_column.addLayout(btn_line)
 
         import_label = IconedClickableLabel("Import Categories", 260)
         import_label.clicked.connect(self.start_import)
@@ -80,6 +103,19 @@ class CategoryForm(QWidget):
         right_widget.setObjectName("category_right")
         right_widget.setFixedWidth(1000)
         right_content = QVBoxLayout()
+
+        add_line = QHBoxLayout()
+
+        add_line.setContentsMargins(0, 20, 50, 0)
+        add_line.setSpacing(40)
+        self.buttonAddCat = ClickableLabel("Add category", bg_color="#445566")
+        self.buttonAddCat.setObjectName("buttonAddCat")
+        self.buttonAddCat.setFixedWidth(125)
+        self.buttonAddCat.setAlignment(Qt.AlignCenter)
+        add_line.addWidget(self.buttonAddCat)
+
+        right_content.addLayout(add_line)
+
         self.category_name = LabeledTextBox("Category Name: ", width=500)
         self.category_desc = LabeledTextArea("Description: ", height=150, space=25, width=500)
         buttons_line = QHBoxLayout()

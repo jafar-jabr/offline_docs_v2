@@ -113,3 +113,7 @@ QListWidget {
    margin-right: 20px;
    padding: 7px
    }
+
+#buttonAddCat {
+    color: #000;
+    }
