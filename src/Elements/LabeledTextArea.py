@@ -30,6 +30,7 @@ class LabeledTextArea(QWidget):
         else:
             self.the_line.setSpacing(0)
         self.text_input = QTextEdit()
+        # self.text_input.setWordWrapMode(Qt.)
         # self.text_input.textChanged[str].connect(self.update_value)
         if ('place_holder' in kwargs and 'text' not in kwargs) or ('place_holder' in kwargs and 'text' in kwargs and kwargs['text'].strip() == 0):
             self.text_input.setPlaceholderText(kwargs['place_holder'])
