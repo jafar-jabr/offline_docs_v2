@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import os
 import sqlite3
 
 from src.models.MyEnc import do_encrypt
@@ -10,6 +10,8 @@ class Database:
     acceptable_types = ['INTEGER', 'VARCHAR(255)', 'DATE', 'TEXT']
 
     def __init__(self):
+        if not os.path.exists('resources/data'):
+            os.makedirs('resources/data')
         db_file = 'resources/data/app.db'
         conn = sqlite3.connect(db_file)
         conn.execute("PRAGMA key='yrewyrbdffkh'")
