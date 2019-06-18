@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QLineEdit, QWidget, QHBoxLayout, QLabel, QTextEdit
+from PyQt5.QtWidgets import QLineEdit, QWidget, QHBoxLayout, QLabel, QTextEdit, QPlainTextEdit
 
 
 class LabeledTextBoxAR(QLineEdit):
@@ -29,7 +29,12 @@ class LabeledTextArea(QWidget):
             self.the_line.setSpacing(kwargs['space'])
         else:
             self.the_line.setSpacing(0)
-        self.text_input = QTextEdit()
+        # self.text_input = QTextEdit()
+        self.text_input = QPlainTextEdit()
+
+        # self.text_input.setTextInteractionFlags(Qt.NoTextInteraction)
+
+
         # self.text_input.setWordWrapMode(Qt.)
         # self.text_input.textChanged[str].connect(self.update_value)
         if ('place_holder' in kwargs and 'text' not in kwargs) or ('place_holder' in kwargs and 'text' in kwargs and kwargs['text'].strip() == 0):
@@ -64,7 +69,7 @@ class LabeledTextArea(QWidget):
         self.setFixedWidth(p_int)
 
     def setText(self, txt):
-        self.text_input.setText(txt)
+        self.text_input.setPlainText(txt)
         LabeledTextArea.text_value = txt
 
     def text(self):

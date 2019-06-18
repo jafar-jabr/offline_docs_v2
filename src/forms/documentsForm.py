@@ -109,7 +109,9 @@ class DocumentsForm(QWidget):
         right_widget.setFixedWidth(int(self.pc_width*0.8))
         right_content = QVBoxLayout()
         self.document_name = LabeledTextBox("Name:       ", width=400)
+
         self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=700)
+
         self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=700)
 
         buttons_line = QHBoxLayout()
