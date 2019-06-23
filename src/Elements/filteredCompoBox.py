@@ -8,6 +8,7 @@ class FilteredComboBox(QComboBox):
         super().__init__()
         self.setFocusPolicy(Qt.StrongFocus)
         self.setEditable(True)
+        # self.dropEvent()
         self.completer = QCompleter(self)
         # always show all completions
         self.completer.setCompletionMode(QCompleter.UnfilteredPopupCompletion)
@@ -15,8 +16,8 @@ class FilteredComboBox(QComboBox):
         self.pFilterModel.setFilterCaseSensitivity(Qt.CaseInsensitive)
         self.completer.setPopup(self.view())
         self.setCompleter(self.completer)
-        self.lineEdit().setStyleSheet(
-            "border-top-left-radius: 10px; border-bottom-left-radius: 10px; background-color: #f5f5f5;")
+        the_style = "border-top-left-radius: 10px; border-bottom-left-radius: 10px; background-color: #f5f5f5;"
+        self.lineEdit().setStyleSheet(the_style)
         if "height" in kwargs:
             self.setFixedHeight(kwargs["height"])
         else:

@@ -73,8 +73,8 @@ class DocumentsForm(QWidget):
         categories_tab = ClickableLabel("Categories")
         categories_tab.clicked.connect(lambda: self.go_to_page('categories'))
 
-        documents_tab = ActiveLabel("Documents")
-        documents_tab.clicked.connect(lambda: self.go_to_page('documents'))
+        documents_tab = ActiveLabel("Documents +")
+        documents_tab.clicked.connect(self.add_doc)
 
         tabs_line.addWidget(categories_tab)
         tabs_line.addWidget(documents_tab)
@@ -90,16 +90,16 @@ class DocumentsForm(QWidget):
         left_inner_column.addWidget(self.documents_list)
         lef_column.addWidget(left_inner_widget)
 
-        add_btn = ClickableLabel("Add Document", bg_color="#445566", txt_color="#000000")
-        add_btn.clicked.connect(self.add_doc)
-        add_btn.setFixedWidth(225)
-        add_btn.setAlignment(Qt.AlignCenter)
-
-        lef_column.addWidget(add_btn)
-
-        import_label = IconedClickableLabel("Import Documents", 260)
-        import_label.clicked.connect(self.start_import)
-        lef_column.addWidget(import_label)
+        # add_btn = ClickableLabel("Add Document", bg_color="#445566", txt_color="#000000")
+        # add_btn.clicked.connect(self.add_doc)
+        # add_btn.setFixedWidth(225)
+        # add_btn.setAlignment(Qt.AlignCenter)
+        #
+        # lef_column.addWidget(add_btn)
+        #
+        # import_label = IconedClickableLabel("Import Documents", 260)
+        # import_label.clicked.connect(self.start_import)
+        # lef_column.addWidget(import_label)
 
         left_widget.setObjectName("categories_left")
 
@@ -110,9 +110,9 @@ class DocumentsForm(QWidget):
         right_content = QVBoxLayout()
         self.document_name = LabeledTextBox("Name:       ", width=400)
 
-        self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=700)
+        self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=self.pc_width-1050)
 
-        self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=700)
+        self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=self.pc_width-1050)
 
         buttons_line = QHBoxLayout()
         buttons_line.setSpacing(10)
@@ -128,7 +128,7 @@ class DocumentsForm(QWidget):
         right_widget.setLayout(right_content)
         right_column.addWidget(right_widget)
         self.docs_layout.setContentsMargins(0, 0, 0, 0)  # (left, top, right, bottom)
-        right_content.setContentsMargins(50, 20, 0, 0)  # (left, top, right, bottom)
+        right_content.setContentsMargins(10, 20, 0, 0)  # (left, top, right, bottom)
         self.docs_layout.addWidget(left_widget)
         self.docs_layout.addLayout(right_column)
         self.setLayout(self.docs_layout)

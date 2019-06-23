@@ -12,6 +12,7 @@ from src.Elements.MessageBoxes import MessageBoxes
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt, do_decrypt
 from src.models.SessionWrapper import SessionWrapper
+from src.models.remoteDatabase import RemoteDatabase
 
 
 class SharedFunctions:
@@ -505,6 +506,27 @@ class SharedFunctions:
                 Database().insert_cat(cat_name, desc, user_id, current_dat)
 
     @staticmethod
+    def import_all_together(local_cats, remote_cats, user_id, db_path):
+        current_dat = SharedFunctions.get_current_date_str()
+        local_cats_by_name = {}
+        for l_cat in local_cats:
+            cat_name = l_cat['cat_name']
+            local_cats_by_name[cat_name] = l_cat
+        db = RemoteDatabase(db_path)
+        remote_tags = db.get_all_tags()
+        for r_cat in remote_cats:
+            cat_name = r_cat['cat_name']
+            remote_docs = db.get_docs_for_category(cat_name)
+            if cat_name not in local_cats_by_name:
+                desc = r_cat['desc']
+                cat_id = Database().insert_cat(cat_name, desc, user_id, current_dat)
+                SharedFunctions.import_docs_for_all(cat_id, [], remote_docs, remote_tags)
+            else:
+                cat_id = local_cats_by_name[cat_name]['id']
+                local_docs = Database().get_detailed_docs_for_category(cat_id)
+                SharedFunctions.import_docs_for_all(cat_id, local_docs, remote_docs, remote_tags)
+
+    @staticmethod
     def merge_import_docs(local_docs, remote_docs, local_tags, remote_tags):
         local_tags_by_doc_id = {}
         for l_tag in local_tags:
@@ -540,6 +562,63 @@ class SharedFunctions:
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags, doc_local_tags)
                 Database().overwrite_tags(doc_tags, local_doc_id)
             else:
+                local_doc_id = Database().insert_doc(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
+                doc_tags = SharedFunctions.decompile_tags(doc_remote_tags)
+                Database().insert_tags(doc_tags, local_doc_id)
+        return 'Okay'
+
+    @staticmethod
+    def import_docs_for_all(cat_id, local_docs, remote_docs, remote_tags):
+        remote_tags_by_doc_id = {}
+        for r_tag in remote_tags:
+            doc_id = r_tag['doc_id']
+            remote_tags_by_doc_id[doc_id] = []
+        for r_tag in remote_tags:
+            doc_id = r_tag['doc_id']
+            remote_tags_by_doc_id[doc_id].append(r_tag)
+        local_docs_by_name = {}
+        for l_doc in local_docs:
+            name = l_doc['doc_name']
+            local_docs_by_name[name] = l_doc
+        for r_doc in remote_docs:
+            name = r_doc['doc_name']
+            remote_doc_id = r_doc['id']
+            doc_remote_tags = []
+            if remote_doc_id in remote_tags_by_doc_id:
+                doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
+            if name not in local_docs_by_name:
+                local_doc_id = Database().insert_doc(cat_id, name.strip(), r_doc['details'], "Normal")
+                doc_tags = SharedFunctions.decompile_tags(doc_remote_tags)
+                Database().insert_tags(doc_tags, local_doc_id)
+        return 'Okay'
+
+    @staticmethod
+    def skip_import_docs(local_docs, remote_docs, local_tags, remote_tags):
+        local_tags_by_doc_id = {}
+        for l_tag in local_tags:
+            doc_id = l_tag['doc_id']
+            local_tags_by_doc_id[doc_id] = []
+        remote_tags_by_doc_id = {}
+        for r_tag in remote_tags:
+            doc_id = r_tag['doc_id']
+            remote_tags_by_doc_id[doc_id] = []
+        for l_tag in local_tags:
+            doc_id = l_tag['doc_id']
+            local_tags_by_doc_id[doc_id].append(l_tag)
+        for r_tag in remote_tags:
+            doc_id = r_tag['doc_id']
+            remote_tags_by_doc_id[doc_id].append(r_tag)
+        local_docs_by_name = {}
+        for l_doc in local_docs:
+            name = l_doc['doc_name']
+            local_docs_by_name[name] = l_doc
+        for r_doc in remote_docs:
+            name = r_doc['doc_name']
+            remote_doc_id = r_doc['id']
+            doc_remote_tags = []
+            if remote_doc_id in remote_tags_by_doc_id:
+                doc_remote_tags = remote_tags_by_doc_id[remote_doc_id]
+            if name not in local_docs_by_name:
                 local_doc_id = Database().insert_doc(r_doc['category_id'], name.strip(), r_doc['details'], "Normal")
                 doc_tags = SharedFunctions.decompile_tags(doc_remote_tags)
                 Database().insert_tags(doc_tags, local_doc_id)
