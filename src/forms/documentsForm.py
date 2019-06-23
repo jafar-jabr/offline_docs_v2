@@ -110,9 +110,9 @@ class DocumentsForm(QWidget):
         right_content = QVBoxLayout()
         self.document_name = LabeledTextBox("Name:       ", width=400)
 
-        self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=self.pc_width-1050)
+        self.document_desc = LabeledTextArea("Details: ", height=400, space=25, width=self.width()+250)
 
-        self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=self.pc_width-1050)
+        self.document_tags = LabeledTextArea("Tags:    ", height=100, space=25, width=self.width()+250)
 
         buttons_line = QHBoxLayout()
         buttons_line.setSpacing(10)
