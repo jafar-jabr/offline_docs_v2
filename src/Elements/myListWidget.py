@@ -1,3 +1,5 @@
+import datetime
+
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QCursor
@@ -7,6 +9,8 @@ from PyQt5.QtWidgets import QListWidget, QListWidgetItem
 class MyListWidget(QListWidget):
     listRightClicked = pyqtSignal(str)
     clicked = pyqtSignal(str)
+    double_clicked = pyqtSignal(str)
+    first_click_time = 0
 
     def __init__(self, h, w, **kwargs):
         super().__init__()
@@ -45,6 +49,16 @@ class MyListWidget(QListWidget):
         return False
 
     def list_item_clicked(self, item):
+        current = datetime.datetime.now()
+        if not self.first_click_time:
+            self.first_click_time = current
+        else:
+            diff = current - self.first_click_time
+            if diff.microseconds < 255000:
+                self.double_clicked.emit(item.text())
+                self.first_click_time = current
+                return
+        self.first_click_time = current
         self.clicked.emit(item.text())
 
     def eventFilter(self, source, event):

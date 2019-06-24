@@ -73,6 +73,7 @@ class CategoryForm(QWidget):
         self.categories_list = MyListWidget(400, 260, options=categories_options)
         self.categories_list.listRightClicked.connect(self.delete_cat)
         self.categories_list.clicked[str].connect(self.category_selected)
+        self.categories_list.double_clicked[str].connect(self.cat_double_clicked)
         left_inner_column.addWidget(self.categories_list)
         lef_column.addWidget(left_inner_widget)
 
@@ -150,6 +151,10 @@ class CategoryForm(QWidget):
         desc = self.categories_by_name[which]['desc']
         self.category_name.setText(which)
         self.category_desc.setText(desc)
+
+    def cat_double_clicked(self, which):
+        self.selected_cat_id = self.categories_by_name[which]['id']
+        self.go_to_page('documents', selected_cat_id=self.selected_cat_id, selected_cat_name=which)
 
     def start_import(self):
         imp = DataImportModal()
