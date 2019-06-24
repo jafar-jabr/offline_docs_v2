@@ -1,11 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
-from src.Elements.CustomLabel import RegularLabel
-from src.Elements.FilterTextBox import FilterTextBox
-from src.Elements.LabeledTextArea import LabeledTextArea
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog, QPushButton
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
+import qrcode
+
 from src.Elements.LabeledTextBox import LabeledTextBox
-from src.models.SessionWrapper import SessionWrapper
 
 
 class QrCodeGenerator(QWidget):
@@ -13,16 +12,72 @@ class QrCodeGenerator(QWidget):
         super().__init__()
         self.setObjectName("my_calendar_page")
         self.parent = parent
-        self.clinic_id = SessionWrapper.clinic_id
-        self.pages_count = 6
-        self.landing_layout = QHBoxLayout()
-        self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
-        self.landing_layout.setSpacing(0)
-        self.pc_width = SessionWrapper.get_dimension('main_window_width')
-        self.pc_height = SessionWrapper.get_dimension('main_window_height')
         self.initUI()
 
     def initUI(self):
-        lbl = RegularLabel("This will be qr code page")
-        self.landing_layout.addWidget(lbl)
-        self.setLayout(self.landing_layout)
+        self.setWindowTitle("QR Code Generator")
+        self.show_file_browser = True
+        self.img_url = ""
+        layout = QVBoxLayout(self)
+        # label0 = QLabel("Simple QR Code generator: ")
+        self.qr_text = LabeledTextBox("Text to be converted to QR Code:       ", width=self.width()+400)
+        layout.addWidget(self.qr_text)
+
+        self.figure = plt.figure(figsize=(5, 5))
+        self.canvas = FigureCanvas(self.figure)
+        self.toolbar = NavigationToolbar(self.canvas, self)
+        layout.addWidget(self.toolbar)
+        layout.addWidget(self.canvas)
+        btn2 = QPushButton('Generate Code')
+        btn2.clicked.connect(lambda me: self.generate_qr())
+        layout.addWidget(btn2)
+
+        self.resize(500, 500)
+        self.show_image()
+
+    def generate_qr(self):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        txt = self.qr_text.text()
+        if len(txt):
+            qr.add_data(txt)
+            qr.make(fit=True)
+            img = qr.make_image(fill_color="black", back_color="white")
+            self.show_qr(img)
+
+    def show_qr(self, img):
+        plt.close('all')
+        plt.gca().axes.get_yaxis().set_visible(False)
+        # plt.xticks([])
+        # plt.yticks([])
+        self.figure.clear()
+        ax = self.figure.add_subplot(111)
+        ax.set_title('Original Image')
+        ax.clear()
+        ax.grid(False)
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        ax.imshow(img)
+        self.canvas.draw()
+
+    def show_image(self, img_path="resources/assets/images/no_image.png"):
+        plt.close('all')
+        plt.gca().axes.get_yaxis().set_visible(False)
+        self.figure.clear()
+        # create an axis
+        ax = self.figure.add_subplot(111)
+        ax.set_title('Original Image')
+        # discards the old graph
+        ax.clear()
+        ax.grid(False)
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        dd = plt.imread(img_path)
+        # plot data
+        ax.imshow(dd)
+        # refresh canvas
+        self.canvas.draw()
