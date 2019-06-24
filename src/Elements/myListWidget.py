@@ -23,17 +23,26 @@ class MyListWidget(QListWidget):
         self.itemClicked.connect(self.list_item_clicked)
         self.setMinimumHeight(h)
         self.setFixedWidth(w)
-        self.setStyleSheet(
-            "QListWidget::item {"
-            "border-style: solid;"
-            "border-width:1px;"
-            "border-color:black;"
-            "color: white;"
-            "font-size: 16px;"
-            "}"
-            "QListWidget::item:selected {"
-            "background-color: red;"
-            "}")
+        if 'bg_color'in kwargs:
+            bg_color = kwargs['bg_color']
+        else:
+            bg_color = "#445566"
+
+        if 'front_color'in kwargs:
+            front_color = kwargs['front_color']
+        else:
+            front_color = "#ffffff"
+
+        the_style = "QListWidget { background: %s;} " \
+                    " QListWidget::item {" \
+                    "border-style: solid;" \
+                    " border-width:1px;" \
+                    " border-color:black;" \
+                    " color: %s;" \
+                    " font-size: 16px;" \
+                    "}" \
+                    " QListWidget::item:selected { background-color: red;}" % (bg_color, front_color)
+        self.setStyleSheet(the_style)
 
     def already_exist(self, old_prescription, selected_medicine):
         selected_medicine = selected_medicine.strip()

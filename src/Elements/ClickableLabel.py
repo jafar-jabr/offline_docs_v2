@@ -45,17 +45,26 @@ class ActiveLabel(QLabel):
     clicked = pyqtSignal()
     rightClicked = pyqtSignal()
 
-    def __init__(self, *args):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args)
         self.setCursor(QCursor(Qt.PointingHandCursor))
+        if 'bg_color' in kwargs:
+            bg_color = kwargs['bg_color']
+        else:
+            bg_color = "#445566"
+
+        if 'front_color' in kwargs:
+            front_color = kwargs['front_color']
+        else:
+            front_color = "#ffffff"
         style = """
                        QLabel{
-                           color: #fff;
+                           color: %s;
                            font-size: %s;
                            padding: 10px;
-                           background-color: #445566;
+                           background-color: %s;
                        }
-                       """ % (SessionWrapper.number_to_size[SessionWrapper.regular_size])
+                       """ % (front_color, SessionWrapper.number_to_size[SessionWrapper.regular_size], bg_color)
         self.setStyleSheet(style)
         self.setMaximumHeight(45)
         # self.fixWidth()

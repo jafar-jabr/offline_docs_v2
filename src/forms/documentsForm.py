@@ -73,7 +73,7 @@ class DocumentsForm(QWidget):
         categories_tab = ClickableLabel("Categories")
         categories_tab.clicked.connect(lambda: self.go_to_page('categories'))
 
-        documents_tab = ActiveLabel("Documents +")
+        documents_tab = ActiveLabel("Documents +", bg_color="#ffffff", front_color="#445566")
         documents_tab.clicked.connect(self.add_doc)
 
         tabs_line.addWidget(categories_tab)
@@ -84,7 +84,7 @@ class DocumentsForm(QWidget):
         docs_options = []
         for opt in docs:
             docs_options.append(opt['doc_name'])
-        self.documents_list = MyListWidget(450, 260, options=docs_options)
+        self.documents_list = MyListWidget(450, 260, options=docs_options, bg_color="#ffffff", front_color="#445566")
         self.documents_list.listRightClicked.connect(self.delete_doc)
         self.documents_list.clicked[str].connect(self.document_selected)
         left_inner_column.addWidget(self.documents_list)
