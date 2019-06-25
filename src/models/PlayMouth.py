@@ -1,8 +1,10 @@
 from src.forms.categoryForm import CategoryForm
 from src.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
 from src.forms.documentsForm import DocumentsForm
+from src.forms.myCalendarForm import MyCalendarForm
 from src.forms.qrGeneratorForm import QrCodeGenerator
 from src.forms.randomGeneratorForm import RandomGeneratorForm
+from src.forms.stickyNotesForm import StickyNotesForm
 
 
 class PlayMouth:
@@ -29,6 +31,8 @@ class PlayMouth:
             'date_time_difference': DateTimeDifferenceForm,
             'random_generator': RandomGeneratorForm,
             'qr_generator': QrCodeGenerator,
+            'my_calendar': MyCalendarForm,
+            'sticky_notes': StickyNotesForm
         }
         return pages[which]
 
