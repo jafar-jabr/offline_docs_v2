@@ -1,5 +1,4 @@
 import datetime
-
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QCursor
@@ -58,6 +57,7 @@ class MyListWidget(QListWidget):
         return False
 
     def list_item_clicked(self, item):
+        self.clicked.emit(item.text())
         current = datetime.datetime.now()
         if not self.first_click_time:
             self.first_click_time = current
@@ -68,7 +68,6 @@ class MyListWidget(QListWidget):
                 self.first_click_time = current
                 return
         self.first_click_time = current
-        self.clicked.emit(item.text())
 
     def eventFilter(self, source, event):
         if event.type() == QtCore.QEvent.ContextMenu and source is self:

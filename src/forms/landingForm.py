@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout
-
 from src.Elements.ClickableIcon import ClickableIcon
 from src.models.DatabaseModel import Database
 import sys

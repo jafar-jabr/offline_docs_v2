@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QLis
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.CustomLabel import RegularLabel
+from src.Elements.DateFilterWidget import DateFilterWidget
 from src.Elements.FilterTextBox import FilterTextBox
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
@@ -15,7 +16,7 @@ class StickyNotesForm(QWidget):
         self.parent = parent
         self.clinic_id = SessionWrapper.clinic_id
         self.pages_count = 6
-        self.landing_layout = QHBoxLayout()
+        self.landing_layout = QVBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
         self.landing_layout.setSpacing(0)
         self.pc_width = SessionWrapper.get_dimension('main_window_width')
@@ -24,6 +25,8 @@ class StickyNotesForm(QWidget):
 
     def initUI(self):
         lbl = RegularLabel("This will be sticky notes page")
+        date_select = DateFilterWidget(0, 10)
         self.landing_layout.addWidget(lbl)
+        self.landing_layout.addWidget(date_select)
         self.setLayout(self.landing_layout)
         # self.setS
