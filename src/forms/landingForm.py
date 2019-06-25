@@ -16,8 +16,11 @@ from src.models.SessionWrapper import SessionWrapper
 
 
 class MainWindow(QMainWindow):
+    current_instance = None
+
     def __init__(self):
         super().__init__()
+
         self.setFocusPolicy(Qt.TabFocus)
         scroll = QScrollArea(self)
         scroll.setWidgetResizable(True)
@@ -41,7 +44,9 @@ class MainWindow(QMainWindow):
 
     def run(self, which):
         self.central_widget.addWidget(which)
-        self.show()
+        if not self.current_instance:
+            self.current_instance = self
+            self.show()
 
 
 class LandingForm(QDialog):
@@ -106,9 +111,10 @@ class LandingForm(QDialog):
         self.accept()
         from src.models.PlayMouth import PlayMouth
         page = PlayMouth.all_pages(which)
-        main_window = MainWindow()
+        main_window = MainWindow.current_instance
+        if not main_window:
+            main_window = MainWindow()
         main_window.run(page(main_window))
-        # sys.exit(self.app.exec_())
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)
