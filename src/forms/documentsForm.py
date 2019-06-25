@@ -7,7 +7,6 @@ from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.LabeledTextBox import LabeledTextBox
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.filteredCompoBox import FilteredComboBox
-from src.Elements.iconedClicklableLabel import IconedClickableLabel
 from src.Elements.myListWidget import MyListWidget
 from src.modals.addDocModal import AddDocumentModal
 from src.modals.docImportModal import DocumentImportModal

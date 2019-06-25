@@ -41,12 +41,13 @@ class MainWindow(QMainWindow):
         self.setObjectName("main_window")
         self.setFixedWidth(1200)
         self.setFixedHeight(800)
+        self.show()
 
     def run(self, which):
         self.central_widget.addWidget(which)
+        self.central_widget.setCurrentWidget(which)
         if not self.current_instance:
             self.current_instance = self
-            self.show()
 
 
 class LandingForm(QDialog):
@@ -75,10 +76,6 @@ class LandingForm(QDialog):
         calendar_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/calendar.png', tool_tip="Calendar")
         calendar_btn.clicked.connect(lambda: self.go_to_form('my_calendar'))
         destinations_line.addWidget(calendar_btn)
-
-        # utility_btn = ClickableIcon(100, 100, 'resources/assets/images/Landing/date-time.png', tool_tip="Date/time convert")
-        # utility_btn.clicked.connect(lambda: self.go_to_form('utility'))
-        # destinations_line.addWidget(utility_btn)
         the_layout.addLayout(destinations_line)
 
         second_line = QHBoxLayout()
