@@ -179,12 +179,14 @@ class CategoryForm(QWidget):
             MessageBoxes.success_message("Done", "Category Updated")
             self.refresh_data()
         else:
-            if len(cat_name) > 3:
+            if len(cat_name) >= 3:
                 cat_id = Database().insert_cat(cat_name, cat_desc, user_id, current_dat)
                 MessageBoxes.success_message("Done", "Category saved")
                 self.selected_cat_id = cat_id
                 self.selected_cat_name = cat_name
                 self.refresh_data()
+            else:
+                MessageBoxes.warning_message("invalid", "Category name can not be less than three characters")
 
     def delete_cat(self, cat_name):
         ask = MessageBoxes.confirm_message("Are you sure to delete this category and all the documents under it ?")
