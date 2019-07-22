@@ -33,14 +33,13 @@ class StickyNotesForm(QWidget):
         action_line.addWidget(add_note_btn)
 
         self.sticky_layout.addLayout(action_line)
-        self.sticky_layout.addWidget(test_input)
-
+        self.sticky_layout.insertWidget(5, test_input)
         self.sticky_layout.setAlignment(Qt.AlignTop)
         self.setLayout(self.sticky_layout)
         date_select.move(400, 200)
         # self.setS
 
     def add_new_note(self):
-        # globals()['input_i'] = DraggableTextArea()
-        added = DraggableTextArea()
-        self.sticky_layout.addWidget(added)
+        test_input = DraggableTextArea()
+        self.sticky_layout.insertWidget(6, test_input)
+
