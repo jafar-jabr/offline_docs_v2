@@ -5,6 +5,7 @@ from src.Elements.CustomLabel import RegularLabel
 from src.Elements.DateFilterWidget import DateFilterWidget
 from src.Elements.draggableTextArea import DraggableTextArea
 from src.models.SessionWrapper import SessionWrapper
+from PyQt5.QtCore import QRect
 
 
 class StickyNotesForm(QWidget):
@@ -14,7 +15,7 @@ class StickyNotesForm(QWidget):
         self.parent = parent
         self.clinic_id = SessionWrapper.clinic_id
         self.pages_count = 6
-        self.sticky_layout = QVBoxLayout()
+        self.sticky_layout = QVBoxLayout(self)
         self.sticky_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
         self.sticky_layout.setSpacing(0)
         self.pc_width = SessionWrapper.get_dimension('main_window_width')
@@ -23,7 +24,7 @@ class StickyNotesForm(QWidget):
 
     def initUI(self):
         lbl = RegularLabel("Inspired by windows 10 sticky notes")
-        test_input = DraggableTextArea()
+        test_input_1 = DraggableTextArea(self)
         self.sticky_layout.addWidget(lbl)
         date_select = DateFilterWidget(0, 10)
         action_line = QHBoxLayout()
@@ -31,15 +32,13 @@ class StickyNotesForm(QWidget):
         add_note_btn.clicked.connect(self.add_new_note)
         action_line.addWidget(date_select)
         action_line.addWidget(add_note_btn)
-
+        test_input_1.setGeometry(QRect(320, self.y() + 200, 300, 45))  # (x, y, width, height)
         self.sticky_layout.addLayout(action_line)
-        self.sticky_layout.insertWidget(5, test_input)
         self.sticky_layout.setAlignment(Qt.AlignTop)
-        self.setLayout(self.sticky_layout)
         date_select.move(400, 200)
-        # self.setS
 
     def add_new_note(self):
-        test_input = DraggableTextArea()
-        self.sticky_layout.insertWidget(6, test_input)
-
+        test_input = DraggableTextArea(self)
+        test_input.setGeometry(QRect(400, self.y() + 250, 300, 45))  # (x, y, width, height)
+        test_input.setParent(None)
+        self.layout().addWidget(test_input)
