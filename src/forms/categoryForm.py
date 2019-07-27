@@ -8,7 +8,6 @@ from src.Elements.LabeledTextBox import LabeledTextBox
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.iconedClicklableLabel import IconedClickableLabel
 from src.Elements.myListWidget import MyListWidget
-from src.modals.catImportModal import CategoryImportModal
 from src.modals.dataImportModal import DataImportModal
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
@@ -25,7 +24,6 @@ class CategoryForm(QWidget):
         self.categories_by_id, self.categories_by_name = SharedFunctions().format_categories(categories)
         self.selected_cat_id = 0
         self.selected_cat_name = ""
-        self.pages_count = 6
         self.landing_layout = QHBoxLayout()
         self.landing_layout.setContentsMargins(0, 0, 0, 0) #(left, top, right, bottom)
         self.landing_layout.setSpacing(0)
@@ -77,30 +75,6 @@ class CategoryForm(QWidget):
         left_inner_column.addWidget(self.categories_list)
         lef_column.addWidget(left_inner_widget)
 
-        # btn_line = QHBoxLayout()
-        #
-        # btn_line.setContentsMargins(0, 20, 50, 0)
-        # btn_line.setSpacing(40)
-        # self.buttonInfo = ClickableLabel("Info", bg_color="#445566")
-        # self.buttonInfo.setObjectName("buttonInfo")
-        # self.buttonInfo.setFixedWidth(125)
-        # self.buttonInfo.setAlignment(Qt.AlignCenter)
-        # # self.buttonInfo.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
-        # self.buttonSettings = ClickableLabel("Settings", bg_color="#445566")
-        #
-        # self.buttonSettings.setObjectName("buttonSettings")
-        # self.buttonSettings.setFixedWidth(125)
-        # self.buttonSettings.setAlignment(Qt.AlignCenter)
-        # # self.buttonSettings.clicked.connect(self.create_account)
-        #
-        # btn_line.addWidget(self.buttonInfo)
-        # btn_line.addWidget(self.buttonSettings)
-        #
-        # lef_column.addLayout(btn_line)
-
-        # import_label = IconedClickableLabel("Import Categories", 260)
-        # import_label.clicked.connect(self.start_import)
-        # lef_column.addWidget(import_label)
         left_widget.setObjectName("categories_left")
         right_column = QVBoxLayout()
         right_widget = QWidget()
@@ -179,14 +153,14 @@ class CategoryForm(QWidget):
             MessageBoxes.success_message("Done", "Category Updated")
             self.refresh_data()
         else:
-            if len(cat_name) >= 3:
+            if len(cat_name) >= 2:
                 cat_id = Database().insert_cat(cat_name, cat_desc, user_id, current_dat)
                 MessageBoxes.success_message("Done", "Category saved")
                 self.selected_cat_id = cat_id
                 self.selected_cat_name = cat_name
                 self.refresh_data()
             else:
-                MessageBoxes.warning_message("invalid", "Category name can not be less than three characters")
+                MessageBoxes.warning_message("invalid", "Category name can not be less than two characters")
 
     def delete_cat(self, cat_name):
         ask = MessageBoxes.confirm_message("Are you sure to delete this category and all the documents under it ?")

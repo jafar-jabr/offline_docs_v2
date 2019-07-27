@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
+        self.setAttribute(Qt.WA_DeleteOnClose)
         self.setFocusPolicy(Qt.TabFocus)
         scroll = QScrollArea(self)
         scroll.setWidgetResizable(True)
@@ -52,6 +52,7 @@ class MainWindow(QMainWindow):
 class LandingForm(QDialog):
     def __init__(self):
         super().__init__()
+        self.setAttribute(Qt.WA_DeleteOnClose)
         window_width = SessionWrapper.get_dimension('login_width')
         window_height = SessionWrapper.get_dimension('login_height')
         app_font = RegularFont()

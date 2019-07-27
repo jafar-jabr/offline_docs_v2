@@ -52,7 +52,6 @@ class StickyNotesForm(QWidget):
         add_note_btn.clicked.connect(self.add_new_note)
         action_line.addWidget(self.date_select)
         action_line.addWidget(add_note_btn)
-
         action_widget = QWidget()
         action_widget.setFixedWidth(300)
         action_widget.setLayout(action_line)
@@ -105,6 +104,5 @@ class StickyNotesForm(QWidget):
 	"the_height"	INTEGER NOT NULL DEFAULT 300,
 	"created_at"	DATETIME NOT NULL,
 	"updated_at"	DATETIME
-);
-                """
+);"""
         Database().create_table_if_not_exist('sticky_notes', create_query)

@@ -63,7 +63,8 @@ class MyListWidget(QListWidget):
             self.first_click_time = current
         else:
             diff = current - self.first_click_time
-            if diff.microseconds < 255000:
+            # if diff.microseconds < 255000:
+            if diff.microseconds < 300000:
                 self.double_clicked.emit(item.text())
                 self.first_click_time = current
                 return
