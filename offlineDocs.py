@@ -32,7 +32,6 @@ from src.models.SessionWrapper import SessionWrapper
     #             print(type(object))
     #     return False
 
-
 ############################################################
 # Create a custom "QProxyStyle" to enlarge the QMenu icons #
 ############################################################
