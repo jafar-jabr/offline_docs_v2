@@ -103,14 +103,14 @@ class LandingForm(QDialog):
         self.setWindowTitle("Offline Docs / Main Page")
         self.setLayout(the_layout)
 
-    def go_to_form(self, which):
+    def go_to_form(self, which, **kwargs):
         self.accept()
         from src.models.PlayMouth import PlayMouth
         page = PlayMouth.all_pages(which)
         main_window = MainWindow.current_instance
         if not main_window:
             main_window = MainWindow()
-        main_window.run(page(main_window))
+        main_window.run(page(main_window, **kwargs))
 
     def get_preferences(self, user_id):
         pref = Database().get_preferences(user_id)

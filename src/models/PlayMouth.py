@@ -45,5 +45,6 @@ class PlayMouth:
             "random_generator": "Offline Documentation/ Random Generator",
             "date_time_difference": "Offline Documentation/ DateTime difference",
             'qr_generator': "Offline Documentation/ QR Code generator",
+            'sticky_notes': "Offline Documentation/ Sticky Notes",
         }
         return titles[which]

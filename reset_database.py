@@ -130,6 +130,23 @@ class Database:
 	PRIMARY KEY(`id`));
         """
 
+        sql13 = """
+                                                                        DROP TABLE IF EXISTS 'sticky_notes';
+                                                                        """
+        sql14 = """ 
+                CREATE TABLE "sticky_notes" (
+	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	"note_date"	DATETIME,
+	"details"	TEXT NOT NULL,
+	"x_pos"	INTEGER NOT NULL DEFAULT 400,
+	"y_pos"	INTEGER NOT NULL DEFAULT 250,
+	"the_width"	INTEGER NOT NULL DEFAULT 200,
+	"the_height"	INTEGER NOT NULL DEFAULT 300,
+	"created_at"	DATETIME NOT NULL,
+	"updated_at"	DATETIME
+);
+                """
+
         connection = self.conn
         for sql in (sql1, sql2, sql3, sql4, sql5, sql6, sql7, sql8, sql9, sql10, sql11, sql12):
             connection.execute(sql)

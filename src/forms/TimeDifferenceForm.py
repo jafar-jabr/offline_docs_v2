@@ -12,7 +12,7 @@ from src.models.SessionWrapper import SessionWrapper
 from src.models.SharedFunctions import SharedFunctions
 
 
-class UtilityForm(QWidget):
+class TimeDifferenceForm(QWidget):
     def __init__(self, parent, **kwargs):
         super().__init__()
         self.setObjectName("utility_page")
@@ -197,5 +197,5 @@ class UtilityForm(QWidget):
 
 
 # if __name__ == '__main__':
-#     rand = UtilityForm.generate_random(8)
+#     rand = TimeDifferenceForm.generate_random(8)
 #     print(rand)
