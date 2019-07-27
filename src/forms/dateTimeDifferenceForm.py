@@ -32,7 +32,8 @@ class DateTimeDifferenceForm(QWidget):
         date_time_diff_layout = QVBoxLayout()
         first_date_time_line = QHBoxLayout()
         first_date_time_label = RegularLabel("From : ")
-        self.first_date_time = DateTimeWidget(-600, 600)
+        yesterday = SharedFunctions.get_yesterday_date_str()
+        self.first_date_time = DateTimeWidget(-600, 600, value=yesterday)
         first_date_time_line.addWidget(first_date_time_label)
         first_date_time_line.addWidget(self.first_date_time)
 
