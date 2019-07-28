@@ -101,13 +101,13 @@ class DateFilterWidget(QWidget):
         self.m_select.setCurrentText(str(month))
         self.d_select.setCurrentText(str(day))
 
-    def paintEvent(self, event):
-        paint = QPainter(self)
-        paint.setBrush(QColor("#f5f5f5"))
-        pen = QPen()
-        pen.setColor(QColor("#f5f5f5"))
-        paint.setPen(pen)
-        paint.drawRoundedRect(self.rect(), 10.0, 10.0)
+    # def paintEvent(self, event):
+    #     paint = QPainter(self)
+    #     paint.setBrush(QColor("#f5f5f5"))
+    #     pen = QPen()
+    #     pen.setColor(QColor("#f5f5f5"))
+    #     paint.setPen(pen)
+    #     paint.drawRoundedRect(self.rect(), 10.0, 10.0)
 
     def update_year(self, year):
         DateFilterWidget.year_value = year
