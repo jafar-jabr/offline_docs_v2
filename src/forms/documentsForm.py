@@ -1,5 +1,4 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame, QDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QDialog
 from src.Elements.ClickableIcon import ClickableIcon
 from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
 from src.Elements.FilterTextBox import FilterTextBox
@@ -88,17 +87,6 @@ class DocumentsForm(QWidget):
         self.documents_list.clicked[str].connect(self.document_selected)
         left_inner_column.addWidget(self.documents_list)
         lef_column.addWidget(left_inner_widget)
-
-        # add_btn = ClickableLabel("Add Document", bg_color="#445566", txt_color="#000000")
-        # add_btn.clicked.connect(self.add_doc)
-        # add_btn.setFixedWidth(225)
-        # add_btn.setAlignment(Qt.AlignCenter)
-        #
-        # lef_column.addWidget(add_btn)
-        #
-        # import_label = IconedClickableLabel("Import Documents", 260)
-        # import_label.clicked.connect(self.start_import)
-        # lef_column.addWidget(import_label)
 
         left_widget.setObjectName("categories_left")
 

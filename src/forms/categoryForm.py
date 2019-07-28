@@ -113,6 +113,7 @@ class CategoryForm(QWidget):
         self.landing_layout.addWidget(left_widget)
         self.landing_layout.addLayout(right_column)
         self.setLayout(self.landing_layout)
+        self.category_name.setText("")
         # self.setS
 
     def go_to_page(self, which, **kwargs):
