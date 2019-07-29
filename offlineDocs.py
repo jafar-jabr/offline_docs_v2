@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import sys
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QDialog
 from src.forms.landingForm import LandingForm
@@ -51,6 +53,11 @@ class MyProxyStyle(QProxyStyle):
 
 ### pyinstaller :: pyinstaller --onefile --windowed --icon=resources\assets\images\icon.ico medicBook.py
 def run_app():
+    # Handle high resolution displays:
+    if hasattr(Qt, 'AA_EnableHighDpiScaling'):
+        QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    if hasattr(Qt, 'AA_UseHighDpiPixmaps'):
+        QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     app.setApplicationName("Offline Docs")
     app.setWindowIcon(QIcon('resources/assets/images/logo.png'))
