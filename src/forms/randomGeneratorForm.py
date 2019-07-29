@@ -1,5 +1,7 @@
 import string
 import random
+
+from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton, QCheckBox, QComboBox
 
 from src.Elements.ClickableIcon import ClickableIcon
@@ -8,6 +10,7 @@ from datetime import datetime, timedelta
 from src.Elements.LabeledTextArea import LabeledTextArea
 from src.Elements.MessageBoxes import MessageBoxes
 from src.Elements.RegularButton import RegularButton
+from src.Elements.RegularTextBox import RegularTextBox
 from src.Elements.dateTimeWidget import DateTimeWidget
 from src.Elements.secondDateTimeWidget import SecondDateTimeWidget
 from src.models.SessionWrapper import SessionWrapper
@@ -52,10 +55,10 @@ class RandomGeneratorForm(QWidget):
         random_length_line.setContentsMargins(0, 0, 360, 0)  # (left, top, right, bottom)
         random_length_label = RegularLabel("Length : ")
         random_length_label.setWidth(120)
-        self.random_length_select = QComboBox()
+        self.random_length_select = RegularTextBox(text=10)
+        self.random_length_select.setValidator(QIntValidator())
+
         self.random_length_select.setFixedWidth(60)
-        for option in range(1, 501):
-            self.random_length_select.addItem(str(option))
 
         random_length_line.addWidget(random_length_label)
         random_length_line.addWidget(self.random_length_select)
@@ -77,7 +80,10 @@ class RandomGeneratorForm(QWidget):
         return random_string_section
 
     def generate_random(self):
-        string_length = int(self.random_length_select.currentText())
+        if not len(self.random_length_select.text()):
+            MessageBoxes.warning_message("Error", "choose the length please !")
+            return
+        string_length = int(self.random_length_select.text())
         letters = ''
         if self.capital_etters.isChecked():
             letters += string.ascii_uppercase

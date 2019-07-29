@@ -44,10 +44,13 @@ class QrCodeGenerator(QWidget):
         )
         txt = self.qr_text.text()
         if len(txt):
-            qr.add_data(txt)
-            qr.make(fit=True)
-            img = qr.make_image(fill_color="black", back_color="white")
-            self.show_qr(img)
+            if len(txt.strip()):
+                qr.add_data(txt)
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white")
+                self.show_qr(img)
+                return
+        self.show_image()
 
     def show_qr(self, img):
         plt.close('all')

@@ -19,6 +19,19 @@ class Database:
         conn.row_factory = sqlite3.Row
         self.conn = conn
 
+    def create_table_if_not_exist(self, table_name, create_sql):
+        sql = 'SELECT * FROM %s ' % table_name
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute(sql)
+            the_check = connection.fetchone()
+        except sqlite3.OperationalError as error:
+            connection.execute(create_sql)
+            conn.commit()
+        connection.close()
+        return 'Okay'
+
     def new_check_login(self, user_name):
         sql = 'SELECT * FROM users ' \
               'WHERE status != 0 '\
@@ -47,6 +60,57 @@ class Database:
         if bool(the_pref):
             return the_pref
         return []
+
+    def get_notes_by_date(self, the_date):
+        sql = 'SELECT * FROM sticky_notes ' \
+              'WHERE note_date ='+"\"%s\"" % the_date
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute(sql)
+            the_notes = connection.fetchall()
+        except sqlite3.OperationalError as error:
+            return error
+        connection.close()
+        if bool(the_notes):
+            return the_notes
+        return []
+
+    def update_note_pos(self, note_id, the_x, the_y, current_date):
+        connection = self.conn
+        try:
+            connection.execute("UPDATE sticky_notes SET x_pos = ?, y_pos = ?, updated_at = ? WHERE id = ?",
+                               (the_x, the_y, current_date, note_id))
+            connection.commit()
+        except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
+            return error
+        connection.close()
+        return 'note position updated successfully'
+
+    def update_note_details(self, note_id, the_details, current_date):
+        connection = self.conn
+        try:
+            connection.execute("UPDATE sticky_notes SET details = ?, updated_at = ? WHERE id = ?",
+                               (the_details, current_date, note_id))
+            connection.commit()
+        except (sqlite3.OperationalError, sqlite3.IntegrityError) as error:
+            return error
+        connection.close()
+        return 'note details updated successfully'
+
+    def insert_note(self, note_date, note_details, current_date):
+        conn = self.conn
+        connection = conn.cursor()
+        try:
+            connection.execute(
+                "INSERT INTO sticky_notes(note_date, details, created_at, updated_at) VALUES (?, ?, ?, ?)",
+                  (note_date, note_details, current_date, current_date))
+            conn.commit()
+            connection.close()
+            return connection.lastrowid
+        except sqlite3.OperationalError as error:
+            connection.close()
+            return error
 
     def update_remember_me(self, user_name="", pass_word=""):
         connection = self.conn

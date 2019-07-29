@@ -5,12 +5,11 @@ import datetime
 
 
 class DateTimeWidget(QWidget):
-    def __init__(self, start_before, the_range):
+    def __init__(self, start_before, the_range, **kwargs):
         super().__init__()
         self.setFixedWidth(440)
         first_time_l = QHBoxLayout()
-        #
-        self.date = DateWidget(start_before, the_range)
+        self.date = DateWidget(start_before, the_range, **kwargs)
         self.time = TimeWidget()
         #
         first_time_l.addWidget(self.date)
