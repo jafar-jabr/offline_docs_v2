@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame, QDialog, QPushButton, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame, QDialog, QPushButton, QLineEdit, QMessageBox, QCalendarWidget
 from src.Elements.CustomLabel import RegularLabel
 from src.models.SessionWrapper import SessionWrapper
 from googleapiclient.discovery import build
@@ -67,7 +67,7 @@ class MyCalendarForm(QWidget):
             self.lista.append(start + event['summary'])
 
     def on_click(self):
-        self.textbox.setText(str([x for x in self.lista]))
+        self.textbox.setText(str([x for x in self.lista]).strip("']["))
 
     def initUI(self):
         # lbl = RegularLabel("This will be My Calendar page.. coming soon")
@@ -75,7 +75,7 @@ class MyCalendarForm(QWidget):
         # self.landing_layout.addWidget(lbl)
         self.landing_layout.addWidget(test)
         self.button = QPushButton("Apasa pentru a vedea daca ai evenimente in urmatoarele 10 zile")
-        self.button.move(20, 20)
+        self.button.move(2, 20)
         self.setLayout(self.landing_layout)
         self.landing_layout.addWidget(self.button)
         self.landing_layout.addWidget(self.textbox)
@@ -83,3 +83,9 @@ class MyCalendarForm(QWidget):
         self.button.clicked.connect(self.on_click)
         print(self.lista)
 
+        #Calendar
+
+        calendar = QCalendarWidget()
+        calendar.setGridVisible(True)
+        calendar.move(20, 20)
+        self.landing_layout.addWidget(calendar)
