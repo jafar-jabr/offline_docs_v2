@@ -29,12 +29,13 @@ class MyCalendarForm(QWidget):
     def googleInit(self):
         SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
         api_cred = "resources/credentials.json"
+        token_file = 'resources/token.pickle'
         creds = None
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
-        if os.path.exists('token.pickle'):
-            with open('token.pickle', 'rb') as token:
+        if os.path.exists(token_file):
+            with open(token_file, 'rb') as token:
                 creds = pickle.load(token)
         # If there are no (valid) credentials available, let the user log in.
         if not creds or not creds.valid:
@@ -45,7 +46,7 @@ class MyCalendarForm(QWidget):
                     api_cred, SCOPES)
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
-            with open('token.pickle', 'wb') as token:
+            with open('resources/token.pickle', 'wb') as token:
                 pickle.dump(creds, token)
 
         service = build('calendar', 'v3', credentials=creds)
