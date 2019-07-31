@@ -1,14 +1,14 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QDialog
 from PyQt5.QtCore import Qt
 
-from src.views.Widgets.ClickableIcon import ClickableIcon
-from src.views.Widgets.ClickableLabel import ActiveLabel, ClickableLabel
-from src.views.Widgets.FilterTextBox import FilterTextBox
-from src.views.Widgets.LabeledTextArea import LabeledTextArea
-from src.views.Widgets.LabeledTextBox import LabeledTextBox
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.iconedClicklableLabel import IconedClickableLabel
-from src.views.Widgets.myListWidget import MyListWidget
+from src.views.widgets.ClickableIcon import ClickableIcon
+from src.views.widgets.ClickableLabel import ActiveLabel, ClickableLabel
+from src.views.widgets.FilterTextBox import FilterTextBox
+from src.views.widgets.LabeledTextArea import LabeledTextArea
+from src.views.widgets.LabeledTextBox import LabeledTextBox
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.iconedClicklableLabel import IconedClickableLabel
+from src.views.widgets.myListWidget import MyListWidget
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.models.GenericFunctions import SharedFunctions

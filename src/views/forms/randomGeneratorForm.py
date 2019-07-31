@@ -4,11 +4,11 @@ import random
 from PyQt5.QtGui import QIntValidator
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QCheckBox
 
-from src.views.Widgets.CustomLabel import RegularLabel
-from src.views.Widgets.LabeledTextArea import LabeledTextArea
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.RegularButton import RegularButton
-from src.views.Widgets.RegularTextBox import RegularTextBox
+from src.views.widgets.CustomLabel import RegularLabel
+from src.views.widgets.LabeledTextArea import LabeledTextArea
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.RegularButton import RegularButton
+from src.views.widgets.RegularTextBox import RegularTextBox
 from src.models.SessionWrapper import SessionWrapper
 
 

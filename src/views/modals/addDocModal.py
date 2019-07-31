@@ -1,10 +1,10 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QWidget, QHBoxLayout
-from src.views.Widgets.ClickableIcon import ClickableIcon
-from src.views.Widgets.LabeledTextArea import LabeledTextArea
-from src.views.Widgets.LabeledTextBox import LabeledTextBox
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.regularCompoBox import RegularCompoBox
+from src.views.widgets.ClickableIcon import ClickableIcon
+from src.views.widgets.LabeledTextArea import LabeledTextArea
+from src.views.widgets.LabeledTextBox import LabeledTextBox
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.regularCompoBox import RegularCompoBox
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 

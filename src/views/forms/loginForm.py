@@ -1,15 +1,15 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QLineEdit, QGridLayout, QHBoxLayout, QWidget, QVBoxLayout
-from src.views.Widgets.ClickableLabel import ForgotPasswordLabel, ClickableLabel
-from src.views.Widgets.CustomLabel import RegularLabel, HeadLineLabel
-from src.views.Widgets.MyCheckBox import CheckBox
+from src.viewModels.login import LoginModel
+from src.views.widgets.ClickableLabel import ForgotPasswordLabel, ClickableLabel
+from src.views.widgets.CustomLabel import RegularLabel, HeadLineLabel
+from src.views.widgets.MyCheckBox import CheckBox
 from src.views.modals.createAccountModal import CreateAccountModal
 from src.models.AppFonts import RegularFont
 from src.models.DatabaseModel import Database
-from src.models.MyEnc import do_encrypt
 from src.models.SessionWrapper import SessionWrapper
-from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.MessageBoxes import MessageBoxes
 
 
 class Login(QDialog):
@@ -22,7 +22,9 @@ class Login(QDialog):
         self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
         self.setObjectName("login")
         self.status = "Not Done"
-        self.do_order = False
+        self.initUI()
+
+    def initUI(self):
         welcomeLabel = HeadLineLabel('Welcome !')
         welcomeLabel.setObjectName("welcome_label")
         welcomeLabel.setStyleSheet('welcome_label')
@@ -50,11 +52,11 @@ class Login(QDialog):
 
         grid = QGridLayout()
         grid.setSpacing(5)
-        grid.setColumnStretch(2, 5) #column strech
+        grid.setColumnStretch(2, 5)  # column strech
 
         # grid.addWidget(welcomeLabel, 1, 0)
 
-        grid.addWidget(userNameLabel, 1, 0) #( row, column)
+        grid.addWidget(userNameLabel, 1, 0)  # ( row, column)
         grid.addWidget(self.userNameEdit, 1, 1)
 
         grid.addWidget(passWordLabel, 2, 0)
@@ -82,14 +84,7 @@ class Login(QDialog):
         btn_line.addWidget(self.buttonLogin)
         btn_line.addWidget(self.buttonRegister)
 
-        self.remember_me = CheckBox("Remember Me !")
-        remember_me_data = Database().get_remember_me()
-        if remember_me_data is not None:
-            user_name_r = remember_me_data['user_name']
-            pass_word_r = remember_me_data['pass_word']
-            self.passWordEdit.setText(pass_word_r)
-            self.userNameEdit.setText(user_name_r)
-            self.remember_me.setChecked(True)
+        self.remember_me = self.remember_me_widget()
         sign_up_section = QHBoxLayout()
         sign_up_section.setSpacing(80)
         sign_up_section.setContentsMargins(30, 0, 30, 0)  # (left, top, right, bottom)
@@ -112,29 +107,16 @@ class Login(QDialog):
         self.setLayout(self.column)
 
     def handleLogin(self, email, password):
-        enc_pass = do_encrypt(password)
-        check = Database().new_check_login(email)
-        if check and check["password"] == enc_pass:
-            self.status = "Done"
-            SessionWrapper.user_password = enc_pass
-            SessionWrapper.user_id = check["id"]
-            SessionWrapper.user_email = check["email"]
-            SessionWrapper.user_since = check["created_at"]
-            SessionWrapper.user_name = check["firstname"]+' '+check["lastname"]
-            SessionWrapper.user_phone = check['phone']
-            self.get_preferences(check["id"])
-            if self.remember_me.checkState() == Qt.Checked:
-                Database().update_remember_me(email, password)
+            remember_me = self.remember_me.checkState() == Qt.Checked
+            login_try, msg = LoginModel.handleLogin(email, password, remember_me)
+            if login_try == "Okay" and msg == "Done":
+                self.status = "Done"
+                self.accept()
+            elif login_try == "Okay" and msg == "new":
+                self.status = "New"
+                self.accept()
             else:
-                Database().update_remember_me()
-            self.accept()
-        elif check and not check["password"]:
-            SessionWrapper.user_id = check["id"]
-            self.status = "New"
-            self.accept()
-        else:
-            MessageBoxes.warning_message("Error", "Invalid Credential")
-        return
+                MessageBoxes.warning_message(login_try, msg)
 
     def create_account(self):
         reg_modal = CreateAccountModal()
@@ -143,13 +125,13 @@ class Login(QDialog):
             self.userNameEdit.setText(reg_modal.registered_email)
             self.passWordEdit.setText(reg_modal.registered_password)
 
-    def get_preferences(self, user_id):
-        pref = Database().get_preferences(user_id)
-        try:
-            SessionWrapper.font_color = pref['font_color']
-            SessionWrapper.regular_size = pref['regular_size']
-            SessionWrapper.big_size = pref['big_size']
-            SessionWrapper.current_version = pref['current_version']
-            SessionWrapper.release_date = pref['release_date']
-        except TypeError:
-            pass
+    def remember_me_widget(self):
+        remember_me = CheckBox("Remember Me !")
+        remember_me_data = Database().get_remember_me()
+        if remember_me_data is not None:
+            user_name_r = remember_me_data['user_name']
+            pass_word_r = remember_me_data['pass_word']
+            self.passWordEdit.setText(pass_word_r)
+            self.userNameEdit.setText(user_name_r)
+            remember_me.setChecked(True)
+        return remember_me

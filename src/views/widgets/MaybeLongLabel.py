@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QWidget
 
-from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.widgets.CustomLabel import RegularLabel
 from src.views.modals import FullTextModal
 from src.models.GenericFunctions import SharedFunctions
 

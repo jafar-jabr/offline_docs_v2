@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QDialog
 
-from src.views.Widgets.ClickableIcon import ClickableIcon
-from src.views.Widgets.ClickableLabel import ClickableLabel, ActiveLabel
-from src.views.Widgets.FilterTextBox import FilterTextBox
-from src.views.Widgets.LabeledTextArea import LabeledTextArea
-from src.views.Widgets.LabeledTextBox import LabeledTextBox
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.filteredCompoBox import FilteredComboBox
-from src.views.Widgets.myListWidget import MyListWidget
+from src.views.widgets.ClickableIcon import ClickableIcon
+from src.views.widgets.ClickableLabel import ClickableLabel, ActiveLabel
+from src.views.widgets.FilterTextBox import FilterTextBox
+from src.views.widgets.LabeledTextArea import LabeledTextArea
+from src.views.widgets.LabeledTextBox import LabeledTextBox
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.filteredCompoBox import FilteredComboBox
+from src.views.widgets.myListWidget import MyListWidget
 from src.views.modals.addDocModal import AddDocumentModal
 from src.views.modals.docImportModal import DocumentImportModal
 from src.models.DatabaseModel import Database

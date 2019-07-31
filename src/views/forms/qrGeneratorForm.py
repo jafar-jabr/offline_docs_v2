@@ -4,7 +4,7 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 import qrcode
 
-from src.views.Widgets.LabeledTextBox import LabeledTextBox
+from src.views.widgets.LabeledTextBox import LabeledTextBox
 
 
 class QrCodeGenerator(QWidget):

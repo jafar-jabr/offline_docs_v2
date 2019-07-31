@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton
-from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.widgets.CustomLabel import RegularLabel
 from datetime import datetime
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.RegularButton import RegularButton
-from src.views.Widgets.dateTimeWidget import DateTimeWidget
-from src.views.Widgets.secondDateTimeWidget import SecondDateTimeWidget
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.RegularButton import RegularButton
+from src.views.widgets.dateTimeWidget import DateTimeWidget
+from src.views.widgets.secondDateTimeWidget import SecondDateTimeWidget
 from src.models.SessionWrapper import SessionWrapper
 from src.models.GenericFunctions import SharedFunctions
 

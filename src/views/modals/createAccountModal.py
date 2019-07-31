@@ -1,10 +1,10 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QWidget, QVBoxLayout, QLineEdit
-from src.views.Widgets.CustomLabel import RegularLabel
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.RegularButton import RegularButton
-from src.views.Widgets.RegularTextBox import RegularTextBox
+from src.views.widgets.CustomLabel import RegularLabel
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.RegularButton import RegularButton
+from src.views.widgets.RegularTextBox import RegularTextBox
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt
 from src.models.GenericFunctions import SharedFunctions

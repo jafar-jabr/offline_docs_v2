@@ -2,11 +2,11 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
 
-from src.views.Widgets import ClickableLabel
-from src.views.Widgets.CustomLabel import RegularLabel
-from src.views.Widgets.MessageBoxes import MessageBoxes
-from src.views.Widgets.dbSelector import DatabaseSelector
-from src.views.Widgets.regularCompoBox import RegularCompoBox
+from src.views.widgets import ClickableLabel
+from src.views.widgets.CustomLabel import RegularLabel
+from src.views.widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.dbSelector import DatabaseSelector
+from src.views.widgets.regularCompoBox import RegularCompoBox
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.models.GenericFunctions import SharedFunctions

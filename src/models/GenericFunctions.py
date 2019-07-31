@@ -8,7 +8,7 @@ from datetime import datetime
 import calendar
 import string
 import random
-from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.widgets.MessageBoxes import MessageBoxes
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt
 from src.models.SessionWrapper import SessionWrapper

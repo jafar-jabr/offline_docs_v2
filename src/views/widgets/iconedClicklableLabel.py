@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt, QSize, pyqtSignal
 from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QPushButton
-from src.views.Widgets.ClickableLineEdit import ClickableLineEdit
+from src.views.widgets.ClickableLineEdit import ClickableLineEdit
 
 
 class IconedClickableLabel(QWidget):

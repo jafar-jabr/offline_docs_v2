@@ -1,9 +1,9 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFormLayout
-from src.views.Widgets.ClickableIcon import ClickableIcon
-from src.views.Widgets.CustomLabel import RegularLabel
-from src.views.Widgets.DateFilterWidget import DateFilterWidget
-from src.views.Widgets.draggableTextArea import DraggableTextArea
+from src.views.widgets.ClickableIcon import ClickableIcon
+from src.views.widgets.CustomLabel import RegularLabel
+from src.views.widgets.DateFilterWidget import DateFilterWidget
+from src.views.widgets.draggableTextArea import DraggableTextArea
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from PyQt5.QtCore import QRect

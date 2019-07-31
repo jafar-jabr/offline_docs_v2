@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QPushButton, QLineEdit, QCalendarWidget
-from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.widgets.CustomLabel import RegularLabel
 from src.models.SessionWrapper import SessionWrapper
 from googleapiclient.discovery import build
 import os.path

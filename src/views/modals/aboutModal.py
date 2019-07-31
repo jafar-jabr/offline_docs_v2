@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QVBoxLayout
-from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.widgets.CustomLabel import RegularLabel
 
 
 class AboutModal(QDialog):

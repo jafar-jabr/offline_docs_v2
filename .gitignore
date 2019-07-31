@@ -4,7 +4,7 @@ dist
 __pycache__
 .idea
 src/dataTables/__pycache__
-src/views/Widgets/__pycache__
+src/views/widgets/__pycache__
 src/views/forms/__pycache__
 src/views/modals/__pycache__
 src/models/__pycache__
