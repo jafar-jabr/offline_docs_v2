@@ -1,15 +1,4 @@
-"""
-settings table:
 
-field1 is_trial bool
-field2 trial_start_time nullable
-field3 paid_start_time nullable
-field4 rows_limit int
-field5 pc_id text
-field6 default_lng
-field7 code_origin
-field8 code
-"""
 from src.models.AppDimensions import AppDimension
 
 
@@ -26,8 +15,6 @@ class SessionWrapper:
     user_role_name = None
     all_the_roles = {1: "مالك التطبيق", 2: "مدير", 3: "مستخدم"}
     all_the_roles_ids = {"مالك التطبيق": 1, "مدير": 2, "مستخدم": 3}
-    all_the_jobs = {1: "طبيب", 2: "صيدلاني", 3: "ممرض", 4: "اداري", 5: "مساعد"}
-    all_the_jobs_ids = {"طبيب": 1, "صيدلاني": 2, "ممرض": 3, "اداري": 4, "مساعد": 5}
     documents_types = ["Normal", "Image", "Confidential"]
     screen_width = 0
     screen_height = 0
