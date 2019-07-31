@@ -1,19 +1,15 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QDialog, QLineEdit, QLabel, QGridLayout, QHBoxLayout, QWidget, QCheckBox, QVBoxLayout
-
-from src.Elements.LabeledTextBox import LabeledTextBox
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ForgotPasswordLabel
-from src.Elements.CustomLabel import RegularLabel, HeadLineLabel
-from src.Elements.MyCheckBox import CheckBox
-from src.Elements.RegularButton import RegularButton
-from src.modals.createAccountModal import CreateAccountModal
+from PyQt5.QtWidgets import QDialog, QLineEdit, QGridLayout, QHBoxLayout, QWidget, QVBoxLayout
+from src.views.Widgets.ClickableLabel import ForgotPasswordLabel, ClickableLabel
+from src.views.Widgets.CustomLabel import RegularLabel, HeadLineLabel
+from src.views.Widgets.MyCheckBox import CheckBox
+from src.views.modals.createAccountModal import CreateAccountModal
 from src.models.AppFonts import RegularFont
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt
 from src.models.SessionWrapper import SessionWrapper
-from src.Elements.MessageBoxes import MessageBoxes
+from src.views.Widgets.MessageBoxes import MessageBoxes
 
 
 class Login(QDialog):

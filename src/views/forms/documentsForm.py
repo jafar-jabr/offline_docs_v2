@@ -1,17 +1,18 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QDialog
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
-from src.Elements.FilterTextBox import FilterTextBox
-from src.Elements.LabeledTextArea import LabeledTextArea
-from src.Elements.LabeledTextBox import LabeledTextBox
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.filteredCompoBox import FilteredComboBox
-from src.Elements.myListWidget import MyListWidget
-from src.modals.addDocModal import AddDocumentModal
-from src.modals.docImportModal import DocumentImportModal
+
+from src.views.Widgets.ClickableIcon import ClickableIcon
+from src.views.Widgets.ClickableLabel import ClickableLabel, ActiveLabel
+from src.views.Widgets.FilterTextBox import FilterTextBox
+from src.views.Widgets.LabeledTextArea import LabeledTextArea
+from src.views.Widgets.LabeledTextBox import LabeledTextBox
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.filteredCompoBox import FilteredComboBox
+from src.views.Widgets.myListWidget import MyListWidget
+from src.views.modals.addDocModal import AddDocumentModal
+from src.views.modals.docImportModal import DocumentImportModal
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 
 
 class DocumentsForm(QWidget):

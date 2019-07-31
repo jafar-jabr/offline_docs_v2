@@ -1,10 +1,10 @@
-from src.forms.categoryForm import CategoryForm
-from src.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
-from src.forms.documentsForm import DocumentsForm
-from src.forms.myCalendarForm import MyCalendarForm
-from src.forms.qrGeneratorForm import QrCodeGenerator
-from src.forms.randomGeneratorForm import RandomGeneratorForm
-from src.forms.stickyNotesForm import StickyNotesForm
+from src.views.forms.categoryForm import CategoryForm
+from src.views.forms.dateTimeDifferenceForm import DateTimeDifferenceForm
+from src.views.forms.documentsForm import DocumentsForm
+from src.views.forms.myCalendarForm import MyCalendarForm
+from src.views.forms.qrGeneratorForm import QrCodeGenerator
+from src.views.forms.randomGeneratorForm import RandomGeneratorForm
+from src.views.forms.stickyNotesForm import StickyNotesForm
 
 
 class PlayMouth:

@@ -1,19 +1,19 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QButtonGroup, QRadioButton
+from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
 
-from src.Elements.ClickableLabel import ClickableLabel
-from src.Elements.CustomLabel import RegularLabel
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.dbSelector import DatabaseSelector
-from src.Elements.regularCompoBox import RegularCompoBox
+from src.views.Widgets import ClickableLabel
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.dbSelector import DatabaseSelector
+from src.views.Widgets.regularCompoBox import RegularCompoBox
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 from src.models.remoteDatabase import RemoteDatabase
 
 
-class DataImportModal(QDialog):
+class CategoryImportModal(QDialog):
     def __init__(self):
         super().__init__()
         self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
@@ -23,7 +23,7 @@ class DataImportModal(QDialog):
         self.layout = QVBoxLayout()
         self.layout.setSpacing(15)
         self.layout.setContentsMargins(0, 30, 80, 50)  # (left, top, right, bottom)
-        nameLabel = RegularLabel('Import Data')
+        nameLabel = RegularLabel('Import Categories')
         target_v_H = QHBoxLayout()
         v_label = RegularLabel('Target Version:')
         v_options = ['V1', 'V2']
@@ -47,7 +47,7 @@ class DataImportModal(QDialog):
         self.layout.addLayout(db_h)
         self.layout.addLayout(import_options_h)
         self.layout.addWidget(self.do_import_btn)
-        self.setWindowTitle("Import Data")
+        self.setWindowTitle("Import Categories")
         self.resize(600, 270)
         self.setLayout(self.layout)
 
@@ -65,7 +65,7 @@ class DataImportModal(QDialog):
         remote_cat = db.get_all_categories()
         user_id = SessionWrapper.user_id
         local_cat = Database().get_all_categories(user_id)
-        SharedFunctions.import_all_together(local_cat, remote_cat, user_id, db_path)
-        MessageBoxes.success_message("Imported", "Data Import Done")
+        SharedFunctions.import_cats(local_cat, remote_cat, user_id)
+        MessageBoxes.success_message("Imported", "Import categories Done")
         self.result = "Done"
         self.accept()

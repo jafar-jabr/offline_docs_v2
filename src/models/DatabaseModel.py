@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-import math
 import sqlite3
-# from pysqlcipher3 import dbapi2 as sqlite3
 import datetime
-
-from src.models.SessionWrapper import SessionWrapper
 
 
 class Database:
@@ -13,9 +9,7 @@ class Database:
 
     def __init__(self):
         db_file = 'resources/data/app.db'
-        # db_file = 'resources/data/e_app.db'
         conn = sqlite3.connect(db_file)
-        conn.execute("PRAGMA key='yrewyrbdffkh'")
         conn.row_factory = sqlite3.Row
         self.conn = conn
 

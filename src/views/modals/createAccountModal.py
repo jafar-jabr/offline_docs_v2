@@ -1,13 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QWidget, QVBoxLayout, QLineEdit
-from src.Elements.CustomLabel import RegularLabel
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.RegularButton import RegularButton
-from src.Elements.RegularTextBox import RegularTextBox
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.RegularButton import RegularButton
+from src.views.Widgets.RegularTextBox import RegularTextBox
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_encrypt
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 from src.models.Validator import Validator
 
 
@@ -92,9 +92,9 @@ class CreateAccountModal(QDialog):
         self.setWindowTitle("Create New Account")
 
     def do_registration(self, name, email, password, password_2):
-        for check, message in [Validator().validate_name(name),
-                               Validator().validate_email(email),
-                               Validator().validate_passwords(password, password_2)
+        for check, message in [Validator.validate_name(name),
+                               Validator.validate_email(email),
+                               Validator.validate_passwords(password, password_2)
                                ]:
             if not check:
                 MessageBoxes.warning_message("Error", message)

@@ -1,43 +1,21 @@
 #!/usr/bin/env python3
 import sys
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QProxyStyle, QStyle, QApplication, QDialog
-from src.forms.landingForm import LandingForm
-from src.forms.loginForm import Login
+from src.views.forms.landingForm import LandingForm
 ############################################################
 # Main App                                                 #
 ############################################################
-from src.modals.createAccountModal import CreateAccountModal
 from src.models.AppFonts import RegularFont
 from src.models.SessionWrapper import SessionWrapper
-
-    # def closeEvent(self, event):
-    #     confirm = MessageBoxes.confirm_message("close the app ?")
-    #     if confirm:
-    #         event.accept()
-    #     else:
-    #         event.ignore()
-
-    # def eventFilter(self, object, event):
-    #     if event.type() == QEvent.MouseButtonPress:
-    #         if isinstance(object, MyQAction):
-    #             print("Mouse pressed 1")
-    #             pos = event.pos()
-    #             parentPosition = self.mapToGlobal(QPoint(0, 0))
-    #             menuPosition = parentPosition + pos
-    #             self.images_menu.move(menuPosition)
-    #             self.images_menu.show()
-    #             return True
-    #         else:
-    #             print(type(object))
-    #     return False
-    
 
 ############################################################
 # Create a custom "QProxyStyle" to enlarge the QMenu icons #
 ############################################################
+from src.views.forms.loginForm import Login
+
+
 class MyProxyStyle(QProxyStyle):
     pass
 
@@ -52,7 +30,6 @@ class MyProxyStyle(QProxyStyle):
 # instantiate the app with login dialog                    #
 ############################################################
 
-### pyinstaller :: pyinstaller --onefile --windowed --icon=resources\assets\images\icon.ico medicBook.py
 def run_app():
     # Handle high resolution displays:
     if hasattr(Qt, 'AA_EnableHighDpiScaling'):
@@ -84,7 +61,7 @@ def run_app():
     # if login succeed start the main page                     #
     ############################################################
     login_result = login.exec_()
-    if login_result == QDialog.Accepted and login.status == "Done" and not login.do_order:
+    if login_result == QDialog.Accepted and login.status == "Done":
         window = LandingForm()
         window.show()
         sys.exit(app.exec_())

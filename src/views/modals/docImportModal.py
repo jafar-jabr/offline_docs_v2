@@ -2,13 +2,13 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout, QButtonGroup, QRadioButton
 
-from src.Elements.ClickableLabel import ClickableLabel
-from src.Elements.CustomLabel import RegularLabel
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.dbSelector import DatabaseSelector
-from src.Elements.regularCompoBox import RegularCompoBox
+from src.views.Widgets import ClickableLabel
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.dbSelector import DatabaseSelector
+from src.views.Widgets.regularCompoBox import RegularCompoBox
 from src.models.DatabaseModel import Database
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 from src.models.remoteDatabase import RemoteDatabase
 
 

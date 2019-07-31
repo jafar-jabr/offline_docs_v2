@@ -2,9 +2,9 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QPixmap, QCursor
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QWidget
 
-from src.Elements.CustomLabel import RegularLabel
-from src.modals.fullTextModal import FullTextModal
-from src.models.SharedFunctions import SharedFunctions
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.modals import FullTextModal
+from src.models.GenericFunctions import SharedFunctions
 
 
 class IconicQLabel(QLabel):

@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout
 from PyQt5.QtCore import Qt
-from src.Elements.ClickableLabel import ClickableLabel
-from src.Elements.CustomLabel import RegularLabel, HeadLineLabel
-from src.Elements.MessageBoxes import MessageBoxes
+from src.views.Widgets import ClickableLabel
+from src.views.Widgets.CustomLabel import RegularLabel, HeadLineLabel
+from src.views.Widgets.MessageBoxes import MessageBoxes
 from src.models.DatabaseModel import Database
 from src.models.MyEnc import do_decrypt
 from src.models.SessionWrapper import SessionWrapper

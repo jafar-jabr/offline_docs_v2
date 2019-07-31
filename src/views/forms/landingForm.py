@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QHBoxLayout, QVBoxLayout
-from src.Elements.ClickableIcon import ClickableIcon
+from src.views.Widgets.ClickableIcon import ClickableIcon
 from src.models.DatabaseModel import Database
 import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow, \
     QStackedWidget, QDialog, QScrollArea
-from src.Elements.ToolBar import ToolBar
+from src.views.Widgets.ToolBar import ToolBar
 ############################################################
 # Main App                                                 #
 ############################################################

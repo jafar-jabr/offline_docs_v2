@@ -1,17 +1,18 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QListWidgetItem, QFrame, QDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QDialog
 from PyQt5.QtCore import Qt
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.ClickableLabel import ClickableLabel, ActiveLabel
-from src.Elements.FilterTextBox import FilterTextBox
-from src.Elements.LabeledTextArea import LabeledTextArea
-from src.Elements.LabeledTextBox import LabeledTextBox
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.iconedClicklableLabel import IconedClickableLabel
-from src.Elements.myListWidget import MyListWidget
-from src.modals.dataImportModal import DataImportModal
+
+from src.views.Widgets.ClickableIcon import ClickableIcon
+from src.views.Widgets.ClickableLabel import ActiveLabel, ClickableLabel
+from src.views.Widgets.FilterTextBox import FilterTextBox
+from src.views.Widgets.LabeledTextArea import LabeledTextArea
+from src.views.Widgets.LabeledTextBox import LabeledTextBox
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.iconedClicklableLabel import IconedClickableLabel
+from src.views.Widgets.myListWidget import MyListWidget
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
+from src.views.modals.dataImportModal import DataImportModal
 
 
 class CategoryForm(QWidget):

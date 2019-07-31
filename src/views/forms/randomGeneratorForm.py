@@ -2,19 +2,14 @@ import string
 import random
 
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton, QCheckBox, QComboBox
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QCheckBox
 
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.CustomLabel import RegularLabel
-from datetime import datetime, timedelta
-from src.Elements.LabeledTextArea import LabeledTextArea
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.RegularButton import RegularButton
-from src.Elements.RegularTextBox import RegularTextBox
-from src.Elements.dateTimeWidget import DateTimeWidget
-from src.Elements.secondDateTimeWidget import SecondDateTimeWidget
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.Widgets.LabeledTextArea import LabeledTextArea
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.RegularButton import RegularButton
+from src.views.Widgets.RegularTextBox import RegularTextBox
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
 
 
 class RandomGeneratorForm(QWidget):

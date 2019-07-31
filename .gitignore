@@ -4,9 +4,9 @@ dist
 __pycache__
 .idea
 src/dataTables/__pycache__
-src/Elements/__pycache__
-src/forms/__pycache__
-src/modals/__pycache__
+src/views/Widgets/__pycache__
+src/views/forms/__pycache__
+src/views/modals/__pycache__
 src/models/__pycache__
 resources\reports
 # Byte-compiled / optimized / DLL files

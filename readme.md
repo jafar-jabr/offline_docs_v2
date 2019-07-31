@@ -10,3 +10,4 @@ To start the application after cloning it from github repository
 - run reset_database.py
 
 - run the main file "offlineDocs.py"
+

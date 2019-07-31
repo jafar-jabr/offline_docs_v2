@@ -1,13 +1,13 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFormLayout
-from src.Elements.ClickableIcon import ClickableIcon
-from src.Elements.CustomLabel import RegularLabel
-from src.Elements.DateFilterWidget import DateFilterWidget
-from src.Elements.draggableTextArea import DraggableTextArea
+from src.views.Widgets.ClickableIcon import ClickableIcon
+from src.views.Widgets.CustomLabel import RegularLabel
+from src.views.Widgets.DateFilterWidget import DateFilterWidget
+from src.views.Widgets.draggableTextArea import DraggableTextArea
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from PyQt5.QtCore import QRect
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 
 
 class StickyNotesForm(QWidget):

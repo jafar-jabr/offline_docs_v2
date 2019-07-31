@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QButtonGroup, QRadioButton
-from src.Elements.CustomLabel import RegularLabel
+from src.views.Widgets.CustomLabel import RegularLabel
 from datetime import datetime
-from src.Elements.MessageBoxes import MessageBoxes
-from src.Elements.RegularButton import RegularButton
-from src.Elements.dateTimeWidget import DateTimeWidget
-from src.Elements.secondDateTimeWidget import SecondDateTimeWidget
+from src.views.Widgets.MessageBoxes import MessageBoxes
+from src.views.Widgets.RegularButton import RegularButton
+from src.views.Widgets.dateTimeWidget import DateTimeWidget
+from src.views.Widgets.secondDateTimeWidget import SecondDateTimeWidget
 from src.models.SessionWrapper import SessionWrapper
-from src.models.SharedFunctions import SharedFunctions
+from src.models.GenericFunctions import SharedFunctions
 
 
 class DateTimeDifferenceForm(QWidget):

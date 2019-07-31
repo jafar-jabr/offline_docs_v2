@@ -1,10 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFileDialog, QPushButton
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt4agg import NavigationToolbar2QT as NavigationToolbar
 import qrcode
 
-from src.Elements.LabeledTextBox import LabeledTextBox
+from src.views.Widgets.LabeledTextBox import LabeledTextBox
 
 
 class QrCodeGenerator(QWidget):
@@ -21,6 +21,7 @@ class QrCodeGenerator(QWidget):
         layout = QVBoxLayout(self)
         # label0 = QLabel("Simple QR Code generator: ")
         self.qr_text = LabeledTextBox("Text to be converted to QR Code:       ", width=self.width()+400)
+        self.qr_text.setText("")
         layout.addWidget(self.qr_text)
 
         self.figure = plt.figure(figsize=(5, 5))

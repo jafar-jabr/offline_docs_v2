@@ -2,7 +2,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
 from PyQt5.QtCore import pyqtSlot
 
-from src.modals.aboutModal import AboutModal
+from src.views.modals.aboutModal import AboutModal
 
 
 class ToolBar:
@@ -26,7 +26,7 @@ class ToolBar:
     def menu_action(self, which):
         # PlayMouth(self.parent).go_to(which)
         self.parent.close()
-        from src.forms.landingForm import LandingForm
+        from src.views.forms.landingForm import LandingForm
         window = LandingForm()
         window.show()
 
