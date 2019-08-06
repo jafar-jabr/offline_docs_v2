@@ -5,9 +5,9 @@ from src.models.SessionWrapper import SessionWrapper
 
 class LoginModel:
     @staticmethod
-    def handleLogin(email, password, remember_me):
+    def handleLogin(username, password, remember_me):
         enc_pass = do_encrypt(password)
-        check = Database().new_check_login(email)
+        check = Database().new_check_login(username)
         if check and check["password"] == enc_pass:
             SessionWrapper.user_password = enc_pass
             SessionWrapper.user_id = check["id"]
@@ -17,7 +17,7 @@ class LoginModel:
             SessionWrapper.user_phone = check['phone']
             LoginModel.get_preferences(check["id"])
             if remember_me:
-                Database().update_remember_me(email, password)
+                Database().update_remember_me(username, enc_pass)
             else:
                 Database().update_remember_me()
             return 'Okay', "Done"

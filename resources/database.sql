@@ -55,6 +55,7 @@ DROP TABLE IF EXISTS 'users';
 
 CREATE TABLE `users` (
 	`id`	INTEGER NOT NULL,
+	`username`	VARCHAR ( 255 ) NOT NULL,
 	`firstname`	VARCHAR ( 255 ) NOT NULL,
 	`lastname`	VARCHAR ( 255 ) NOT NULL,
 	`email`	VARCHAR ( 255 ) NOT NULL UNIQUE,
@@ -78,4 +79,3 @@ CREATE TABLE "sticky_notes" (
 	"created_at"	DATETIME NOT NULL,
 	"updated_at"	DATETIME
 );
-
