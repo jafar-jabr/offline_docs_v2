@@ -189,7 +189,7 @@ class Validator:
         conn = Database().conn
         connection = conn.cursor()
         try:
-            connection.execute("SELECT username FROM users WHERE username = '%s'" %user_name)
+            connection.execute("SELECT email FROM users WHERE email = '%s'" %user_name)
             the_user = connection.fetchone()
         except sqlite3.OperationalError as error:
             return error

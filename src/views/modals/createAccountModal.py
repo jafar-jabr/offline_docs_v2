@@ -28,7 +28,7 @@ class CreateAccountModal(QDialog):
         lastNameH = QHBoxLayout()
         userNameH = QHBoxLayout()
 
-        userNameLabel = RegularLabel('Username :')
+        userNameLabel = RegularLabel('Username Or Email:')
         userNameEdit = RegularTextBox()
         userNameEdit.setMaximumWidth(273)
         userNameH.addWidget(userNameLabel)
@@ -38,7 +38,7 @@ class CreateAccountModal(QDialog):
         userNameQ.setLayout(userNameH)
         userNameQ.setFixedWidth(self.line_width)
 
-        firstNameLabel = RegularLabel('Name :')
+        firstNameLabel = RegularLabel('First Name :')
         firstNameEdit = RegularTextBox()
         firstNameEdit.setMaximumWidth(273)
         firstNameH.addWidget(firstNameLabel)
@@ -48,7 +48,7 @@ class CreateAccountModal(QDialog):
         firstNameQ.setLayout(firstNameH)
         firstNameQ.setFixedWidth(self.line_width)
 
-        lastNameLabel = RegularLabel('Name :')
+        lastNameLabel = RegularLabel('Last Name :')
         lastNameEdit = RegularTextBox()
         lastNameEdit.setMaximumWidth(273)
         lastNameH.addWidget(lastNameLabel)
@@ -57,17 +57,6 @@ class CreateAccountModal(QDialog):
         lastNameQ = QWidget()
         lastNameQ.setLayout(lastNameH)
         lastNameQ.setFixedWidth(self.line_width)
-
-        emailH = QHBoxLayout()
-        emailLabel = RegularLabel('Email :')
-        emailEdit = RegularTextBox()
-        emailEdit.setMaximumWidth(260)
-        emailH.addWidget(emailLabel)
-        emailH.addWidget(emailEdit)
-        emailH.setSpacing(20)
-        emailQ = QWidget()
-        emailQ.setLayout(emailH)
-        emailQ.setFixedWidth(self.line_width - 10)
 
         password_first_q = QWidget()
         password_first_H = QHBoxLayout()
@@ -94,7 +83,7 @@ class CreateAccountModal(QDialog):
         btnLine = QHBoxLayout()
         btnLine.setContentsMargins(0, 0, 350, 0)  # (left, top, right, bottom)
         saveBtn = RegularButton('Save')
-        saveBtn.clicked.connect(lambda: self.do_registration(userNameEdit.text(), firstNameEdit.text(), lastNameEdit.text(), emailEdit.text(),
+        saveBtn.clicked.connect(lambda: self.do_registration(firstNameEdit.text(), lastNameEdit.text(), userNameEdit.text(),
                                                           passWordEdit.text(),
                                                           passWordEdit_2.text()))
         saveBtn.setMaximumWidth(100)
@@ -107,7 +96,6 @@ class CreateAccountModal(QDialog):
         self.layout.addWidget(userNameQ)
         self.layout.addWidget(firstNameQ)
         self.layout.addWidget(lastNameQ)
-        self.layout.addWidget(emailQ)
         self.layout.addWidget(password_first_q)
         self.layout.addWidget(password_confirm_q)
         self.layout.addWidget(btnLineQ)
@@ -116,9 +104,9 @@ class CreateAccountModal(QDialog):
         self.resize(600, 400)
         self.setWindowTitle("Create New Account")
 
-    def do_registration(self, username, firstName, lastName, email, password, password_2):
-        for check, message in [Validator.validate_username(username), Validator.validate_name(firstName), Validator.validate_name(lastName),
-                               Validator.validate_email(email),
+    def do_registration(self, firstName, lastName, email, password, password_2):
+        for check, message in [Validator.validate_name(firstName), Validator.validate_name(lastName),
+                               Validator.validate_username(email),
                                Validator.validate_passwords(password, password_2)
                                ]:
             if not check:
@@ -127,9 +115,9 @@ class CreateAccountModal(QDialog):
         created_at = SharedFunctions.get_current_date_str()
         #first_name, last_name = SharedFunctions.split_the_name(name)
         enc_pass = do_encrypt(password)
-        Database().register_user(username, firstName, lastName, email, enc_pass, created_at)
+        Database().register_user(firstName, lastName, email, enc_pass, created_at)
         MessageBoxes.success_message("Done!", "You singed up successfully now you can sign in")
         self.result = "Done"
-        self.registered_username = username
+        self.registered_username = email
         self.registered_password = password
         self.accept()

@@ -72,7 +72,7 @@ class Login(QDialog):
         self.buttonLogin.setObjectName("buttonLogin")
         self.buttonLogin.setFixedWidth(150)
         self.buttonLogin.setAlignment(Qt.AlignCenter)
-        self.buttonLogin.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
+        self.buttonLogin.clicked.connect(lambda: self.handle_login(self.userNameEdit.text(), self.passWordEdit.text()))
 
         # self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
         self.buttonRegister = ClickableLabel("Register", bg_color="#CC1417")
@@ -107,9 +107,9 @@ class Login(QDialog):
         self.setWindowTitle("Offline Docs / Sign In")
         self.setLayout(self.column)
 
-    def handleLogin(self, username, password ):
+    def handle_login(self, username, password):
             remember_me = self.remember_me.checkState() == Qt.Checked
-            login_try, msg = LoginModel.handleLogin(username, password, remember_me)
+            login_try, msg = LoginModel.handle_login(username, password, remember_me)
             if login_try == "Okay" and msg == "Done":
                 self.status = "Done"
                 self.accept()

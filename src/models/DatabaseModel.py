@@ -29,13 +29,14 @@ class Database:
     def new_check_login(self, user_name):
         sql = 'SELECT * FROM users ' \
               'WHERE status != 0 '\
-              'AND (username = "%s" OR phone = "%s")' % (user_name, user_name)
+              'AND (email = "%s" OR phone = "%s")' % (user_name, user_name)
         conn = self.conn
         connection = conn.cursor()
         try:
             connection.execute(sql)
             the_user = connection.fetchone()
         except sqlite3.OperationalError as error:
+            print(error)
             return error
         connection.close()
         return the_user
@@ -222,13 +223,13 @@ class Database:
         connection.close()
         return all_rows
 
-    def register_user(self, username,  first_name, last_name, email, password, created_at):
+    def register_user(self, first_name, last_name, email, password, created_at):
         conn = self.conn
         connection = conn.cursor()
         try:
             connection.execute(
-                "INSERT INTO users(username, firstname, lastname, email, password, status, created_at) VALUES (?,?, ?, ?, ?, ?, ?)",
-                (username, first_name, last_name, email, password, 1, created_at))
+                "INSERT INTO users(firstname, lastname, email, password, status, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+                (first_name, last_name, email, password, 1, created_at))
             conn.commit()
             connection.close()
             return connection.lastrowid

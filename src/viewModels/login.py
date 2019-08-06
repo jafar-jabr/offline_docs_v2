@@ -5,7 +5,7 @@ from src.models.SessionWrapper import SessionWrapper
 
 class LoginModel:
     @staticmethod
-    def handleLogin(username, password, remember_me):
+    def handle_login(username, password, remember_me):
         enc_pass = do_encrypt(password)
         check = Database().new_check_login(username)
         if check and check["password"] == enc_pass:
