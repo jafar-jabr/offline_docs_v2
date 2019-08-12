@@ -46,7 +46,7 @@ def run_app():
     screen = app.primaryScreen()
     rect = screen.availableGeometry()
     screen_center = screen.availableGeometry().center()
-    # print('Available: %dx%d' % (rect.width(), rect.height()))
+    print('Available: %dx%d' % (rect.width(), rect.height()))
     SessionWrapper.screen_dim = ('%dx%d' % (rect.width(), rect.height()))
     SessionWrapper.screen_width = rect.width()
     SessionWrapper.screen_height = rect.height()

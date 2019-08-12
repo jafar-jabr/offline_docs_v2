@@ -14,6 +14,9 @@ class AppDimension:
             'login_height': 370,
             'main_window_height': self.h,
             'main_window_width': self.w,
-            'default_font_size': 18
+            'default_font_size': 18,
+            'regular_input_width': int(self.w*0.1302),
+            'medium_modal_width': int(self.w*0.416),
+            'medium_modal_height': int(self.h*0.463)
         }
         return dimensions[dim]

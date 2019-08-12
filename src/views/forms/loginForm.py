@@ -15,8 +15,9 @@ from src.views.widgets.MessageBoxes import MessageBoxes
 class Login(QDialog):
     def __init__(self):
         super().__init__()
-        window_width = SessionWrapper.get_dimension('login_width')
-        window_height = SessionWrapper.get_dimension('login_height')
+        self.window_width = SessionWrapper.get_dimension('medium_modal_width')
+        self.window_height = SessionWrapper.get_dimension('medium_modal_height')
+        self.regular_input_width = SessionWrapper.get_dimension('regular_input_width')
         app_font = RegularFont()
         self.setFont(app_font)
         self.setWindowIcon(QIcon('resources/assets/images/logo.png'))
@@ -37,16 +38,16 @@ class Login(QDialog):
         passWordLabel.setObjectName("pwd_label")
         self.userNameEdit = QLineEdit()
         self.userNameEdit.setObjectName("user_name_input")
-        self.userNameEdit.setFixedWidth(250)
+        self.userNameEdit.setFixedWidth(self.regular_input_width)
         self.passWordEdit = QLineEdit()
         self.passWordEdit.setObjectName("pwd_input")
-        self.passWordEdit.setFixedWidth(250)
+        self.passWordEdit.setFixedWidth(self.regular_input_width)
         self.passWordEdit.setEchoMode(QLineEdit.Password)
         self.passWordEdit.returnPressed.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
 
         self.column = QVBoxLayout()
 
-        self.column.setContentsMargins(250, 100, 0, 50)  # (left, top, right, bottom)
+        self.column.setContentsMargins(self.regular_input_width, 100, 0, 50)  # (left, top, right, bottom)
 
         just_widget = QWidget()
 
@@ -101,8 +102,7 @@ class Login(QDialog):
         self.column.addWidget(just_widget)
         self.column.addWidget(sign_up_Q)
         self.column.addLayout(btn_line)
-        # self.resize(502, 261)
-        self.setFixedSize(800, 500)
+        self.setFixedSize(self.window_width, self.window_height)
         self.setWindowTitle("Offline Docs / Sign In")
         self.setLayout(self.column)
 
