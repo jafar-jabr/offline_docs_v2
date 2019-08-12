@@ -10,6 +10,7 @@ from src.models.AppFonts import RegularFont
 from src.models.DatabaseModel import Database
 from src.models.SessionWrapper import SessionWrapper
 from src.views.widgets.MessageBoxes import MessageBoxes
+from src.models.MyEnc import do_decrypt
 
 
 class Login(QDialog):
@@ -30,7 +31,7 @@ class Login(QDialog):
         welcomeLabel.setObjectName("welcome_label")
         welcomeLabel.setStyleSheet('welcome_label')
         # welcomeLabel.setAlignment(Qt.AlignCenter)
-        userNameLabel = RegularLabel('Email :')
+        userNameLabel = RegularLabel('Username :')
         # userNameLabel.setFixedWidth(100)
         userNameLabel.setObjectName("user_name_label")
         passWordLabel = RegularLabel('Password :')
@@ -72,7 +73,7 @@ class Login(QDialog):
         self.buttonLogin.setObjectName("buttonLogin")
         self.buttonLogin.setFixedWidth(150)
         self.buttonLogin.setAlignment(Qt.AlignCenter)
-        self.buttonLogin.clicked.connect(lambda: self.handleLogin(self.userNameEdit.text(), self.passWordEdit.text()))
+        self.buttonLogin.clicked.connect(lambda: self.handle_login(self.userNameEdit.text(), self.passWordEdit.text()))
 
         # self.buttonRegister = ClickableIcon(150, 40, "resources/assets/images/Login/register-button.png")
         self.buttonRegister = ClickableLabel("Register", bg_color="#CC1417")
@@ -106,9 +107,9 @@ class Login(QDialog):
         self.setWindowTitle("Offline Docs / Sign In")
         self.setLayout(self.column)
 
-    def handleLogin(self, email, password):
+    def handle_login(self, username, password):
             remember_me = self.remember_me.checkState() == Qt.Checked
-            login_try, msg = LoginModel.handleLogin(email, password, remember_me)
+            login_try, msg = LoginModel.handle_login(username, password, remember_me)
             if login_try == "Okay" and msg == "Done":
                 self.status = "Done"
                 self.accept()
@@ -122,7 +123,7 @@ class Login(QDialog):
         reg_modal = CreateAccountModal()
         reg_modal_run = reg_modal.exec_()
         if reg_modal_run == QDialog.Accepted and reg_modal.result == "Done":
-            self.userNameEdit.setText(reg_modal.registered_email)
+            self.userNameEdit.setText(reg_modal.registered_username)
             self.passWordEdit.setText(reg_modal.registered_password)
 
     def remember_me_widget(self):
@@ -131,7 +132,7 @@ class Login(QDialog):
         if remember_me_data is not None:
             user_name_r = remember_me_data['user_name']
             pass_word_r = remember_me_data['pass_word']
-            self.passWordEdit.setText(pass_word_r)
+            self.passWordEdit.setText(do_decrypt(pass_word_r))
             self.userNameEdit.setText(user_name_r)
             remember_me.setChecked(True)
         return remember_me

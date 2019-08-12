@@ -15,7 +15,6 @@ from src.models.SessionWrapper import SessionWrapper
 ############################################################
 from src.views.forms.loginForm import Login
 
-
 class MyProxyStyle(QProxyStyle):
     pass
 

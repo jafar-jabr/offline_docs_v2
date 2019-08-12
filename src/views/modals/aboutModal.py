@@ -11,7 +11,7 @@ class AboutModal(QDialog):
         self.line_width = 480
         self.layout = QVBoxLayout()
         self.result = "try"
-        self.registered_email = ""
+        self.registered_username = ""
         self.registered_password = ""
         self.layout.setSpacing(15)
         self.layout.setContentsMargins(0, 30, 80, 150)  # (left, top, right, bottom)

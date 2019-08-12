@@ -36,6 +36,7 @@ class Database:
             connection.execute(sql)
             the_user = connection.fetchone()
         except sqlite3.OperationalError as error:
+            print(error)
             return error
         connection.close()
         return the_user

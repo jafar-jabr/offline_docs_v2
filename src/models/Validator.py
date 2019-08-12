@@ -1,14 +1,34 @@
 import os
 import re
+import sqlite3
+
 from datetime import datetime
 from PyQt5.QtGui import QImage
 from src.models.DatabaseModel import Database
 
 
+
 class Validator:
     number_pattern = r"(^[0123456789 ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩ +]+$)"
     email_pattern = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-    
+
+    @staticmethod
+    def validate_username(_name):
+        _name = _name.replace(" ", "")
+        if len(_name) == 0 or len(_name) < 4:
+            return False, "The name is too short"
+        if Validator.has_special_chars(_name):
+            return False, "The username can not contain special chars"
+        if not Validator.is_unique(_name):
+            return False, "Username should be Unique"
+        elif 3 <= len(_name) <= 50:
+            return True, "Okay"
+        return False, "The name is invalid"
+
+    @staticmethod
+    def has_special_chars(input_string):
+        return re.match(r'[!@#$%^&*(),.?":{}|<>]', input_string)
+
     @staticmethod
     def validate_name(_name):
         _name = _name.replace(" ", "")
@@ -163,3 +183,15 @@ class Validator:
         elif from_date == to_date:
             return False, 'تاريخ نهاية التقرير يجب ان يكون بعد تاريخ بدايته'
         return True, 'okay'
+
+    @staticmethod
+    def is_unique(user_name):
+        conn = Database().conn
+        connection = conn.cursor()
+        try:
+            connection.execute("SELECT email FROM users WHERE email = '%s'" %user_name)
+            the_user = connection.fetchone()
+        except sqlite3.OperationalError as error:
+            return error
+        connection.close()
+        return not the_user
