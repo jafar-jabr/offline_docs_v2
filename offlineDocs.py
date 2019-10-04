@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3.7 python3
 import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
@@ -15,14 +15,15 @@ from src.models.SessionWrapper import SessionWrapper
 ############################################################
 from src.views.forms.loginForm import Login
 
+
 class MyProxyStyle(QProxyStyle):
     pass
 
-    def pixelMetric(self, QStyle_PixelMetric, option=None, widget=None):
-        if QStyle_PixelMetric == QStyle.PM_ToolBarIconSize:
+    def pixelMetric(self, qt_pixel_metric_style, option=None, widget=None):
+        if qt_pixel_metric_style == QStyle.PM_ToolBarIconSize:
             return 40
         else:
-            return QProxyStyle.pixelMetric(self, QStyle_PixelMetric, option, widget)
+            return QProxyStyle.pixelMetric(self, qt_pixel_metric_style, option, widget)
 
 
 ############################################################
@@ -40,8 +41,8 @@ def run_app():
     app.setWindowIcon(QIcon('resources/assets/images/logo.png'))
     app_font = RegularFont()
     app.setFont(app_font)
-    myStyle = MyProxyStyle('Fusion')
-    app.setStyle(myStyle)
+    my_style = MyProxyStyle('Fusion')
+    app.setStyle(my_style)
     screen = app.primaryScreen()
     rect = screen.availableGeometry()
     screen_center = screen.availableGeometry().center()

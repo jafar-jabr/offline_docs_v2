@@ -32,3 +32,9 @@ python3 offlineDocs.py
 //python
 python offlineDocs.py
 ```
+
+## Pycharm
+ cd venv/bin/
+ pip3 install -r ../../requirement.txt
+
+
