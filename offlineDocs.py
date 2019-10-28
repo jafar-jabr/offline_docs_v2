@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7 python3
+#!/usr/bin/env python3.7
 import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
