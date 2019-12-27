@@ -1,8 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QHBoxLayout, QVBoxLayout
-
-from src.views.widgets import ClickableLabel
+from src.views.widgets.ClickableLabel import ClickableLabel
 from src.views.widgets.CustomLabel import RegularLabel
 from src.views.widgets.MessageBoxes import MessageBoxes
 from src.views.widgets.dbSelector import DatabaseSelector
@@ -42,6 +41,7 @@ class DataImportModal(QDialog):
         self.do_import_btn.setObjectName("buttonImport")
         self.do_import_btn.setFixedWidth(150)
         self.do_import_btn.setAlignment(Qt.AlignCenter)
+
         self.layout.addWidget(nameLabel)
         self.layout.addLayout(target_v_H)
         self.layout.addLayout(db_h)

@@ -16,7 +16,7 @@ class AppDimension:
             'main_window_width': self.w,
             'default_font_size': 18,
             'regular_input_width': int(self.w*0.1302),
-            'medium_modal_width': int(self.w*0.416),
-            'medium_modal_height': int(self.h*0.463)
+            'medium_modal_width': int(self.w*0.6),
+            'medium_modal_height': int(self.h*0.6)
         }
         return dimensions[dim]

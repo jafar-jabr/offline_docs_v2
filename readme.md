@@ -27,15 +27,15 @@ python reset_database.py
 ```
 ## Running
 ```
-//python3
-python3 offlineDocs.py
-//python
 python offlineDocs.py
 ```
 
 ## Pycharm
+```shell script
  cd venv/bin/
  
  pip3 install -r ../../requirement.txt
+```
+ 
 
 
